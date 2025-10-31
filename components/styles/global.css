@@ -1,0 +1,33 @@
+/* ===============================
+   ✨ Universal Auralis Card Glow
+   =============================== */
+.card-hover-glow {
+  border: 1px solid rgba(203, 174, 122, 0.25);
+  box-shadow: 0 0 10px rgba(203, 174, 122, 0.08);
+  background-color: transparent;
+  backdrop-filter: blur(6px);
+  transition: all 0.35s ease;
+  border-radius: 1rem; /* same as rounded-2xl */
+}
+
+.card-hover-glow:hover {
+  border-color: rgba(203, 174, 122, 0.65);
+  box-shadow:
+    0 0 16px rgba(203, 174, 122, 0.25),
+    0 0 30px rgba(203, 174, 122, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Light & dark adaptation */
+@media (prefers-color-scheme: dark) {
+  .card-hover-glow {
+    border-color: rgba(203, 174, 122, 0.18);
+    box-shadow: 0 0 10px rgba(203, 174, 122, 0.06);
+  }
+  .card-hover-glow:hover {
+    border-color: rgba(203, 174, 122, 0.75);
+    box-shadow:
+      0 0 18px rgba(203, 174, 122, 0.3),
+      0 0 32px rgba(203, 174, 122, 0.2);
+  }
+}
