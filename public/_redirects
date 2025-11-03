@@ -1,0 +1,10 @@
+# /images/* 는 정적 파일로 그대로 서빙
+/images/*   /images/:splat   200
+
+# 아티스트 짧은 링크
+/spotify     https://open.spotify.com/artist/48Y3hooTTdatHfOBLCQRDP    301
+/apple       https://music.apple.com/kr/artist/auralis/49597004         301
+/flo         https://www.music-flo.com/detail/artist/412675301/track?sortType=POPULARITY&roleType=ALL   301
+
+# SPA 폴백
+/*           /index.html     404
