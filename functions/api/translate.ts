@@ -1,41 +1,26 @@
 // /functions/api/translate.ts
 // Cloudflare Pages Functions (TypeScript)
-// ENV: Cloudflare Pages → Project → Settings → Environment Variables → GEMINI_API_KEY
 
 export interface Env {
   GEMINI_API_KEY: string;
 }
 
-// FIX: Define PagesFunction for Cloudflare environment.
-type PagesFunction<TEnv = unknown> = (context: {
-  request: Request;
-  env: TEnv;
-  params: Record<string, string>;
-  waitUntil: (promise: Promise<any>) => void;
-  next: (input?: Request | string) => Promise<Response>;
-  data: Record<string, unknown>;
-}) => Response | Promise<Response>;
+// 공통 응답 헤더 (필요 시 CORS 허용)
+const JSON_HEADERS: HeadersInit = {
+  "Content-Type": "application/json; charset=utf-8",
+};
 
-
-/**
- * 옵션
- * - text: 번역할 원문 (필수)
- * - target: 목표 언어 ISO 코드 (기본: "ko")  예) "en", "ja", "fr"
- * - source: 원문 언어 코드 (선택, 미지정 시 자동 감지 지시)
- * - formal: "formal" | "casual" (선택) → 한국어의 경우 존댓말/반말 뉘앙스 힌트
- */
 type ReqBody = {
   text: string;
-  target?: string;
-  source?: string;
+  target?: string;      // 기본 "ko"
+  source?: string;      // 선택
   formal?: "formal" | "casual";
 };
 
 function buildPrompt({ text, target = "ko", source, formal }: ReqBody) {
   const tgtName =
     target.toLowerCase() === "ko" ? "Korean" :
-    target.toLowerCase() === "en" ? "English" :
-    target;
+    target.toLowerCase() === "en" ? "English" : target;
 
   const styleHint =
     target.toLowerCase() === "ko"
@@ -48,7 +33,6 @@ function buildPrompt({ text, target = "ko", source, formal }: ReqBody) {
     ? `Source language is ${source}.`
     : "Detect the source language automatically.";
 
-  // 번역 지시: 줄바꿈/공백/문장부호 보존, 마크업/코드 금지, 출력은 번역문만
   return [
     "You are a professional translator for a bilingual artist website (Auralis).",
     detectLine,
@@ -64,19 +48,54 @@ function buildPrompt({ text, target = "ko", source, formal }: ReqBody) {
   ].join("\n");
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+// ✅ 단일 핸들러: GET(health check) + POST(번역)
+export const onRequest: PagesFunction<Env> = async (ctx) => {
   try {
-    if (!env.GEMINI_API_KEY) {
-      return new Response("Missing GEMINI_API_KEY", { status: 500 });
+    const { request, env } = ctx;
+    const url = new URL(request.url);
+
+    // 헬스체크: 브라우저에서 /api/translate?health 로 바로 확인 가능
+    if (request.method === "GET" && url.searchParams.has("health")) {
+      return new Response(JSON.stringify({ ok: true, env: !!env.GEMINI_API_KEY }), {
+        headers: JSON_HEADERS,
+        status: 200,
+      });
     }
 
-    const body = (await request.json()) as ReqBody;
+    if (request.method !== "POST") {
+      return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
+        headers: JSON_HEADERS,
+        status: 405,
+      });
+    }
 
-    if (!body || typeof body.text !== "string" || !body.text.trim()) {
-      return new Response("Missing 'text' in body", { status: 400 });
+    if (!env.GEMINI_API_KEY) {
+      return new Response(JSON.stringify({ error: "Missing GEMINI_API_KEY" }), {
+        headers: JSON_HEADERS,
+        status: 500,
+      });
+    }
+
+    // JSON 파싱 (본문이 비었거나 content-type 누락 시 방어)
+    let body: ReqBody | undefined;
+    try {
+      body = (await request.json()) as ReqBody;
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+        headers: JSON_HEADERS,
+        status: 400,
+      });
+    }
+
+    if (!body?.text || !body.text.trim()) {
+      return new Response(JSON.stringify({ error: "Missing 'text' in body" }), {
+        headers: JSON_HEADERS,
+        status: 400,
+      });
     }
 
     const target = (body.target || "ko").toLowerCase();
+
     const payload = {
       contents: [
         {
@@ -84,10 +103,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           parts: [{ text: buildPrompt({ ...body, target }) }],
         },
       ],
-      generationConfig: {
-        temperature: 0.4,
-        maxOutputTokens: 800,
-      },
+      generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
       safetySettings: [
         { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
         { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
@@ -95,30 +111,46 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ],
     };
 
-    const resp = await fetch(
+    const apiUrl =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
-        encodeURIComponent(env.GEMINI_API_KEY),
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }
-    );
+      encodeURIComponent(env.GEMINI_API_KEY);
 
+    const resp = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const raw = await resp.text();
     if (!resp.ok) {
-      const errText = await resp.text();
-      return new Response(errText || "Gemini error", { status: 500 });
+      // 상세 오류 반환 (디버깅 편의)
+      return new Response(
+        JSON.stringify({ error: "Gemini API error", status: resp.status, detail: raw }),
+        { headers: JSON_HEADERS, status: 500 }
+      );
     }
 
-    // FIX: The .json() method on a Response does not take a generic type argument.
-    const data: any = await resp.json();
+    let data: any;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON from Gemini", raw }), {
+        headers: JSON_HEADERS,
+        status: 500,
+      });
+    }
+
     const translated =
       data?.candidates?.[0]?.content?.parts?.map((p: any) => p.text).join("")?.trim() ?? "";
 
     return new Response(JSON.stringify({ text: translated }), {
-      headers: { "Content-Type": "application/json" },
+      headers: JSON_HEADERS,
+      status: 200,
     });
-  } catch (err: any) {
-    return new Response(err?.message || "Server error", { status: 500 });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ error: e?.message || "Server error" }), {
+      headers: JSON_HEADERS,
+      status: 500,
+    });
   }
 };
