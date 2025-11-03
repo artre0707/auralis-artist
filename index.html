@@ -14,6 +14,7 @@
     <meta property="og:title" content="Auralis : The Official Home of Sound and Light" />
     <meta property="og:description" content="The official artist website of Auralis — where silence becomes music, blending classical sensitivity with modern minimalism." />
     <meta property="og:url" content="https://www.auralis-music.com" />
+    <!-- 🔁 현재 배포는 /public 경로가 직접 서빙되므로 /public/... 로 지정 -->
     <meta property="og:image" content="https://www.auralis-music.com/public/images/auralis_og_image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -27,37 +28,31 @@
     <meta name="twitter:image" content="https://www.auralis-music.com/public/images/auralis_og_image.png" />
     <meta name="twitter:image:alt" content="Auralis — The Official Home of Sound and Light" />
 
-    <!-- PATCH: FAVICON LINKS START -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <!-- PATCH: FAVICON LINKS (현재 구조에 맞춰 /public/ 로 조정) -->
+    <link rel="icon" type="image/x-icon" href="/public/assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/assets/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#CBAE7A">
-    <!-- PATCH: FAVICON LINKS END -->
 
-    <link rel="manifest" href="/manifest.webmanifest">
+    <!-- PWA -->
+    <link rel="manifest" href="/public/manifest.webmanifest">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Auralis">
+
+    <!-- Styles / Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/components/styles/global.css">
+
     <style>
       :root {
-        --bg: #FBF9F6;
-        --heading: #10131a;
-        --fg: #1f232b;
-        --fg-subtle: #6b7280;
-        --link: #cbae7a;
-        --link-hover: #a18a5c;
-        --card: #ffffff;
-        --card-strong: rgba(255, 255, 255, 0.8);
-        --border: #e5e7eb;
-        --accent: #CBAE7A;
-        
-        /* Typography System */
+        --bg: #FBF9F6; --heading: #10131a; --fg: #1f232b; --fg-subtle: #6b7280;
+        --link: #cbae7a; --link-hover: #a18a5c; --card: #ffffff; --card-strong: rgba(255,255,255,0.8);
+        --border: #e5e7eb; --accent: #CBAE7A;
         --font-hero: "Playfair Display", Georgia, serif;
         --font-sec-en: "Cormorant Garamond", Garamond, serif;
         --font-sec-kr: "Noto Serif KR", serif;
@@ -65,342 +60,82 @@
         --font-body-kr: "Noto Sans KR", system-ui, sans-serif;
       }
       body.dark {
-        --bg: #0B0B10;
-        --heading: #f2f3f5;
-        --fg: #e6e7eb;
-        --fg-subtle: #b6bcc8;
-        --link: #d4b574;
-        --link-hover: #e9eef5;
-        --card: rgba(255,255,255,0.05);
-        --card-strong: rgba(24, 24, 28, 0.8);
-        --border: #2b2f37;
-        --accent: #d4b574;
+        --bg:#0B0B10; --heading:#f2f3f5; --fg:#e6e7eb; --fg-subtle:#b6bcc8;
+        --link:#d4b574; --link-hover:#e9eef5; --card:rgba(255,255,255,0.05);
+        --card-strong:rgba(24,24,28,0.8); --border:#2b2f37; --accent:#d4b574;
       }
-      html, body, #root {
-        background-color: var(--bg);
-      }
+      html, body, #root { background-color: var(--bg); }
       body {
-        color: var(--fg);
-        font-family: var(--font-body-en);
-        scroll-behavior: smooth;
-        transition: background-color 0.6s ease, color 0.6s ease;
+        color: var(--fg); font-family: var(--font-body-en); scroll-behavior: smooth;
+        transition: background-color .6s ease, color .6s ease;
       }
-      body[data-lang="KR"] {
-        font-family: var(--font-body-kr);
-      }
-      * {
-        transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
-      }
-
-      /* Typography Utilities */
-      .auralis-hero-title {
-        font-family: var(--font-hero);
-        letter-spacing: 0.01em;
-      }
-      .auralis-section-title {
-        font-family: var(--font-sec-en);
-        letter-spacing: 0.02em;
-      }
-      body[data-lang="KR"] .auralis-section-title {
-        font-family: var(--font-sec-kr);
-      }
-      .auralis-subtitle {
-        font-family: var(--font-body-en);
-        opacity: 0.9;
-      }
-      body[data-lang="KR"] .auralis-subtitle {
-        font-family: var(--font-body-kr);
-      }
-      .prose-auralis {
-        font-family: var(--font-body-en);
-      }
-      body[data-lang="KR"] .prose-auralis {
-        font-family: var(--font-body-kr);
-      }
-      
-      html[lang="ko"] body {
-        font-size: 0.95rem;
-        line-height: 1.85;
-      }
-
-      /* Utility bridges */
-      .text-link {
-        position: relative;
-        font-weight: 500;
-        color: var(--link);
-        transition: color 0.4s ease;
-      }
-      .text-link::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -2px;
-        width: 0;
-        height: 1.5px;
-        background-color: currentColor;
-        transition: width 0.3s ease;
-      }
-      .text-link:hover::after {
-        width: 100%;
-      }
-      a.text-link:hover, .text-link-hover:hover { color: var(--link-hover); }
-      .bg-card { background-color: var(--card); backdrop-filter: blur(8px); }
-      .border-base { border-color: var(--border); }
-      .border-card { border-color: var(--border); }
-      .text-subtle { color: var(--fg-subtle); }
-      .accent-bg { background-color: var(--accent); }
-      .accent-border { border-color: var(--accent); }
-      .accent-text { color: var(--accent); }
-
-      .text-gradient-auralis {
-        background-image: linear-gradient(to bottom, #3f3f46, #27272a, #18181b);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-      }
-      .dark .text-gradient-auralis {
-        background-image: linear-gradient(to bottom, #e4e4e7, #d4d4d8, #a1a1aa);
-      }
-      
-      .text-gradient-gold {
-        background-image: linear-gradient(to bottom, #d6b370, #c3a15a, #b58c42);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-      }
-      .dark .text-gradient-gold {
-        background-image: linear-gradient(to bottom, #e7cf9f, #d6b370, #c3a15a);
-      }
-
-      /* Starfield styles */
-      body[data-stars="on"] canvas.auralis-stars {
-        opacity: 1 !important;
-      }
-      #root, #auralis-main {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* Dark mode override for all social/streaming chips */
-      .dark .universal-chip {
-        background-color: transparent !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-      }
-      .dark .universal-chip:hover,
-      .dark .universal-chip:focus-visible {
-        box-shadow: 0 0 0 3px rgba(203,174,122,0.35);
-      }
-      .dark .newsletter-input {
-        background-color: transparent !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-      }
-      .dark .newsletter-input:focus {
-        box-shadow: 0 0 0 3px rgba(203,174,122,0.35);
-      }
-
-      /* Custom animations */
-      @keyframes gentleBounce {
-        0%, 100% { transform: translateY(0); opacity: 0.85; }
-        50% { transform: translateY(6px); opacity: 1; }
-      }
-      .animate-gentle-bounce {
-        animation: gentleBounce 3.5s ease-in-out infinite;
-      }
-
-      body.fade-out {
-        opacity: 0;
-        transition: opacity 0.2s ease-out;
-      }
-
-      /* === Auralis Global Text & Color Scheme Fix === */
-      ::placeholder { 
-        color: var(--fg-subtle); 
-        opacity:1; 
-      }
-
-      /* Gray Text Fix */
-      [class*="text-gray-400"], [class*="text-gray-500"], [class*="text-gray-600"], [class*="text-gray-700"],
-      [class*="text-stone-400"], [class*="text-stone-500"], [class*="text-stone-600"], [class*="text-stone-700"],
-      [class*="text-neutral-400"], [class*="text-neutral-500"], [class*="text-neutral-600"], [class*="text-neutral-700"] {
-        color: var(--fg-subtle) !important;
-      }
-      
-      svg { color: currentColor; }
-
-      /* 1) 제목 전용 색 변수 */
-      :root { --title-color: var(--fg); }              /* 라이트 */
-      body.dark { --title-color: #E7CF9F; }            /* 다크에서 밝은 골드 */
-
-      /* 2) 메인·서브 공통 제목에 적용 (메인·서브 h1/h2 모두) */
-      #root main h1,
-      #root main h2 {
-        color: var(--title-color);
-      }
-
-      /* 3) 혹시 제목에 그라데이션 유틸이 붙어 색이 덮이면 제거 */
-      #root main h1.text-gradient-auralis,
-      #root main h2.text-gradient-auralis,
-      #root main h1.text-gradient-gold,
-      #root main h2.text-gradient-gold {
-        -webkit-text-fill-color: initial;
-        background: none !important;
-      }
-
-      /* === Auralis Dark Mode Gold Unify === */
-      /* 링크 전역: 다크에서 골드 & 살짝 글로우 */
-      body.dark a,
-      html.dark a,
-      [data-theme="dark"] a {
-        color: #E7CF9F;
-        transition: color 240ms ease, text-shadow 240ms ease;
-      }
-      body.dark a:hover,
-      html.dark a:hover,
-      [data-theme="dark"] a:hover {
-        color: #F5E3B5;
-        text-shadow: 0 0 6px rgba(231,207,159,0.25);
-      }
-
-      /* 공통 버튼(auralis-btn) */
-      body.dark .auralis-btn, html.dark .auralis-btn, [data-theme="dark"] .auralis-btn {
-        color: #E7CF9F !important;
-        background: transparent !important;
-      }
-      body.dark .auralis-btn::before, html.dark .auralis-btn::before, [data-theme="dark"] .auralis-btn::before {
-        background-color: #E7CF9F !important;
-        opacity: 0;
-        transition: opacity 0.6s ease-in-out;
-      }
-      body.dark .auralis-btn:hover::before, html.dark .auralis-btn:hover::before, [data-theme="dark"] .auralis-btn:hover::before {
-        opacity: 1;
-      }
-      body.dark .auralis-btn:hover, html.dark .auralis-btn:hover, [data-theme="dark"] .auralis-btn:hover {
-        color: #0b0d12 !important;
-      }
-
-      /* 헤딩(섹션 타이틀 등) */
-      body.dark h1, body.dark h2, body.dark .news-title,
-      html.dark h1, html.dark h2, html.dark .news-title,
-      [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] .news-title {
-        color: #F5E3B5;
-        text-shadow: 0 0 8px rgba(245,227,181,0.28);
-      }
-
-      /* === Auralis Global Heading (섹션 타이틀 공통 클래스) === */
-      .auralis-heading {
-        letter-spacing: -0.01em;
-        transition: color 240ms ease, text-shadow 240ms ease;
-      }
-      /* 라이트: 또렷한 다크 그레이 */
-      body:not(.dark) .auralis-heading,
-      html:not(.dark) .auralis-heading {
-        color: #1f1f1f;
-      }
-      /* 다크: 밝은 골드 + 은은한 글로우 */
-      body.dark .auralis-heading,
-      html.dark .auralis-heading,
-      [data-theme="dark"] .auralis-heading {
-        color: #F5E3B5;
-        text-shadow: 0 0 8px rgba(245,227,181,0.28);
-      }
-      /* 헤딩 호버 시(필요 시) 살짝 더 환하게 */
-      .auralis-heading:hover {
-        text-shadow: 0 0 10px rgba(245,227,181,0.35);
-      }
-
-      /* === Album Detail Track Title Fix === */
-      .track-title-color {
-        color: #1f1f1f;
-        transition: color 240ms ease, text-shadow 240ms ease;
-      }
-      body.dark .track-title-color {
-        color: #F5E3B5;
-        text-shadow: 0 0 8px rgba(245,227,181,0.28);
-      }
-
-      /* === Album Detail Meta Text Fix === */
-      .album-meta-text {
-        color: #27272a; /* text-zinc-800 */
-      }
-      body.dark .album-meta-text {
-        color: var(--fg); /* Bright and consistent with theme */
-      }
-
-      /* === InspiredCTA Background Gradient Fix === */
-      .inspired-cta-bg {
-        background-image: linear-gradient(to bottom, transparent, var(--bg) 20%, var(--bg) 80%, transparent);
-      }
-
-      /* === Studio Dark Mode Readability === */
-      .dark .post-title { color: #F3ECE0; }
-      .dark .post-meta  { color: #A7A29A; }
-      .dark .post-label { color: #D5D0C7; letter-spacing: .02em; }
-      .dark .post-body  { color: #E7E3DA; line-height: 1.9; }
-
-      /* Collab dark mode input color fix */
-      body.dark input, body.dark textarea, body.dark select {
-        color: #E7E3DA; /* light ivory */
-      }
-      body.dark ::placeholder {
-        color: #A7A29A; /* post-meta color */
-      }
-
-      /* === Elysia Dark Mode Hero Transparency === */
-      .hero-transparent {
-        background: transparent !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-      }
-      .hero-bottom-hairline {
-        position: relative;
-      }
-      .hero-bottom-hairline::after {
-        content: "";
-        position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
-        background: color-mix(in oklab, var(--fg) 10%, transparent);
-        opacity: .35;
-      }
-      
-      /* === Dark Mode Gold Card Effect === */
-      .gold-card {
-        transition: all .3s ease;
-      }
-      .dark .gold-card {
-        border: 1px solid rgba(203,174,122,0.20); /* #CBAE7A */
-        box-shadow: 0 0 10px rgba(203,174,122,0.08);
-        background: transparent;
-        backdrop-filter: blur(6px);
-      }
-      .dark .gold-card:hover {
-        transform: translateY(-3px);
-        border-color: rgba(203,174,122,0.60);
-        box-shadow: 0 8px 20px rgba(203,174,122,0.18);
-      }
-      .gold-card img {
-        transition: transform .4s ease, filter .3s ease;
-      }
-      .gold-card:hover img {
-        transform: scale(1.04);
-        filter: brightness(1.05);
-      }
-
-      /* === Accessibility: Reduce Motion === */
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.001ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.001ms !important;
-          scroll-behavior: auto !important;
-        }
-      }
-
-      @supports (text-wrap: balance) {
-        .text-balance { text-wrap: balance; }
-      }
+      body[data-lang="KR"] { font-family: var(--font-body-kr); }
+      * { transition: background-color .6s ease, color .6s ease, border-color .6s ease, box-shadow .6s ease; }
+      .auralis-hero-title { font-family: var(--font-hero); letter-spacing:.01em; }
+      .auralis-section-title { font-family: var(--font-sec-en); letter-spacing:.02em; }
+      body[data-lang="KR"] .auralis-section-title { font-family: var(--font-sec-kr); }
+      .auralis-subtitle { font-family: var(--font-body-en); opacity:.9; }
+      body[data-lang="KR"] .auralis-subtitle { font-family: var(--font-body-kr); }
+      .prose-auralis { font-family: var(--font-body-en); }
+      body[data-lang="KR"] .prose-auralis { font-family: var(--font-body-kr); }
+      html[lang="ko"] body { font-size:.95rem; line-height:1.85; }
+      .text-link{position:relative;font-weight:500;color:var(--link);transition:color .4s}
+      .text-link::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background-color:currentColor;transition:width .3s}
+      .text-link:hover::after{width:100%}
+      a.text-link:hover,.text-link-hover:hover{color:var(--link-hover)}
+      .bg-card{background-color:var(--card);backdrop-filter:blur(8px)}
+      .border-base{border-color:var(--border)} .border-card{border-color:var(--border)}
+      .text-subtle{color:var(--fg-subtle)} .accent-bg{background-color:var(--accent)}
+      .accent-border{border-color:var(--accent)} .accent-text{color:var(--accent)}
+      .text-gradient-auralis{background-image:linear-gradient(to bottom,#3f3f46,#27272a,#18181b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+      .dark .text-gradient-auralis{background-image:linear-gradient(to bottom,#e4e4e7,#d4d4d8,#a1a1aa)}
+      .text-gradient-gold{background-image:linear-gradient(to bottom,#d6b370,#c3a15a,#b58c42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+      .dark .text-gradient-gold{background-image:linear-gradient(to bottom,#e7cf9f,#d6b370,#c3a15a)}
+      body[data-stars="on"] canvas.auralis-stars{opacity:1!important}
+      #root,#auralis-main{position:relative;z-index:1}
+      .dark .universal-chip{background-color:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+      .dark .universal-chip:hover,.dark .universal-chip:focus-visible{box-shadow:0 0 0 3px rgba(203,174,122,.35)}
+      .dark .newsletter-input{background-color:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+      .dark .newsletter-input:focus{box-shadow:0 0 0 3px rgba(203,174,122,.35)}
+      @keyframes gentleBounce{0%,100%{transform:translateY(0);opacity:.85}50%{transform:translateY(6px);opacity:1}}
+      .animate-gentle-bounce{animation:gentleBounce 3.5s ease-in-out infinite}
+      body.fade-out{opacity:0;transition:opacity .2s ease-out}
+      ::placeholder{color:var(--fg-subtle);opacity:1}
+      [class*="text-gray-4"],[class*="text-gray-5"],[class*="text-gray-6"],[class*="text-gray-7"],
+      [class*="text-stone-4"],[class*="text-stone-5"],[class*="text-stone-6"],[class*="text-stone-7"],
+      [class*="text-neutral-4"],[class*="text-neutral-5"],[class*="text-neutral-6"],[class*="text-neutral-7"]{color:var(--fg-subtle)!important}
+      svg{color:currentColor}
+      :root{--title-color:var(--fg)} body.dark{--title-color:#E7CF9F}
+      #root main h1,#root main h2{color:var(--title-color)}
+      #root main h1.text-gradient-auralis,#root main h2.text-gradient-auralis,
+      #root main h1.text-gradient-gold,#root main h2.text-gradient-gold{-webkit-text-fill-color:initial;background:none!important}
+      body.dark a,html.dark a,[data-theme="dark"] a{color:#E7CF9F;transition:color 240ms ease,text-shadow 240ms ease}
+      body.dark a:hover,html.dark a:hover,[data-theme="dark"] a:hover{color:#F5E3B5;text-shadow:0 0 6px rgba(231,207,159,.25)}
+      body.dark .auralis-btn,html.dark .auralis-btn,[data-theme="dark"] .auralis-btn{color:#E7CF9F!important;background:transparent!important}
+      body.dark .auralis-btn::before,html.dark .auralis-btn::before,[data-theme="dark"] .auralis-btn::before{background-color:#E7CF9F!important;opacity:0;transition:opacity .6s ease-in-out}
+      body.dark .auralis-btn:hover::before,html.dark .auralis-btn:hover::before,[data-theme="dark"] .auralis-btn:hover::before{opacity:1}
+      body.dark .auralis-btn:hover,html.dark .auralis-btn:hover,[data-theme="dark"] .auralis-btn:hover{color:#0b0d12!important}
+      body.dark h1,body.dark h2,body.dark .news-title,html.dark h1,html.dark h2,html.dark .news-title,[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] .news-title{color:#F5E3B5;text-shadow:0 0 8px rgba(245,227,181,.28)}
+      .auralis-heading{letter-spacing:-.01em;transition:color 240ms ease,text-shadow 240ms ease}
+      body:not(.dark) .auralis-heading,html:not(.dark) .auralis-heading{color:#1f1f1f}
+      body.dark .auralis-heading,html.dark .auralis-heading,[data-theme="dark"] .auralis-heading{color:#F5E3B5;text-shadow:0 0 8px rgba(245,227,181,.28)}
+      .auralis-heading:hover{text-shadow:0 0 10px rgba(245,227,181,.35)}
+      .track-title-color{color:#1f1f1f;transition:color 240ms ease,text-shadow 240ms ease}
+      body.dark .track-title-color{color:#F5E3B5;text-shadow:0 0 8px rgba(245,227,181,.28)}
+      .album-meta-text{color:#27272a} body.dark .album-meta-text{color:var(--fg)}
+      .inspired-cta-bg{background-image:linear-gradient(to bottom,transparent,var(--bg) 20%,var(--bg) 80%,transparent)}
+      .dark .post-title{color:#F3ECE0}.dark .post-meta{color:#A7A29A}.dark .post-label{color:#D5D0C7;letter-spacing:.02em}.dark .post-body{color:#E7E3DA;line-height:1.9}
+      body.dark input,body.dark textarea,body.dark select{color:#E7E3DA} body.dark ::placeholder{color:#A7A29A}
+      .hero-transparent{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important}
+      .hero-bottom-hairline{position:relative}
+      .hero-bottom-hairline::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:color-mix(in oklab,var(--fg) 10%,transparent);opacity:.35}
+      .gold-card{transition:all .3s ease}
+      .dark .gold-card{border:1px solid rgba(203,174,122,.20);box-shadow:0 0 10px rgba(203,174,122,.08);background:transparent;backdrop-filter:blur(6px)}
+      .dark .gold-card:hover{transform:translateY(-3px);border-color:rgba(203,174,122,.60);box-shadow:0 8px 20px rgba(203,174,122,.18)}
+      .gold-card img{transition:transform .4s ease,filter .3s ease}
+      .gold-card:hover img{transform:scale(1.04);filter:brightness(1.05)}
+      @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+      @supports (text-wrap: balance){.text-balance{text-wrap:balance}}
     </style>
 
     <script type="importmap">
