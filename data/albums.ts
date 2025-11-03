@@ -77,7 +77,7 @@ export const albumsData: { [key: string]: Album } = {
     title: 'Resonance: After the First Suite',
     slug: 'resonance-after-the-first-suite',
     magazineSlug: 'liner-notes-resonance',
-    coverUrl: 'https://picsum.photos/seed/auralis1/500/500',
+    coverUrl: 'https://www.auralis-music.com/images/albums/resonance-after-the-first-suite.jpg',
     catalogueNo: "ARTRE2025-009",
     videos: {
       titleTrack: 'https://www.youtube.com/watch?v=f9Du-utVUxE&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5&index=2',
@@ -160,7 +160,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Chorégraphie: A Dancer’s Diary',
     slug: 'Chorégraphie-Series',
-    coverUrl: 'https://picsum.photos/seed/auralis2/500/500',
+    coverUrl: 'https://www.auralis-music.com/images/albums/choregraphie-series.jpg',
     catalogueNo: "ARTRE2025-033",
     seriesInfo: {
        name: { EN: 'Chorégraphie Series', KR: '코레그라피 시리즈' },
@@ -239,7 +239,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Serene Horizons: Morning Dew',
     slug: 'serene-horizons-morning-dew',
-    coverUrl: 'https://picsum.photos/seed/auralis3/500/500',
+    coverUrl: 'https://www.auralis-music.com/images/albums/serene-horizons-morning-dew.jpg',
     catalogueNo: "ARTRE2025-022",
     seriesInfo: {
       name: { EN: "Serene Horizons Series", KR: "세린 호라이즌스 시리즈" },
