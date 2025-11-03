@@ -63,6 +63,7 @@ export function saveNote(
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
     id = crypto.randomUUID();
   } else {
+    // FIX: Date.now() returns a number. It must be converted to a string.
     id = Date.now().toString(36);
   }
 
