@@ -101,6 +101,13 @@ function toEmbedSrc(input: string) {
 const findAlbumBySlug = (slug: string): Album | undefined =>
   (Object.values(albumsData) as Album[]).find(a => a.slug === slug);
 
+/* ───────────── magazine links mapping (album.slug -> magazine article path) */
+const MAG_LINKS: Record<string, string> = {
+  // 정확한 라이너 노트 경로로 연결
+  'resonance-after-the-first-suite': '/magazine/liner-notes-resonance-after-the-first-suite',
+  // 필요 시 다른 앨범들도 여기에 추가
+};
+
 /* ───────────── bits */
 const Breadcrumb: React.FC<{ title: string }> = ({ title }) => {
   const { language } = useSiteContext();
@@ -275,6 +282,116 @@ const SingleVideo: React.FC<{ url: string; heading?: string; sub?: string; title
       <div className="mt-6 rounded-2xl overflow-hidden bg-card shadow-sm border border-card">
         <iframe className="w-full aspect-video" src={toEmbedSrc(url)} title={title ?? 'Official Video'} loading="lazy" allowFullScreen />
       </div>
+    </section>
+  );
+};
+
+/* ───────────────── ComposerReflection (Reflections + Artist Note) ───────────── */
+const ComposerReflection: React.FC<{
+  album: Album;
+  magazineSlug?: string;
+}> = ({ album, magazineSlug }) => {
+  const { language } = useSiteContext();
+  const isKR = language === 'KR';
+
+  const [tab, setTab] = React.useState<'note' | 'story'>('note');
+
+  const t = isKR
+    ? {
+        title: '여운의 기록',
+        subtitle: '마지막 울림 이후에 남은 사색의 흔적',
+        tabNote: '마음의 속삭임',
+        tabStory: '음악의 서사',
+        story: [
+          '이 프로젝트는 바흐의 첼로 모음곡 1번 G장조의 도입부에서 영감을 얻어 피아노의 언어로 재해석하고자 했습니다. 멜로디의 단순함과 구조의 명료함을 유지하는 동시에 현대적인 감각으로 음색과 공명을 확장하는 데 중점을 두었습니다.',
+          "첫 번째 트랙인 '바흐의 메아리 I – First Light' 는 원래 모티프에서 발전하여, 공간감과 페달 공명을 통해 정지된 시간 감각을 만들어냅니다. 다음 곡인 '바흐의 메아리 II – Long Shadow'는 소리와 침묵의 상호작용을 탐구하며 지속적인 감정적 긴장감을 조성합니다.",
+          "궁극적으로, '공명: 첫 번째 모음곡 이후'는 과거를 인용하는 것이 아니라 과거를 새롭게 경험하는 것을 목표로 합니다. 즉, 친숙한 모티프가 현재 순간의 질감과 호흡을 통해 새로운 의미를 얻도록 하는 것입니다.",
+        ],
+        readEssay: '전체 에세이 읽기',
+      }
+    : {
+        title: 'Reflections',
+        subtitle: 'Thoughts that linger beyond the final note',
+        tabNote: 'Whispers of the Heart',
+        tabStory: 'The Narrative of Music',
+        story: [
+          'This project originates from inspiration found in the opening phrase of Bach’s Cello Suite No. 1 in G major and seeks to reinterpret it through the language of the piano. The focus is to preserve the simplicity of melody and clarity of structure while expanding tone and resonance with modern sensitivity.',
+          'The first track, Echoes of Bach I – First Light, evolves from the original motif, creating a suspended sense of time through spacing and pedal resonance. The following piece, Echoes of Bach II – Long Shadow, explores the interplay between sound and silence, designing a sustained emotional tension.',
+          'Ultimately, Resonance: After the First Suite does not aim to quote the past but to experience it anew — allowing familiar motifs to acquire fresh meaning through the textures and breaths of the present moment.',
+        ],
+        readEssay: 'Read the full essay',
+      };
+
+  /* Essay 링크 결정: 1) 데이터의 magazineSlug, 2) MAG_LINKS 매핑 */
+  const essayHref =
+    (album as any).magazineSlug
+      ? `/magazine/${(album as any).magazineSlug}`
+      : MAG_LINKS[(album as any).slug as string];
+
+  return (
+    <section className="max-w-3xl mx-auto px-6">
+      {/* Header */}
+      <SectionHeader title={t.title} subtitle={t.subtitle} divider spacing="md" />
+
+      {/* Tabs */}
+      <div className="flex justify-center items-center gap-6 text-sm border-b border-[var(--border)]">
+        <button
+          onClick={() => setTab('note')}
+          className={`pb-2 transition ${
+            tab === 'note'
+              ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
+              : 'text-subtle hover:text-[var(--accent)]'
+          }`}
+        >
+          {t.tabNote}
+        </button>
+        <button
+          onClick={() => setTab('story')}
+          className={`pb-2 transition ${
+            tab === 'story'
+              ? 'text-[var(--accent)] border-b-2 border-[var(--accent)]'
+              : 'text-subtle hover:text-[var(--accent)]'
+          }`}
+        >
+          {t.tabStory}
+        </button>
+      </div>
+
+      {/* Body */}
+      <AnimatePresence mode="wait">
+        <MotionDiv
+          key={tab}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="mt-8"
+        >
+          {tab === 'note' ? (
+            isKR ? <WhispersOfTheHeartKR /> : <WhispersOfTheHeart />
+          ) : (
+            <div
+              className={`max-w-none text-base md:text-lg leading-relaxed text-neutral-700 dark:text-neutral-300 ${
+                isKR ? 'text-justify' : 'font-serif'
+              }`}
+            >
+              {t.story.map((p, i) => (
+                <p key={i} className="mb-4">
+                  {p}
+                </p>
+              ))}
+            </div>
+          )}
+        </MotionDiv>
+      </AnimatePresence>
+
+      {/* Essay Link */}
+      {essayHref && (
+        <div className="mt-10 text-center">
+          <Btn to={essayHref} variant="outlineGhost" arrow>
+            {t.readEssay}
+          </Btn>
+        </div>
+      )}
     </section>
   );
 };
@@ -514,6 +631,9 @@ const AlbumDetail: React.FC = () => {
             ? <FeaturedVideos titleUrl={album.videos?.titleTrack ?? undefined} fullUrl={album.videos?.fullAlbum ?? undefined} track1Url={album.videos?.track1 ?? undefined} />
             : (album.featuredVideoUrl ? <SingleVideo url={album.featuredVideoUrl} /> : null)
           )}
+
+          {/* ▼▼▼ Reflections 섹션 복원: 영상 바로 아래에 표시 ▼▼▼ */}
+          {isReleased && <ComposerReflection album={album} />}
 
           {isReleased && (
             <section aria-label="Feeling Inspired and Credits" className="max-w-6xl mx-auto px-6">
