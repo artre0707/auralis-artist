@@ -5,24 +5,23 @@ export interface Env {
   GEMINI_API_KEY: string;
 }
 
-// 공통 응답 헤더 (필요 시 CORS 허용)
 const JSON_HEADERS: HeadersInit = {
   "Content-Type": "application/json; charset=utf-8",
+  "Access-Control-Allow-Origin": "*",
 };
 
-// 언어 코드 정규화: KR→ko, EN/ENG→en 등
 function normLang(v?: string) {
   if (!v) return undefined;
   const x = v.toLowerCase().trim();
   if (["ko", "kr", "korean"].includes(x)) return "ko";
   if (["en", "eng", "english", "en-us", "en-gb"].includes(x)) return "en";
-  return x; // 기타 값은 그대로
+  return x;
 }
 
 type ReqBody = {
   text: string;
-  target?: string;      // 기본 "ko"
-  source?: string;      // 선택
+  target?: string;
+  source?: string;
   formal?: "formal" | "casual";
 };
 
@@ -30,7 +29,7 @@ function langDisplayName(code: string) {
   switch (code) {
     case "ko": return "Korean";
     case "en": return "English";
-    default:   return code; // 모델이 이해할 수 있도록 그 밖의 값은 그대로
+    default:   return code;
   }
 }
 
@@ -66,26 +65,21 @@ function buildPrompt({ text, target = "ko", source, formal }: ReqBody) {
   ].join("\n");
 }
 
-// ✅ 단일 핸들러: GET(health check) + POST(번역)
 export const onRequest: PagesFunction<Env> = async (ctx) => {
   try {
     const { request, env } = ctx;
     const url = new URL(request.url);
 
-    // 헬스체크: /api/translate?health
     if (request.method === "GET" && url.searchParams.has("health")) {
       return new Response(JSON.stringify({ ok: true, env: !!env.GEMINI_API_KEY }), {
-        headers: JSON_HEADERS,
-        status: 200,
+        headers: JSON_HEADERS, status: 200,
       });
     }
 
     if (request.method === "OPTIONS") {
-      // CORS 프리플라이트 대비(필요 시)
       return new Response(null, {
         headers: {
           ...JSON_HEADERS,
-          "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
           "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
         },
@@ -95,51 +89,36 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
-        headers: JSON_HEADERS,
-        status: 405,
+        headers: JSON_HEADERS, status: 405,
       });
     }
 
     if (!env.GEMINI_API_KEY) {
       return new Response(JSON.stringify({ error: "Missing GEMINI_API_KEY" }), {
-        headers: JSON_HEADERS,
-        status: 500,
+        headers: JSON_HEADERS, status: 500,
       });
     }
 
-    // JSON 파싱
     let body: ReqBody | undefined;
     try {
       body = (await request.json()) as ReqBody;
     } catch {
       return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
-        headers: JSON_HEADERS,
-        status: 400,
+        headers: JSON_HEADERS, status: 400,
       });
     }
 
     if (!body?.text || !body.text.trim()) {
       return new Response(JSON.stringify({ error: "Missing 'text' in body" }), {
-        headers: JSON_HEADERS,
-        status: 400,
+        headers: JSON_HEADERS, status: 400,
       });
     }
 
     const target = normLang(body.target) || "ko";
-
     const payload = {
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: buildPrompt({ ...body, target }) }],
-        },
-      ],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 2048 },
-      safetySettings: [
-        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-      ],
+      contents: [{ role: "user", parts: [{ text: buildPrompt({ ...body, target }) }] }],
+      generationConfig: { temperature: 0.2, maxOutputTokens: 2048 },
+      // safetySettings는 생략(일부 텍스트가 과하게 차단될 수 있음)
     };
 
     const apiUrl =
@@ -153,11 +132,12 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     });
 
     const raw = await resp.text();
+
     if (!resp.ok) {
-      return new Response(
-        JSON.stringify({ error: "Gemini API error", status: resp.status, detail: raw }),
-        { headers: JSON_HEADERS, status: 500 }
-      );
+      // 모델 오류를 그대로 노출하여 프론트에서 보이게
+      return new Response(JSON.stringify({ error: "Gemini API error", status: resp.status, detail: raw }), {
+        headers: JSON_HEADERS, status: 502,
+      });
     }
 
     let data: any;
@@ -165,25 +145,40 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       data = JSON.parse(raw);
     } catch {
       return new Response(JSON.stringify({ error: "Invalid JSON from Gemini", raw }), {
-        headers: JSON_HEADERS,
-        status: 500,
+        headers: JSON_HEADERS, status: 502,
       });
     }
 
-    const translated: string =
-      data?.candidates?.[0]?.content?.parts?.map((p: any) => p.text).join("")?.trim() ?? "";
+    // 여러 응답 포맷 대응: parts[].text, output_text 등
+    const partsText =
+      data?.candidates?.[0]?.content?.parts
+        ?.map((p: any) => p?.text || "")
+        .join("")
+        .trim() || "";
 
-    // 폴백: 응답이 비었으면 원문 반환(최악의 경우 UI가 빈 문자열로 깨지지 않게)
-    const out = translated || body.text;
+    const outputText = (data?.candidates?.[0]?.output_text || "").trim();
 
-    return new Response(JSON.stringify({ text: out }), {
-      headers: JSON_HEADERS,
-      status: 200,
+    const translated = partsText || outputText;
+
+    // 블록 여부도 명확히 반환
+    const block = data?.promptFeedback?.blockReason || data?.candidates?.[0]?.finishReason;
+
+    if (!translated) {
+      return new Response(
+        JSON.stringify({
+          error: "Empty translation",
+          info: { blockReason: block ?? null, debug: data?.promptFeedback ?? null },
+        }),
+        { headers: JSON_HEADERS, status: 502 }
+      );
+    }
+
+    return new Response(JSON.stringify({ text: translated }), {
+      headers: JSON_HEADERS, status: 200,
     });
   } catch (e: any) {
     return new Response(JSON.stringify({ error: e?.message || "Server error" }), {
-      headers: JSON_HEADERS,
-      status: 500,
+      headers: JSON_HEADERS, status: 500,
     });
   }
 };
