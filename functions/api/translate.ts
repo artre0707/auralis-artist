@@ -10,6 +10,15 @@ const JSON_HEADERS: HeadersInit = {
   "Content-Type": "application/json; charset=utf-8",
 };
 
+// 언어 코드 정규화: KR→ko, EN/ENG→en 등
+function normLang(v?: string) {
+  if (!v) return undefined;
+  const x = v.toLowerCase().trim();
+  if (["ko", "kr", "korean"].includes(x)) return "ko";
+  if (["en", "eng", "english", "en-us", "en-gb"].includes(x)) return "en";
+  return x; // 기타 값은 그대로
+}
+
 type ReqBody = {
   text: string;
   target?: string;      // 기본 "ko"
@@ -17,20 +26,29 @@ type ReqBody = {
   formal?: "formal" | "casual";
 };
 
+function langDisplayName(code: string) {
+  switch (code) {
+    case "ko": return "Korean";
+    case "en": return "English";
+    default:   return code; // 모델이 이해할 수 있도록 그 밖의 값은 그대로
+  }
+}
+
 function buildPrompt({ text, target = "ko", source, formal }: ReqBody) {
-  const tgtName =
-    target.toLowerCase() === "ko" ? "Korean" :
-    target.toLowerCase() === "en" ? "English" : target;
+  const tgt = normLang(target) || "ko";
+  const src = normLang(source);
+
+  const tgtName = langDisplayName(tgt);
 
   const styleHint =
-    target.toLowerCase() === "ko"
-      ? formal === "casual"
-        ? "Write naturally in Korean, casual but respectful tone suitable for web UI."
-        : "Write naturally in Korean with clear, polished, respectful tone (존댓말)."
+    tgt === "ko"
+      ? (formal === "casual"
+          ? "Write naturally in Korean, casual but respectful tone suitable for web UI."
+          : "Write naturally in Korean with a clear, polished, respectful tone (존댓말).")
       : "Write naturally with a clear, polished tone appropriate for web content.";
 
-  const detectLine = source
-    ? `Source language is ${source}.`
+  const detectLine = src
+    ? `Source language is ${langDisplayName(src)}.`
     : "Detect the source language automatically.";
 
   return [
@@ -54,11 +72,24 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     const { request, env } = ctx;
     const url = new URL(request.url);
 
-    // 헬스체크: 브라우저에서 /api/translate?health 로 바로 확인 가능
+    // 헬스체크: /api/translate?health
     if (request.method === "GET" && url.searchParams.has("health")) {
       return new Response(JSON.stringify({ ok: true, env: !!env.GEMINI_API_KEY }), {
         headers: JSON_HEADERS,
         status: 200,
+      });
+    }
+
+    if (request.method === "OPTIONS") {
+      // CORS 프리플라이트 대비(필요 시)
+      return new Response(null, {
+        headers: {
+          ...JSON_HEADERS,
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+        },
+        status: 204,
       });
     }
 
@@ -76,7 +107,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    // JSON 파싱 (본문이 비었거나 content-type 누락 시 방어)
+    // JSON 파싱
     let body: ReqBody | undefined;
     try {
       body = (await request.json()) as ReqBody;
@@ -94,7 +125,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    const target = (body.target || "ko").toLowerCase();
+    const target = normLang(body.target) || "ko";
 
     const payload = {
       contents: [
@@ -103,7 +134,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
           parts: [{ text: buildPrompt({ ...body, target }) }],
         },
       ],
-      generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
+      generationConfig: { temperature: 0.3, maxOutputTokens: 2048 },
       safetySettings: [
         { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
         { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
@@ -123,7 +154,6 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 
     const raw = await resp.text();
     if (!resp.ok) {
-      // 상세 오류 반환 (디버깅 편의)
       return new Response(
         JSON.stringify({ error: "Gemini API error", status: resp.status, detail: raw }),
         { headers: JSON_HEADERS, status: 500 }
@@ -140,10 +170,13 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    const translated =
+    const translated: string =
       data?.candidates?.[0]?.content?.parts?.map((p: any) => p.text).join("")?.trim() ?? "";
 
-    return new Response(JSON.stringify({ text: translated }), {
+    // 폴백: 응답이 비었으면 원문 반환(최악의 경우 UI가 빈 문자열로 깨지지 않게)
+    const out = translated || body.text;
+
+    return new Response(JSON.stringify({ text: out }), {
       headers: JSON_HEADERS,
       status: 200,
     });
