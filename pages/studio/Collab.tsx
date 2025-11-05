@@ -173,7 +173,7 @@ const ThreadItem: React.FC<{
   return (
     <motion.li
       layout
-      className="rounded-2xl border p-5 bg-[var(--card)] border-[var(--border)]
+      className="collab-list-item rounded-2xl border p-5 bg-[var(--card)] border-[var(--border)]
                  transition-shadow hover:shadow-md
                  text-neutral-800 dark:text-neutral-100"
     >
@@ -238,7 +238,7 @@ const ThreadItem: React.FC<{
         <>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="font-semibold text-lg flex items-center">
+              <h3 className="title font-semibold text-lg flex items-center">
                 <span>{thread.title}</span>
                 {canEditContent && (
                   <button
@@ -250,7 +250,7 @@ const ThreadItem: React.FC<{
                   </button>
                 )}
               </h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-300">
+              <p className="post-meta text-xs text-zinc-600 dark:text-zinc-300">
                 {thread.topic && (
                   <span className="px-2 py-0.5 rounded-full
                                    bg-amber-100 text-amber-800
@@ -272,11 +272,11 @@ const ThreadItem: React.FC<{
             </div>
           </div>
 
-          <p className="mt-3 whitespace-pre-wrap text-neutral-800 dark:text-neutral-100 text-sm leading-relaxed">
+          <p className="collab-thread mt-3 whitespace-pre-wrap text-neutral-800 dark:text-neutral-100 text-sm leading-relaxed">
             {thread.body}
           </p>
 
-          <div className="flex items-center gap-4 mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700 text-sm">
+          <div className="collab-actions flex items-center gap-4 mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700 text-sm">
             <button
               onClick={handleLikeClick}
               aria-pressed={isLiked}
@@ -351,7 +351,7 @@ const ThreadItem: React.FC<{
               ))}
             </div>
           ) : (
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2">{c.noComments}</p>
+            <p className="collab-hint text-xs text-zinc-600 dark:text-zinc-400 mt-2">{c.noComments}</p>
           )}
           <div className="mt-3">
             <textarea
@@ -496,7 +496,7 @@ const CollabSection: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="collab-root">
       <h2 className="sr-only">Studio Collab</h2>
 
       <div className="mb-4 flex items-center gap-2">
@@ -514,9 +514,9 @@ const CollabSection: React.FC = () => {
         />
       </div>
 
-      <div className="rounded-2xl border p-5 sm:p-6 bg-[var(--card)] border-[var(--border)]
+      <div className="collab-form rounded-2xl border p-5 sm:p-6 bg-[var(--card)] border-[var(--border)]
                       text-sm text-neutral-800 dark:text-neutral-100">
-        <p className="text-center mb-4">{c.desc}</p>
+        <p className="collab-hint text-center mb-4 text-subtle">{c.desc}</p>
 
         <div className="mt-4 grid gap-3">
           <div className="grid md:grid-cols-2 gap-3">
