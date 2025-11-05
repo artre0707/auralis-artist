@@ -123,7 +123,7 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
 
       <p
         className={`
-          absolute -bottom-5 left-4 text-xs tracking-wide transition-all duration-300
+          absolute bottom-3 left-4 text-xs tracking-wide transition-all duration-300
           ${state === "ok" ? "text-[var(--accent)]" : "text-[#ef4444]"}
           ${showMessage ? 'opacity-90 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
         `}
