@@ -91,7 +91,8 @@ export default function Studio() {
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
     // FIX: The saveNote function correctly returns a string, so the explicit String() cast is redundant and has been removed to resolve the type error.
     const id = saveNote(payload);
-    navigate(`/elysia/${id}`);
+    // FIX: Explicitly cast `id` to a string to resolve TypeScript error.
+    navigate(`/elysia/${String(id)}`);
   };
 
   return (

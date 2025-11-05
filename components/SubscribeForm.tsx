@@ -1,92 +1,122 @@
-import React, { useState } from 'react';
-import { subscribeToNewsletter } from '../services/subscribe';
+import React, { useState } from "react";
 
-type Lang = 'EN' | 'KR';
+type Lang = "EN" | "KR";
+interface Props {
+  language: Lang;
+}
 
-const content = {
-  EN: {
-    emailPlaceholder: "your@email.com",
-    subscribe: "Subscribe",
-    subscribing: "Subscribing...",
-    subscribeSuccess: "Subscribed. Thank you!",
-    subscribeError: "Subscription failed. Please try again.",
-    alreadySubscribed: "You're already subscribed.",
-    disclaimer: "No spam. Unsubscribe anytime.",
-  },
-  KR: {
-    emailPlaceholder: "your@email.com",
-    subscribe: "구독하기",
-    subscribing: "구독 중...",
-    subscribeSuccess: "구독이 완료되었습니다!",
-    subscribeError: "구독에 실패했습니다. 다시 시도해주세요.",
-    alreadySubscribed: "이미 구독하셨습니다.",
-    disclaimer: "스팸 없음. 언제든지 구독 취소 가능.",
-  }
+type UiCopy = {
+  placeholder: string;
+  buttonIdle: string;
+  buttonLoading: string;
+  success: string;
+  invalidEmail: string;
+  missingEnv: string;
+  providerError: string;
+  unknownError: string;
 };
 
-export default function SubscribeForm({ language }: { language: Lang }) {
-  const c = content[language];
+const COPY: Record<Lang, UiCopy> = {
+  EN: {
+    placeholder: "Enter your email",
+    buttonIdle: "Subscribe",
+    buttonLoading: "Subscribing...",
+    success: "Subscribed. Thank you!",
+    invalidEmail: "Please enter a valid email address.",
+    missingEnv: "Server configuration missing. Please try again later.",
+    providerError: "Service temporarily unavailable. Please try again later.",
+    unknownError: "Subscription failed. Please try again.",
+  },
+  KR: {
+    placeholder: "이메일 주소를 입력하세요",
+    buttonIdle: "구독하기",
+    buttonLoading: "구독 처리 중...",
+    success: "구독이 완료되었습니다. 감사합니다!",
+    invalidEmail: "이메일 형식이 올바르지 않습니다.",
+    missingEnv: "서버 환경 변수가 설정되지 않았습니다.",
+    providerError: "서비스가 일시적으로 불안정합니다. 잠시 후 다시 시도해 주세요.",
+    unknownError: "구독에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+  },
+};
+
+function isValidEmail(v: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+}
+
+const SubscribeForm: React.FC<Props> = ({ language }) => {
+  const t = COPY[language || "EN"];
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
+  const [state, setState] = useState<"idle" | "loading" | "ok" | "err">("idle");
   const [msg, setMsg] = useState("");
 
-  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || status === "loading") return;
-    
-    setStatus("loading");
+    if (!isValidEmail(email)) {
+      setState("err");
+      setMsg(t.invalidEmail);
+      return;
+    }
+
+    setState("loading");
     setMsg("");
 
     try {
-      const successMessage = await subscribeToNewsletter(email);
-      
-      if (successMessage.toLowerCase().includes("already")) {
-        setMsg(c.alreadySubscribed);
-      } else {
-        setMsg(c.subscribeSuccess);
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || data?.ok !== true) {
+        const code = data?.error;
+        if (code === "INVALID_EMAIL") setMsg(t.invalidEmail);
+        else if (code === "MISSING_ENV") setMsg(t.missingEnv);
+        else if (code === "PROVIDER_ERROR") setMsg(t.providerError);
+        else setMsg(t.unknownError);
+        setState("err");
+        return;
       }
-      setStatus("ok");
+
+      setState("ok");
+      setMsg(t.success);
       setEmail("");
-    } catch (err: any) {
-      setStatus("error");
-      setMsg(err.message || c.subscribeError);
+    } catch {
+      setState("err");
+      setMsg(t.unknownError);
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleNewsletterSubmit} className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <div className="flex-grow flex items-center gap-3">
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={c.emailPlaceholder}
-            className="newsletter-input w-full rounded-full px-5 py-2.5 text-sm
-                       border bg-neutral-100 text-neutral-900 placeholder:text-neutral-500
-                       focus:outline-none focus:ring-2 focus:ring-[#CBAE7A]/60 focus:border-[#CBAE7A]
-                       dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-400
-                       dark:border-white/20 dark:focus:ring-[#CBAE7A] dark:focus:border-[#CBAE7A]"
-          />
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="rounded-full px-5 py-2.5 text-sm font-medium
-                       bg-[#CBAE7A] text-[#0B0C0E] hover:bg-[#e0c995] transition-colors whitespace-nowrap disabled:opacity-70"
-          >
-            {status === "loading" ? c.subscribing : c.subscribe}
-          </button>
-        </div>
-        {msg && (
-          <div className="w-full text-center sm:text-left sm:w-auto">
-            <span className={`text-xs ml-2 font-medium ${status === "ok" ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
-              {msg}
-            </span>
-          </div>
-        )}
-      </form>
-      <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-300">{c.disclaimer}</p>
-    </>
+    <form onSubmit={onSubmit} className="mt-3 flex flex-col sm:flex-row gap-2">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={t.placeholder}
+        className="flex-1 rounded-full px-4 py-3 border border-[var(--border)] bg-[var(--card)] text-sm
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
+                   dark:bg-transparent dark:text-neutral-100 dark:border-white/20"
+      />
+      <button
+        type="submit"
+        disabled={state === "loading"}
+        className="rounded-full px-5 py-3 text-sm border border-[var(--border)]
+                   bg-[var(--card)] hover:-translate-y-0.5 transition
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
+                   dark:bg-transparent dark:text-neutral-100 dark:border-white/20"
+      >
+        {state === "loading" ? t.buttonLoading : t.buttonIdle}
+      </button>
+
+      <div className="text-sm mt-1 min-h-[1.25rem] sm:ml-2">
+        {state === "err" && <span className="text-[#b00020]">{msg}</span>}
+        {state === "ok" && <span className="text-[var(--accent)] opacity-90">{msg}</span>}
+      </div>
+    </form>
   );
-}
+};
+
+export default SubscribeForm;
