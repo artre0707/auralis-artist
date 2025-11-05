@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { saveNote } from '../services/magazineStore';
 
 export default function Studio() {
   const [params] = useSearchParams();
@@ -22,10 +23,38 @@ export default function Studio() {
   const backHref = params.get('returnTo') || (prefill.slug ? `/albums/${prefill.slug}` : '/albums');
 
   const labels = {
-    EN: { back: 'Back to album', prefilled: 'Prefilled from album' },
-    KR: { back: '앨범으로 돌아가기', prefilled: '앨범 정보가 자동으로 채워졌습니다' },
+    EN: {
+      back: 'Back to album',
+      prefilled: 'Prefilled from album',
+      ideaTitle: 'Idea Title',
+      notes: 'Notes',
+      coverPreview: 'Cover preview (from album)',
+      save: 'Save & Open',
+      saving: 'Saving…',
+      emptyTitle: 'Please enter a title.',
+      translate: 'Translate',
+      en2ko: 'EN → KR',
+      ko2en: 'KR → EN',
+      translating: 'Translating…',
+      result: 'Translation Result',
+    },
+    KR: {
+      back: '앨범으로 돌아가기',
+      prefilled: '앨범 정보가 자동으로 채워졌습니다',
+      ideaTitle: '아이디어 제목',
+      notes: '노트',
+      coverPreview: '커버 미리보기 (앨범에서 가져옴)',
+      save: '저장하고 열기',
+      saving: '저장 중…',
+      emptyTitle: '제목을 입력해 주세요.',
+      translate: '번역',
+      en2ko: '영 → 한',
+      ko2en: '한 → 영',
+      translating: '번역 중…',
+      result: '번역 결과',
+    },
   } as const;
-  const t = labels[language];
+  const t = labels[(language as 'EN' | 'KR') || 'EN'];
 
   const cameFromAlbum =
     (params.get('from') || '').toLowerCase() === 'album' ||
@@ -38,6 +67,11 @@ export default function Studio() {
   const [museTitle, setMuseTitle] = useState('');
   const [museNotes, setMuseNotes] = useState('');
   const [museCover, setMuseCover] = useState<string>('');
+  const [saving, setSaving] = useState(false);
+
+  // ✅ 번역 위젯 상태
+  const [trLoading, setTrLoading] = useState(false);
+  const [trText, setTrText] = useState(''); // 번역 결과
 
   const didPrefill = useRef(false);
   useEffect(() => {
@@ -75,6 +109,68 @@ export default function Studio() {
     setLeaving(true);
     setTimeout(() => navigate(backHref), 220);
   };
+
+  // ✅ 저장 핸들러
+  async function handleSave() {
+    if (!museTitle.trim()) {
+      alert(t.emptyTitle);
+      return;
+    }
+    try {
+      setSaving(true);
+      const id = String(
+        saveNote({
+          title: museTitle,
+          body: museNotes,
+          cover: museCover || undefined,
+          albumSlug: prefill.slug || undefined,
+          catalogue: prefill.catalogue || undefined,
+        })
+      );
+      navigate(`/elysia/${id}`);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // ✅ 번역 호출 (양방향 지원)
+  async function callTranslate(dir: 'en2ko' | 'ko2en') {
+    const text = museNotes?.trim() || museTitle?.trim() || '';
+    if (!text) {
+      alert(language === 'KR' ? '번역할 텍스트가 없습니다.' : 'Nothing to translate.');
+      return;
+    }
+    const source = dir === 'en2ko' ? 'en' : 'ko';
+    const target = dir === 'en2ko' ? 'ko' : 'en';
+
+    setTrLoading(true);
+    setTrText('');
+    try {
+      const res = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text,
+          source,
+          target,
+          formal: target === 'ko' ? 'formal' : 'formal',
+        }),
+      });
+
+      const raw = await res.text();
+      if (!res.ok) {
+        alert(`API ${res.status}\n${raw.slice(0, 400)}`);
+        return;
+        }
+      const data = JSON.parse(raw);
+      const out = String(data?.text || '');
+      setTrText(out);
+    } catch (e: any) {
+      alert(`요청 실패: ${e?.message || e}`);
+    } finally {
+      setTrLoading(false);
+    }
+  }
 
   return (
     <>
@@ -130,7 +226,7 @@ export default function Studio() {
 
                 <div className="space-y-4">
                   <label className="block">
-                    <span className="text-sm text-subtle">Idea Title</span>
+                    <span className="text-sm text-subtle">{t.ideaTitle}</span>
                     <input
                       value={museTitle}
                       onChange={(e) => setMuseTitle(e.target.value)}
@@ -140,7 +236,7 @@ export default function Studio() {
                   </label>
 
                   <label className="block">
-                    <span className="text-sm text-subtle">Notes</span>
+                    <span className="text-sm text-subtle">{t.notes}</span>
                     <textarea
                       value={museNotes}
                       onChange={(e) => setMuseNotes(e.target.value)}
@@ -153,9 +249,61 @@ export default function Studio() {
                   {museCover && (
                     <div className="flex items-center gap-3">
                       <img src={museCover} alt="" className="h-14 w-14 rounded object-cover" />
-                      <span className="text-xs text-subtle">Cover preview (from album)</span>
+                      <span className="text-xs text-subtle">{t.coverPreview}</span>
                     </div>
                   )}
+                </div>
+
+                {/* ✅ 번역 위젯 */}
+                <div className="mt-6 rounded-xl border border-card bg-card p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="font-medium">{t.translate}</div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => callTranslate('en2ko')}
+                        disabled={trLoading}
+                        className="rounded-lg px-3 py-1 ring-1 ring-[var(--accent)]/50 hover:bg-[var(--accent)]/10 disabled:opacity-60"
+                      >
+                        {trLoading ? t.translating : t.en2ko}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => callTranslate('ko2en')}
+                        disabled={trLoading}
+                        className="rounded-lg px-3 py-1 ring-1 ring-[var(--accent)]/50 hover:bg-[var(--accent)]/10 disabled:opacity-60"
+                      >
+                        {trLoading ? t.translating : t.ko2en}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-subtle">
+                    * {language === 'KR'
+                      ? '노트 또는 제목에 있는 텍스트를 자동으로 번역합니다.'
+                      : 'Automatically translates from your Notes or Title.'}
+                  </div>
+
+                  {trText && (
+                    <div className="mt-3 rounded-lg bg-background/60 p-3 text-sm whitespace-pre-wrap">
+                      <div className="mb-1 font-medium">{t.result}</div>
+                      {trText}
+                    </div>
+                  )}
+                </div>
+
+                {/* ✅ 저장 버튼 */}
+                <div className="mt-6">
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="inline-flex items-center gap-2 rounded-lg px-4 py-2
+                               bg-[var(--accent)] text-black hover:opacity-90
+                               disabled:opacity-60 disabled:cursor-not-allowed transition"
+                  >
+                    {saving ? t.saving : t.save}
+                  </button>
                 </div>
               </>
             )}
