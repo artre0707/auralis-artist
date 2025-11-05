@@ -276,7 +276,7 @@ const ThreadItem: React.FC<{
             {thread.body}
           </p>
 
-          <div className="collab-actions flex items-center gap-4 mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700 text-sm">
+          <div className="action-bar flex items-center gap-4 mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700 text-sm">
             <button
               onClick={handleLikeClick}
               aria-pressed={isLiked}

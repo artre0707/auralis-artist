@@ -200,6 +200,39 @@
         background: rgba(203,174,122,.25);
         color: inherit;
       }
+
+      /* ---- Collab 액션 바: 다크모드 가독성 보강 ---- */
+      .collab-thread .action-bar button {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 8px; border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 13px; line-height: 1;
+        background: transparent;
+        color: var(--fg);
+      }
+
+      /* 다크모드에서 더 밝게, 호버 시 골드 톤 */
+      .dark .collab-thread .action-bar button {
+        color: #E7E3DA !important;
+        border-color: rgba(231,207,159,.22);
+      }
+      .dark .collab-thread .action-bar button:hover {
+        background: rgba(231,207,159,.10);
+        color: #F5E3B5 !important;
+        border-color: rgba(231,207,159,.45);
+      }
+
+      /* 좋아요 누른 상태(빨간 하트 유지)도 글자색은 밝게 */
+      .dark .collab-thread .action-bar button[aria-pressed="true"] {
+        color: #E7E3DA !important;
+      }
+
+      /* 혹시 브라우저/확장프로그램이 임시 배경을 입혔을 때 무시 */
+      .collab-thread .action-bar button span[style*="background"],
+      .collab-thread .action-bar button mark {
+        background: transparent !important;
+        color: inherit !important;
+      }
     </style>
 
     <script type="importmap">
