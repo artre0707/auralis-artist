@@ -49,6 +49,15 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
   const [state, setState] = useState<"idle" | "loading" | "ok" | "err">("idle");
   const [msg, setMsg] = useState("");
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    // Reset state when user starts typing again after a success/error
+    if (state === 'ok' || state === 'err') {
+      setState('idle');
+      setMsg('');
+    }
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValidEmail(email)) {
@@ -99,7 +108,7 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
         type="email"
         required
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleEmailChange}
         placeholder={t.placeholder}
         aria-label={t.placeholder}
         className="w-full flex-1 rounded-full px-4 py-2.5 bg-[var(--card)] border border-[var(--border)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] text-sm placeholder:text-neutral-500 dark:bg-transparent"
@@ -112,16 +121,16 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
         {state === "loading" ? t.buttonLoading : t.buttonIdle}
       </button>
 
-      {showMessage && (
-        <p
-          className={`
-            absolute -bottom-6 left-2 sm:left-4 text-xs tracking-wide transition-all duration-300 opacity-90
-            ${state === "ok" ? "text-[var(--accent)]" : "text-[#ef4444]"}
-          `}
-        >
-          {msg}
-        </p>
-      )}
+      <p
+        className={`
+          absolute -bottom-5 left-4 text-xs tracking-wide transition-all duration-300
+          ${state === "ok" ? "text-[var(--accent)]" : "text-[#ef4444]"}
+          ${showMessage ? 'opacity-90 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
+        `}
+        aria-live="polite"
+      >
+        {msg}
+      </p>
     </form>
   );
 };
