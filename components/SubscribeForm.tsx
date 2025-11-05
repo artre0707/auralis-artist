@@ -93,7 +93,7 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative mt-4 flex flex-col sm:flex-row items-center gap-2"
+      className="relative mt-4 flex flex-col sm:flex-row items-center gap-2 pb-5"
     >
       <input
         type="email"
