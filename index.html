@@ -14,7 +14,6 @@
     <meta property="og:title" content="Auralis : The Official Home of Sound and Light" />
     <meta property="og:description" content="The official artist website of Auralis — where silence becomes music, blending classical sensitivity with modern minimalism." />
     <meta property="og:url" content="https://www.auralis-music.com" />
-    <!-- 🔁 public/ 프리픽스 제거 + 절대경로 + 캐시버스터 -->
     <meta property="og:image" content="https://www.auralis-music.com/images/auralis_og_image.png?v=20251103" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -29,7 +28,7 @@
     <meta name="twitter:image" content="https://www.auralis-music.com/images/auralis_og_image.png?v=20251103" />
     <meta name="twitter:image:alt" content="Auralis — The Official Home of Sound and Light" />
 
-    <!-- ✅ Favicon / PWA (public/ 제거) -->
+    <!-- ✅ Favicon / PWA -->
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
@@ -123,18 +122,55 @@
       body.dark .track-title-color{color:#F5E3B5;text-shadow:0 0 8px rgba(245,227,181,.28)}
       .album-meta-text{color:#27272a} body.dark .album-meta-text{color:var(--fg)}
       .inspired-cta-bg{background-image:linear-gradient(to bottom,transparent,var(--bg) 20%,var(--bg) 80%,transparent)}
-      .dark .post-title{color:#F3ECE0}.dark .post-meta{color:#A7A29A}.dark .post-label{color:#D5D0C7;letter-spacing:.02em}.dark .post-body{color:#E7E3DA;line-height:1.9}
-      body.dark input,body.dark textarea,body.dark select{color:#E7E3DA} body.dark ::placeholder{color:#A7A29A}
+
+      /* ✅ (기존) 엘리시아 포스트 가독성 */
+      .dark .post-title{color:#F3ECE0}
+      .dark .post-meta{color:#A7A29A}
+      .dark .post-label{color:#D5D0C7;letter-spacing:.02em}
+      .dark .post-body{color:#E7E3DA;line-height:1.9}
+
+      body.dark input,body.dark textarea,body.dark select{color:#E7E3DA}
+      body.dark ::placeholder{color:#A7A29A}
+
       .hero-transparent{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important}
       .hero-bottom-hairline{position:relative}
       .hero-bottom-hairline::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:color-mix(in oklab,var(--fg) 10%,transparent);opacity:.35}
+
       .gold-card{transition:all .3s ease}
       .dark .gold-card{border:1px solid rgba(203,174,122,.20);box-shadow:0 0 10px rgba(203,174,122,.08);background:transparent;backdrop-filter:blur(6px)}
       .dark .gold-card:hover{transform:translateY(-3px);border-color:rgba(203,174,122,.60);box-shadow:0 8px 20px rgba(203,174,122,.18)}
       .gold-card img{transition:transform .4s ease,filter .3s ease}
       .gold-card:hover img{transform:scale(1.04);filter:brightness(1.05)}
-      @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+      @media (prefers-reduced-motion: reduce){
+        *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+      }
       @supports (text-wrap: balance){.text-balance{text-wrap:balance}}
+
+      /* ============================================
+         ✅ NEW: Canvas/Collab/Elysia 가독성 고정
+         - 밤모드에서 본문이 너무 어둡게 보이던 이슈 해결
+         - 협업 스레드/힌트/카드 스타일 추가
+         ============================================ */
+
+      /* 공통 포스트(엘리시아/캔버스) */
+      .post-title{color:var(--heading)}
+      .post-label{color:var(--fg-subtle)}
+      .post-body{color:var(--fg);opacity:1}
+
+      /* 협업 안내 문구 및 링크 */
+      .collab-hint{color:var(--fg)}
+      .collab-hint a{color:var(--link);text-decoration:underline;text-underline-offset:2px}
+
+      /* 협업 스레드 카드 */
+      .thread-card{
+        background: color-mix(in srgb, var(--card) 100%, transparent);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+      }
+      .thread-meta{color:var(--fg-subtle)}
+      .thread-msg{color:var(--fg)}
     </style>
 
     <script type="importmap">
