@@ -6,7 +6,6 @@ import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from '../../contexts/SiteContext';
 import type { Note as NotebookNote } from "./Notebook";
 import { albumsData } from "../../data/albums";
-import CanvasTranslateButton from "../../components/CanvasTranslateButton";
 
 const MotionSection = motion.section;
 
@@ -26,10 +25,18 @@ type MuseOutputWithKR = MuseOutput & {
   musicalElementsKR?: Partial<MuseOutput['musicalElements']>;
 };
 
-
 type Props = {
   onSendToNotebook: (note: Omit<NotebookNote, 'id'|'createdAt'>, goToNotebook?: boolean) => void;
-  onPublishToReaders: (payload: { title: string; body: string; author: string; meta?: any; titleKR?: string; bodyKR?: string; sections?: any[]; sectionsKR?: any[] }) => void;
+  onPublishToReaders: (payload: {
+    title: string;
+    body: string;
+    author: string;
+    meta?: any;
+    titleKR?: string;
+    bodyKR?: string;
+    sections?: any[];
+    sectionsKR?: any[];
+  }) => void;
 };
 
 export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Props) {
@@ -55,8 +62,8 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
   ];
   
   const c = {
-    EN: { saveToNotebook: "Send to Notebook", publish: "Post to Elysia", copy: "Copy", gen: "Generate Concept", gathering: "Gathering inspiration…", translate: "Translate (EN→KR)", translating: "Translating..." },
-    KR: { saveToNotebook: "노트북으로 전송", publish: "엘리시아로 게시", copy: "복사", gen: "콘셉트 생성", gathering: "영감을 모으는 중…", translate: "번역하기 (EN→KR)", translating: "번역 중..." }
+    EN: { saveToNotebook: "Send to Notebook", publish: "Post to Elysia", copy: "Copy", gen: "Generate Concept", gathering: "Gathering inspiration…" },
+    KR: { saveToNotebook: "노트북으로 전송", publish: "엘리시아로 게시", copy: "복사", gen: "콘셉트 생성", gathering: "영감을 모으는 중…" }
   }[language];
 
   async function handleSubmit(e: React.FormEvent) {
@@ -101,22 +108,22 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
     const album = albumKey ? albumsData[albumKey] : null;
     
     const sections = [
-        { label: "Mood", text: data.mood },
-        { label: "Instrumentation", text: data.instrumentation },
-        { label: "Concept", text: data.concept },
-        { label: "Musical Elements", text: `- Motif: ${data.musicalElements.motif}\n- Harmony: ${data.musicalElements.harmony}\n- Tempo: ${data.musicalElements.tempo}\n- Dynamics: ${data.musicalElements.dynamics}` },
+      { label: "Mood", text: data.mood },
+      { label: "Instrumentation", text: data.instrumentation },
+      { label: "Concept", text: data.concept },
+      { label: "Musical Elements", text: `- Motif: ${data.musicalElements.motif}\n- Harmony: ${data.musicalElements.harmony}\n- Tempo: ${data.musicalElements.tempo}\n- Dynamics: ${data.musicalElements.dynamics}` },
     ];
     
     const sectionsKR = data.moodKR ? [
-        { label: "무드", text: data.moodKR },
-        { label: "악기 구성", text: data.instrumentationKR || "" },
-        { label: "콘셉트", text: data.conceptKR || "" },
-        { label: "음악적 요소", text: `- 모티브: ${data.musicalElementsKR?.motif}\n- 하모니: ${data.musicalElementsKR?.harmony}\n- 템포: ${data.musicalElementsKR?.tempo}\n- 다이내믹스: ${data.musicalElementsKR?.dynamics}` },
+      { label: "무드", text: data.moodKR },
+      { label: "악기 구성", text: data.instrumentationKR || "" },
+      { label: "콘셉트", text: data.conceptKR || "" },
+      { label: "음악적 요소", text: `- 모티브: ${data.musicalElementsKR?.motif}\n- 하모니: ${data.musicalElementsKR?.harmony}\n- 템포: ${data.musicalElementsKR?.tempo}\n- 다이내믹스: ${data.musicalElementsKR?.dynamics}` },
     ] : undefined;
 
     onPublishToReaders({
       title: data.title,
-      body: buildPlainText(data), // Fallback body
+      body: buildPlainText(data), // fallback body
       author: "Muse Collaboration",
       titleKR: data.titleKR,
       sections,
@@ -231,10 +238,6 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
               <li><strong>Tempo:</strong> {data.musicalElements.tempo}</li>
               <li><strong>Dynamics:</strong> {data.musicalElements.dynamics}</li>
             </ul>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-700">
-            <CanvasTranslateButton getEnglishText={() => buildPlainText(data)} />
           </div>
 
           {museSeed?.meta?.albumKey && (
