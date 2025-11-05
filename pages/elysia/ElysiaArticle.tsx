@@ -1,3 +1,4 @@
+// pages/elysia/ElysiaArticle.tsx
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
@@ -13,7 +14,8 @@ export default function ElysiaArticle() {
   const { id } = useParams();
   const { language } = useSiteContext();
   const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
+  const isDarkMode = theme === "dark";
+
   const [notes, setNotes] = useState<ElysiaNote[]>(getAllNotes());
   const note = notes.find((n) => n.id === id);
 
@@ -24,12 +26,8 @@ export default function ElysiaArticle() {
   const handleLike = () => {
     if (!id || liked) return;
     const newCount = likeNote(id);
-    setNotes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, likes: newCount } : n))
-    );
-    const likedSet = new Set(
-      JSON.parse(localStorage.getItem("auralis_liked_notes") || "[]")
-    );
+    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, likes: newCount } : n)));
+    const likedSet = new Set(JSON.parse(localStorage.getItem("auralis_liked_notes") || "[]"));
     likedSet.add(id);
     localStorage.setItem("auralis_liked_notes", JSON.stringify([...likedSet]));
     setLiked(true);
@@ -48,13 +46,13 @@ export default function ElysiaArticle() {
     );
   }
 
-  const rawTitle = getLocalized(language, note.title, note.titleKR) ?? note.title ?? '';
-  const rawBody  = getLocalized(language, note.body,  note.bodyKR)  ?? note.body  ?? '';
+  const rawTitle = getLocalized(language, note.title, note.titleKR) ?? note.title ?? "";
+  const rawBody = getLocalized(language, note.body, note.bodyKR) ?? note.body ?? "";
   const sections = getLocalized(language, note.sections, note.sectionsKR);
-
-  const bodyHtml = rawBody ? rawBody.replace(/\n/g, '<br />') : '';
-
-  const subtitle = `${note.author || 'Anonymous'} · ${new Date(note.createdAt).toLocaleDateString(language === 'KR' ? 'ko-KR' : 'en-US')}`;
+  const bodyHtml = rawBody ? rawBody.replace(/\n/g, "<br />") : "";
+  const subtitle = `${note.author || "Anonymous"} · ${new Date(note.createdAt).toLocaleDateString(
+    language === "KR" ? "ko-KR" : "en-US"
+  )}`;
 
   return (
     <PageContainer>
@@ -64,22 +62,28 @@ export default function ElysiaArticle() {
         align="center"
         goldTitle
         divider="fade"
-        className={isDarkMode ? 'hero-transparent hero-bottom-hairline' : ''}
+        className={isDarkMode ? "hero-transparent hero-bottom-hairline" : ""}
         gradientOverlay={!isDarkMode}
-        backgroundImage={isDarkMode ? undefined : 'https://images.unsplash.com/photo-1518602264539-53b028731b54?q=80&w=1920&auto=format&fit=crop'}
+        backgroundImage={
+          isDarkMode
+            ? undefined
+            : "https://images.unsplash.com/photo-1518602264539-53b028731b54?q=80&w=1920&auto=format&fit=crop"
+        }
       />
+
+      {/* ⬇️ 밤모드 가독성 전역 CSS가 적용되도록 래퍼에 elysia-detail 부착 */}
       <motion.article
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="max-w-3xl mx-auto px-6 pt-8 pb-24"
+        className="elysia-detail max-w-3xl mx-auto px-6 pt-8 pb-24"
       >
         <div className="text-center -mt-4 mb-8">
-            <ElysiaSourceTag
-              albumKey={note.meta?.albumKey as any}
-              sourceTitle={note.meta?.sourceTitle}
-            />
-          </div>
+          <ElysiaSourceTag
+            albumKey={note.meta?.albumKey as any}
+            sourceTitle={note.meta?.sourceTitle}
+          />
+        </div>
 
         <div className="mt-8 flex justify-center">
           <span className="h-px w-20 bg-gradient-to-r from-transparent via-[#CBAE7A] to-transparent opacity-70" />
@@ -89,22 +93,23 @@ export default function ElysiaArticle() {
           <div className="mt-8 space-y-8">
             {sections.map((s, i) => (
               <section key={i}>
-                <h3 className="mb-2 text-[13px] tracking-wide font-semibold text-neutral-700 dark:text-neutral-300">
+                {/* ⬇️ 라벨/본문에 클래스를 달아 전역 색상 규칙을 강제 */}
+                <h3 className="post-label mb-2 text-[13px] tracking-wide font-semibold">
                   {s.label}
                 </h3>
-                <p className="leading-[1.9] text-[15px] md:text-[16px] text-neutral-800 dark:text-neutral-200 whitespace-pre-line">
+                <p className="post-body leading-[1.9] text-[15px] md:text-[16px] whitespace-pre-line">
                   {s.text}
                 </p>
               </section>
             ))}
           </div>
         ) : (
+          // 단락 본문도 elysia-detail 래퍼 안에서 전역 색상 적용됨
           <div
-            className="prose prose-neutral dark:prose-invert mt-8 prose-p:leading-[1.9] prose-p:text-[16px] text-neutral-800 dark:text-neutral-200"
+            className="prose prose-neutral dark:prose-invert mt-8 prose-p:leading-[1.9] prose-p:text-[16px]"
             dangerouslySetInnerHTML={{ __html: bodyHtml }}
           />
         )}
-
 
         <div className="mt-10 flex justify-center items-center gap-2 text-sm">
           <button

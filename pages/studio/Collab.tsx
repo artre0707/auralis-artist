@@ -173,7 +173,7 @@ const ThreadItem: React.FC<{
   return (
     <motion.li
       layout
-      className="collab-list-item rounded-2xl border p-5 bg-[var(--card)] border-[var(--border)]
+      className="collab-thread rounded-2xl border p-5 bg-[var(--card)] border-[var(--border)]
                  transition-shadow hover:shadow-md
                  text-neutral-800 dark:text-neutral-100"
     >
@@ -272,7 +272,7 @@ const ThreadItem: React.FC<{
             </div>
           </div>
 
-          <p className="collab-thread mt-3 whitespace-pre-wrap text-neutral-800 dark:text-neutral-100 text-sm leading-relaxed">
+          <p className="post-body mt-3 whitespace-pre-wrap text-sm leading-relaxed">
             {thread.body}
           </p>
 
