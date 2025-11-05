@@ -171,6 +171,35 @@
       }
       .thread-meta{color:var(--fg-subtle)}
       .thread-msg{color:var(--fg)}
+
+      /* ---- Collab threads: dark-mode readability & highlight neutralizer ---- */
+
+      /* 다크모드 기본 텍스트 톤 강제 */
+      .dark .collab-thread,
+      .dark .collab-thread p,
+      .dark .collab-thread .text-neutral-800 { color: #E7E3DA !important; }
+
+      /* 보조 텍스트(타임스탬프 등) 톤 */
+      .dark .collab-thread .text-zinc-600,
+      .dark .collab-thread .text-neutral-500 { color: #C7C3BB !important; }
+
+      /* 본문은 Elysia 상세와 동일한 톤 사용 */
+      .dark .collab-thread .post-body { color: #E7E3DA !important; line-height: 1.9; }
+
+      /* 브라우저/번역 확장이 임시로 넣는 하이라이트 제거 */
+      .collab-thread mark,
+      .collab-thread span[style*="background"],
+      .collab-thread font[style*="background"],
+      .collab-thread span[style*="background-color"] {
+        background: transparent !important;
+        color: inherit !important;
+      }
+
+      /* 선택(드래그) 가독성 (선택할 때만) */
+      .collab-thread ::selection {
+        background: rgba(203,174,122,.25);
+        color: inherit;
+      }
     </style>
 
     <script type="importmap">
