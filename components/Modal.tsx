@@ -4,9 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface ModalProps {
   children: React.ReactNode;
   onClose: () => void;
+  className?: string;
+  panelClassName?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, onClose, className, panelClassName }) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -27,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
 
   return (
     <MotionDiv
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className={`fixed inset-0 z-50 flex items-center justify-center ${className || ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -36,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <MotionDiv
-        className="relative m-4 w-full max-w-lg rounded-2xl bg-[var(--card-strong)] border border-[var(--border)] shadow-xl p-6"
+        className={`relative m-4 w-full max-w-lg rounded-2xl bg-[var(--card-strong)] border border-[var(--border)] shadow-xl p-6 ${panelClassName || ''}`}
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } }}
         exit={{ opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.2 } }}

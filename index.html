@@ -233,6 +233,34 @@
         background: transparent !important;
         color: inherit !important;
       }
+      
+      /* 협업 히스토리 모달 가독성 보강 */
+      .history-dialog .modal-panel,
+      .collab-history-modal .modal-panel {
+        background: color-mix(in oklab, var(--card) 96%, transparent) !important;
+        border: 1px solid var(--border);
+        color: var(--fg);
+      }
+
+      /* 다크 모드에서 확실히 어두운 패널 + 밝은 본문 */
+      .dark .history-dialog .modal-panel,
+      .dark .collab-history-modal .modal-panel {
+        background: rgba(20, 20, 24, .92) !important;
+        color: #E7E3DA !important;
+      }
+
+      /* 본문 텍스트/메타톤 */
+      .history-dialog .post-body,
+      .collab-history-modal .post-body { color: var(--fg) !important; line-height: 1.8; }
+
+      .history-dialog .meta,
+      .collab-history-modal .meta { color: var(--fg-subtle) !important; }
+
+      /* 혹시 컴포넌트에서 bg-white, text-neutral-800 등이 하드코딩 돼 있으면 무력화 */
+      .history-dialog .bg-white,
+      .collab-history-modal .bg-white { background: transparent !important; }
+      .history-dialog .text-neutral-800,
+      .collab-history-modal .text-neutral-800 { color: var(--fg) !important; }
     </style>
 
     <script type="importmap">

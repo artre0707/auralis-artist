@@ -395,17 +395,20 @@ const ThreadItem: React.FC<{
           </Modal>
         )}
         {showHistoryModal && (
-          <Modal onClose={() => setShowHistoryModal(false)}>
+          <Modal
+            onClose={() => setShowHistoryModal(false)}
+            className="collab-history-modal"
+            panelClassName="modal-panel"
+          >
             <h4 className="font-semibold text-lg mb-4 text-neutral-900 dark:text-neutral-100">{c.versionHistory}</h4>
             <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 -mr-2">
               {[...(thread.versions || [])].reverse().map(v => (
-                <div key={v.version} className="p-3 border rounded-lg bg-zinc-50 dark:bg-zinc-800
-                                                text-neutral-800 dark:text-neutral-100">
-                  <p className="text-xs text-zinc-700 dark:text-zinc-300">
+                <div key={v.version} className="p-3 border rounded-lg bg-white">
+                  <p className="meta text-xs">
                     <strong>v{v.version}</strong> by {v.editor} on {new Date(v.date).toLocaleString(language === 'KR' ? 'ko-KR' : 'en-US')}
                   </p>
                   <p className="font-semibold mt-1">{v.title}</p>
-                  <p className="text-sm mt-2 whitespace-pre-wrap">{v.body}</p>
+                  <p className="post-body text-sm mt-2 whitespace-pre-wrap">{v.body}</p>
                 </div>
               ))}
             </div>
