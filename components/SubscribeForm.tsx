@@ -88,33 +88,40 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
     }
   };
 
+  const showMessage = (state === "ok" || state === "err") && msg;
+
   return (
-    <form onSubmit={onSubmit} className="mt-3 flex flex-col sm:flex-row gap-2">
+    <form
+      onSubmit={onSubmit}
+      className="relative mt-4 flex flex-col sm:flex-row items-center gap-2"
+    >
       <input
         type="email"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={t.placeholder}
-        className="flex-1 rounded-full px-4 py-3 border border-[var(--border)] bg-[var(--card)] text-sm
-                   focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
-                   dark:bg-transparent dark:text-neutral-100 dark:border-white/20"
+        aria-label={t.placeholder}
+        className="w-full flex-1 rounded-full px-4 py-2.5 bg-[var(--card)] border border-[var(--border)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] text-sm placeholder:text-neutral-500 dark:bg-transparent"
       />
       <button
         type="submit"
         disabled={state === "loading"}
-        className="rounded-full px-5 py-3 text-sm border border-[var(--border)]
-                   bg-[var(--card)] hover:-translate-y-0.5 transition
-                   focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
-                   dark:bg-transparent dark:text-neutral-100 dark:border-white/20"
+        className="w-full sm:w-auto rounded-full px-5 py-2.5 bg-[var(--accent)] text-white font-medium text-sm hover:brightness-110 transition disabled:opacity-50"
       >
         {state === "loading" ? t.buttonLoading : t.buttonIdle}
       </button>
 
-      <div className="text-sm mt-1 min-h-[1.25rem] sm:ml-2">
-        {state === "err" && <span className="text-[#b00020]">{msg}</span>}
-        {state === "ok" && <span className="text-[var(--accent)] opacity-90">{msg}</span>}
-      </div>
+      {showMessage && (
+        <p
+          className={`
+            absolute -bottom-6 left-2 sm:left-4 text-xs tracking-wide transition-all duration-300 opacity-90
+            ${state === "ok" ? "text-[var(--accent)]" : "text-[#ef4444]"}
+          `}
+        >
+          {msg}
+        </p>
+      )}
     </form>
   );
 };

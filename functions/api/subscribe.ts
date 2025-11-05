@@ -18,12 +18,14 @@ function json(data: unknown, init: ResponseInit = {}) {
   });
 }
 
+// FIX: Replaced missing PagesFunction type with an explicit function type for Cloudflare Pages handlers.
 // ✅ CORS preflight
-export const onRequestOptions: PagesFunction<Env> = async () =>
+export const onRequestOptions: (context: { request: Request; env: Env }) => Promise<Response> = async () =>
   new Response(null, { headers: CORS_HEADERS });
 
+// FIX: Replaced missing PagesFunction type with an explicit function type for Cloudflare Pages handlers.
 // ✅ GET /api/subscribe?health → 헬스체크
-export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
+export const onRequestGet: (context: { request: Request; env: Env }) => Promise<Response> = async ({ env, request }) => {
   const url = new URL(request.url);
   if (url.searchParams.get("health") !== null) {
     return json({
@@ -36,8 +38,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
   return json({ ok: true, message: "Brevo subscribe endpoint ready." });
 };
 
+// FIX: Replaced missing PagesFunction type with an explicit function type for Cloudflare Pages handlers.
 // ✅ POST /api/subscribe
-export const onRequestPost: PagesFunction<Env> = async ({ env, request }) => {
+export const onRequestPost: (context: { request: Request; env: Env }) => Promise<Response> = async ({ env, request }) => {
   try {
     const { email } = await request.json().catch(() => ({} as any));
 
