@@ -90,7 +90,7 @@ export default function Studio() {
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
     const id = saveNote(payload);
-    // FIX: The saveNote function is defined to return a string, so the explicit cast is redundant.
+    // FIX: The saveNote function returns a string. The explicit `String(id)` cast was causing a type error.
     navigate(`/elysia/${id}`);
   };
 
