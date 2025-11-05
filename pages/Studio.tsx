@@ -91,7 +91,8 @@ export default function Studio() {
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
     const id = saveNote(payload);
     // FIX: The `saveNote` function returns a string, so the explicit `toString()` cast is redundant and can cause type errors in some environments.
-    navigate(`/elysia/${id}`);
+    // FIX: Explicitly convert id to a string to satisfy TypeScript, which incorrectly infers id as `string | number`.
+    navigate(`/elysia/${id.toString()}`);
   };
 
   return (
