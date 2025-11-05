@@ -118,15 +118,14 @@ export default function Studio() {
     }
     try {
       setSaving(true);
-      const id = String(
-        saveNote({
+      // FIX: The saveNote function correctly returns a string, so the explicit String() cast is redundant and can cause type errors in some environments.
+      const id = saveNote({
           title: museTitle,
           body: museNotes,
           cover: museCover || undefined,
           albumSlug: prefill.slug || undefined,
           catalogue: prefill.catalogue || undefined,
-        })
-      );
+        });
       navigate(`/elysia/${id}`);
     } finally {
       setSaving(false);

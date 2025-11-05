@@ -19,7 +19,7 @@ const ContactSection: React.FC = () => {
   const { language } = useSiteContext();
 
   return (
-    <footer id="contact" className="bg-transparent border-none text-[#CBB78A">
+    <footer id="contact" className="bg-transparent border-none text-[#CBB78A]">
       <div className="container mx-auto px-6 py-12 text-center">
         <nav aria-label="Footer Navigation" className="mb-6">
           <ul className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-xs sm:text-sm sm:gap-x-6">

@@ -1,8 +1,10 @@
 
+
 import React, { useMemo, useState } from "react";
 // FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
 import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from "@/contexts/SiteContext";
+import SubscribeForm from "./SubscribeForm";
 
 const ALBUMS_BASE = '/albums';
 type IGItem = { href: string; src: string; alt: string };
@@ -22,13 +24,6 @@ type Copy = {
   seeMoreIG: string;
   newsletter: string;
   newsletterSub: string;
-  emailPlaceholder: string;
-  subscribe: string;
-  subscribing: string;
-  subscribeSuccess: string;
-  subscribeError: string;
-  subscribeErrorTimeout: string;
-  subscribeErrorNetwork: string;
   disclaimer: string;
   pressContact: string;
   pressContactSub: string;
@@ -38,7 +33,7 @@ type Copy = {
   streaming: Record<"spotify"|"appleMusic"|"amazonMusic"|"bandcamp"|"flo"|"vibe", string>;
 };
 
-const content: Record<Lang, Copy> = {
+const content: Record<Lang, Omit<Copy, 'disclaimer'>> = {
   EN: {
     title: "In Harmony with Auralis",
     subtitle: "Closer to the music and moments of Auralis",
@@ -53,14 +48,6 @@ const content: Record<Lang, Copy> = {
     seeMoreIG: "Into the moments of light →",
     newsletter: "Newsletter",
     newsletterSub: "Quiet updates, first listens, and behind-the-scenes notes",
-    emailPlaceholder: "your@email.com",
-    subscribe: "Subscribe",
-    subscribing: "Subscribing...",
-    subscribeSuccess: "Subscribed. Thank you!",
-    subscribeError: "Subscription failed. Please try again.",
-    subscribeErrorTimeout: "Network timeout. Please try again.",
-    subscribeErrorNetwork: "Network error. Please try again.",
-    disclaimer: "No spam. Unsubscribe anytime.",
     pressContact: "Press & Contact",
     pressContactSub: "For collaborations, bookings, or licensing inquiries.",
     downloadEPK: "Download EPK (PDF)",
@@ -82,14 +69,6 @@ const content: Record<Lang, Copy> = {
     seeMoreIG: "빛의 순간으로 →",
     newsletter: "뉴스레터",
     newsletterSub: "고요한 소식, 새로운 선율, 그리고 무대 뒤의 이야기",
-    emailPlaceholder: "your@email.com",
-    subscribe: "구독하기",
-    subscribing: "구독 중...",
-    subscribeSuccess: "구독이 완료되었습니다!",
-    subscribeError: "구독에 실패했습니다. 다시 시도해주세요.",
-    subscribeErrorTimeout: "네트워크 시간이 초과되었습니다. 다시 시도해주세요.",
-    subscribeErrorNetwork: "네트워크 오류가 발생했습니다. 다시 시도해주세요.",
-    disclaimer: "스팸 없음. 언제든지 구독 취소 가능.",
     pressContact: "언론 및 연락처",
     pressContactSub: "협업, 공연, 라이선스 문의",
     downloadEPK: "EPK 다운로드 (PDF)",
@@ -117,38 +96,6 @@ const staticInstagramPosts: IGItem[] = [
 const ConnectSection: React.FC = () => {
   const { language } = useSiteContext();
   const c = useMemo(() => content[((language as Lang) || "EN")], [language]);
-
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle"|"loading"|"ok"|"error">("idle");
-  const [msg, setMsg] = useState("");
-
-  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!email) return;
-    setStatus("loading"); setMsg("");
-
-    const ctrl = new AbortController();
-    const tm = setTimeout(() => ctrl.abort(), 12000);
-
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-        signal: ctrl.signal,
-      });
-      clearTimeout(tm);
-
-      const text = await res.text();
-      let data: any = null; try { data = text ? JSON.parse(text) : null; } catch {}
-
-      if (res.ok) { setStatus("ok"); setMsg(c.subscribeSuccess); setEmail(""); }
-      else { setStatus("error"); setMsg((data&&(data.error||data.message)) || text || c.subscribeError); }
-    } catch (err:any) {
-      setStatus("error");
-      setMsg(err?.name==="AbortError" ? c.subscribeErrorTimeout : c.subscribeErrorNetwork);
-    }
-  };
 
   // 공통 칩(타원): 높이/패딩 고정 + hover 리프트 & 골드글로우
   const chip =
@@ -297,40 +244,7 @@ const ConnectSection: React.FC = () => {
           <div className={card}>
             <h3 className="text-lg font-medium text-link">{c.newsletter}</h3>
             <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-200 leading-relaxed">{c.newsletterSub}</p>
-
-            <form onSubmit={handleNewsletterSubmit} className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-              <div className="flex-grow flex items-center gap-3">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
-                  placeholder={c.emailPlaceholder}
-                  className="newsletter-input w-full rounded-full px-5 py-2.5 text-sm
-                             border bg-neutral-100 text-neutral-900 placeholder:text-neutral-500
-                             focus:outline-none focus:ring-2 focus:ring-[#CBAE7A]/60 focus:border-[#CBAE7A]
-                             dark:bg-transparent dark:text-neutral-100 dark:placeholder:text-neutral-400
-                             dark:border-white/20 dark:focus:ring-[#CBAE7A] dark:focus:border-[#CBAE7A]"
-                />
-                <button
-                  type="submit"
-                  disabled={status==="loading"}
-                  className="rounded-full px-5 py-2.5 text-sm font-medium
-                             bg-[#CBAE7A] text-[#0B0C0E] hover:bg-[#e0c995] transition-colors whitespace-nowrap disabled:opacity-70"
-                >
-                  {status==="loading" ? c.subscribing : c.subscribe}
-                </button>
-              </div>
-              {msg && (
-                <div className="w-full text-center sm:text-left sm:w-auto">
-                  <span className={`text-xs ml-2 font-medium ${status==="ok" ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
-                    {msg}
-                  </span>
-                </div>
-              )}
-            </form>
-
-            <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-300">{c.disclaimer}</p>
+            <SubscribeForm language={language as Lang} />
           </div>
 
           {/* Press & Contact — 간격 축소(한 줄) */}
