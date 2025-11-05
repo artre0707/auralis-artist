@@ -12,6 +12,8 @@ export default function CanvasTranslateButton({ getEnglishText, onDone }: Props)
 
   return (
     <div>
+      {/* Temporarily disabled as per user request */}
+      {/*
       <button
         type="button" // 폼 안에서도 submit 방지
         onClick={async () => {
@@ -24,6 +26,7 @@ export default function CanvasTranslateButton({ getEnglishText, onDone }: Props)
       >
         {loading ? "번역 중..." : "번역하기 (EN→KR)"}
       </button>
+      */}
 
       {ko && (
         <div className="mt-3 p-3 rounded border whitespace-pre-wrap text-sm">
