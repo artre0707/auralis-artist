@@ -3,7 +3,8 @@ import { useSiteContext } from '../contexts/SiteContext';
 import { albumsData } from '../data/albums';
 import Btn from './Btn';
 import SectionHeader from './SectionHeader';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 
 type Props = { albumSlug: string; showHeader?: boolean };
 

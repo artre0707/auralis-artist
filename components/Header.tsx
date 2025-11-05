@@ -1,7 +1,8 @@
 
 
 import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { useTheme } from '@/hooks/useTheme';
 import { useStarfield } from '@/hooks/useStarfield';
@@ -27,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
   const { language, toggleLanguage } = useSiteContext();
   const { theme, setTheme } = useTheme();
   const { stars, setStars } = useStarfield();
-  const location = useLocation();
+  const location = ReactRouterDOM.useLocation();
 
   const isHome = location.pathname === '/';
 
@@ -93,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
       'text-sm font-medium tracking-wider uppercase transition-colors hover:text-[var(--link)]';
 
     return (
-      <NavLink
+      <ReactRouterDOM.NavLink
         to={link.href}
         end={link.end}
         onClick={() => isMobile && setIsMenuOpen(false)}
@@ -104,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
         }
       >
         {linkContent}
-      </NavLink>
+      </ReactRouterDOM.NavLink>
     );
   };
 
@@ -114,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <NavLink
+            <ReactRouterDOM.NavLink
               to="/"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               aria-label="Auralis and ARTRE home"
@@ -123,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
               }`}
             >
               A⋅R
-            </NavLink>
+            </ReactRouterDOM.NavLink>
           </div>
 
           {/* Desktop Navigation */}

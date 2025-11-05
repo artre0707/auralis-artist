@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { ParallaxImage } from './Parallax';
 import { useReducedMotion } from 'framer-motion';
 
@@ -149,9 +150,9 @@ const PageHero: React.FC<PageHeroProps> = ({
                   {breadcrumb.map((b, i) => (
                     <li key={`${b.label}-${i}`} className="flex items-center gap-2">
                       {b.to ? (
-                        <Link to={b.to} className="underline underline-offset-4 hover:text-white">
+                        <ReactRouterDOM.Link to={b.to} className="underline underline-offset-4 hover:text-white">
                           {b.label}
-                        </Link>
+                        </ReactRouterDOM.Link>
                       ) : (
                         <span className="opacity-80">{b.label}</span>
                       )}

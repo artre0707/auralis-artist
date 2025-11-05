@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Translate API Test</title>
+<button id="btn" type="button">Test /api/translate</button>
+<pre id="out" style="white-space:pre-wrap;"></pre>
+<script>
+btn.onclick = async () => {
+  out.textContent = 'Calling...';
+  try {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: 'Hello world', source: 'en', target: 'ko', formal: 'formal' })
+    });
+    const txt = await res.text();
+    out.textContent = `HTTP ${res.status}\n` + txt;
+  } catch (e) {
+    out.textContent = 'Request failed: ' + (e?.message || e);
+  }
+};
+</script>

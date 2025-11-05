@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from '../contexts/SiteContext';
 import { albumsData } from '../data/albums';
 
@@ -35,8 +36,8 @@ const NOTEBOOK_KEY = "auralis-notebook";
 
 export default function MuseWidget() {
   const { language } = useSiteContext();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = ReactRouterDOM.useLocation();
+  const navigate = ReactRouterDOM.useNavigate();
 
   const [input, setInput] = useState("");
   const [data, setData] = useState<MuseOutput | null>(null);
@@ -301,12 +302,12 @@ Musical Elements:
 
       {albumSlug && (
         <div className="mt-10 text-center">
-          <Link
+          <ReactRouterDOM.Link
             to={`/albums/${albumSlug}`}
             className="text-xs underline text-zinc-500 hover:text-[#CBAE7A] transition"
           >
             {language === "KR" ? "← 앨범 페이지로 돌아가기" : "← Back to Album Page"}
-          </Link>
+          </ReactRouterDOM.Link>
         </div>
       )}
     </section>

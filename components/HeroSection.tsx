@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSiteContext } from '@/contexts/SiteContext';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import type { Language } from '@/App';
 
 const ALBUMS_BASE = '/albums';
@@ -121,12 +122,12 @@ const HeroSection: React.FC = () => {
           >
             Listen Now
           </a>
-          <Link
+          <ReactRouterDOM.Link
             to={ALBUMS_BASE}
             className="px-6 py-2.5 sm:px-8 sm:py-3 border border-[#CBAE7A] bg-[#CBAE7A]/20 text-xs sm:text-sm tracking-widest uppercase hover:bg-[#CBAE7A]/40 transition-colors duration-300 backdrop-blur-sm"
           >
             Explore Album
-          </Link>
+          </ReactRouterDOM.Link>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+// FIX: Changed import to wildcard to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { AnimatePresence } from 'framer-motion';
 import SiteLayout from "./pages/SiteLayout";
 import Home from "./pages/Home";
@@ -19,7 +20,7 @@ import NotFound from './pages/NotFound';
 export type Language = 'EN' | 'KR';
 
 const ScrollToTopOnRouteChange = () => {
-  const { pathname } = useLocation();
+  const { pathname } = ReactRouterDOM.useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [pathname]);
@@ -27,43 +28,43 @@ const ScrollToTopOnRouteChange = () => {
 }
 
 const AnimatedRoutes = () => {
-  const location = useLocation();
+  const location = ReactRouterDOM.useLocation();
   return (
     <AnimatePresence mode="wait">
       <RouteTransition key={location.pathname}>
-        <Routes location={location}>
+        <ReactRouterDOM.Routes location={location}>
           {/* Home */}
-          <Route index element={<Home />} />
-          <Route path="/" element={<Home />} />
+          <ReactRouterDOM.Route index element={<Home />} />
+          <ReactRouterDOM.Route path="/" element={<Home />} />
 
           {/* Albums (alias: Collections) */}
-          <Route path="/albums" element={<Albums />} />
-          <Route path="/albums/:slug" element={<AlbumDetail />} />
-          <Route path="/collections" element={<Albums />} />
-          <Route path="/collections/:slug" element={<AlbumDetail />} />
+          <ReactRouterDOM.Route path="/albums" element={<Albums />} />
+          <ReactRouterDOM.Route path="/albums/:slug" element={<AlbumDetail />} />
+          <ReactRouterDOM.Route path="/collections" element={<Albums />} />
+          <ReactRouterDOM.Route path="/collections/:slug" element={<AlbumDetail />} />
 
           {/* About / News / Magazine */}
-          <Route path="/about" element={<About />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:slug" element={<NewsArticle />} />
-          <Route path="/magazine" element={<MagazineIndex />} />
-          <Route path="/magazine/:slug" element={<MagazineArticle />} />
+          <ReactRouterDOM.Route path="/about" element={<About />} />
+          <ReactRouterDOM.Route path="/news" element={<News />} />
+          <ReactRouterDOM.Route path="/news/:slug" element={<NewsArticle />} />
+          <ReactRouterDOM.Route path="/magazine" element={<MagazineIndex />} />
+          <ReactRouterDOM.Route path="/magazine/:slug" element={<MagazineArticle />} />
 
           {/* Elysia */}
-          <Route path="/elysia" element={<ElysiaIndex />} />
-          <Route path="/elysia/:id" element={<ElysiaArticle />} />
+          <ReactRouterDOM.Route path="/elysia" element={<ElysiaIndex />} />
+          <ReactRouterDOM.Route path="/elysia/:id" element={<ElysiaArticle />} />
 
           {/* Studio */}
-          <Route path="/studio" element={<Studio />} />
-          <Route path="/studio/:tab" element={<Studio />} />
+          <ReactRouterDOM.Route path="/studio" element={<Studio />} />
+          <ReactRouterDOM.Route path="/studio/:tab" element={<Studio />} />
 
           {/* Redirect old /canvas paths */}
-          <Route path="/canvas" element={<Navigate to="/studio" replace />} />
-          <Route path="/canvas/:tab" element={<Navigate to="/studio/:tab" replace />} />
+          <ReactRouterDOM.Route path="/canvas" element={<ReactRouterDOM.Navigate to="/studio" replace />} />
+          <ReactRouterDOM.Route path="/canvas/:tab" element={<ReactRouterDOM.Navigate to="/studio/:tab" replace />} />
 
           {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+          <ReactRouterDOM.Route path="*" element={<NotFound />} />
+        </ReactRouterDOM.Routes>
       </RouteTransition>
     </AnimatePresence>
   );
@@ -71,12 +72,12 @@ const AnimatedRoutes = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <ReactRouterDOM.HashRouter>
       <ScrollToTopOnRouteChange />
       <SiteLayout>
         <AnimatedRoutes />
       </SiteLayout>
-    </HashRouter>
+    </ReactRouterDOM.HashRouter>
   );
 }
 

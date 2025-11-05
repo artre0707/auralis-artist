@@ -1,7 +1,8 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { news } from '@/data/news';
-import { useLocation } from 'react-router-dom'; // ✅ 추가
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 
 const content = {
   EN: 'NEW • Resonance: After the First Suite — Out now →',
@@ -32,7 +33,7 @@ const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ isVisible, onClose })
   const [fadeIn, setFadeIn] = useState(false);
   const [scrollFade, setScrollFade] = useState(1);
 
-  const { pathname } = useLocation();             // ✅ 현재 경로
+  const { pathname } = ReactRouterDOM.useLocation();             // ✅ 현재 경로
   const isHome = pathname === '/';                // ✅ 홈 여부
 
   const href = useMemo(() => {

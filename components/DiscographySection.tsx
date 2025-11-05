@@ -1,7 +1,8 @@
 
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { albumsData } from '@/data/albums';
 import SectionHeader from '@/components/SectionHeader';
@@ -29,7 +30,7 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
   const albumContent = album.content[language];
 
   return (
-    <Link
+    <ReactRouterDOM.Link
       to={`/albums/${album.slug}`}
       className="
         group block text-center 
@@ -82,13 +83,13 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
           {albumContent.subtitle}
         </p>
       </div>
-    </Link>
+    </ReactRouterDOM.Link>
   );
 };
 
 const DiscographySection: React.FC<{showTitle?: boolean}> = ({ showTitle = true }) => {
   const { language } = useSiteContext();
-  const location = useLocation();
+  const location = ReactRouterDOM.useLocation();
   const isAlbumsPage = location.pathname === '/albums' || location.pathname === '/collections';
 
   const currentContent = content[language];
@@ -169,12 +170,12 @@ const DiscographySection: React.FC<{showTitle?: boolean}> = ({ showTitle = true 
 
         {!isAlbumsPage && (
           <div className="text-center mt-12">
-            <Link to={ALBUMS_BASE} className={BUTTON_PILL}>
+            <ReactRouterDOM.Link to={ALBUMS_BASE} className={BUTTON_PILL}>
               <span className="relative z-10 inline-flex items-center gap-1">
                 <span>{labelText}</span>
                 <span aria-hidden className="arrow">→</span>
               </span>
-            </Link>
+            </ReactRouterDOM.Link>
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSiteContext } from '../contexts/SiteContext';
 import PageContainer from "../components/PageContainer";
@@ -38,7 +39,7 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => {
       transition={{ duration: 0.5 }}
       className="rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--card)] backdrop-blur shadow-sm hover:shadow-md transition-shadow group"
     >
-      <Link to={`/magazine/${article.slug}`} className="block">
+      <ReactRouterDOM.Link to={`/magazine/${article.slug}`} className="block">
         {article.cover && (
           <div className="relative aspect-[16/9] overflow-hidden">
             <img
@@ -66,7 +67,7 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => {
             <p className="mt-1 text-sm text-subtle line-clamp-2">{articleContent.dek}</p>
           )}
         </div>
-      </Link>
+      </ReactRouterDOM.Link>
     </motion.article>
   );
 };
@@ -74,27 +75,15 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => {
 export default function MagazineIndex() {
   const { language } = useSiteContext();
   const c = content[language];
+  const [sort, setSort] = useState<'new' | 'old'>('new');
 
-  const [params, setParams] = useSearchParams();
-  const sort = params.get("sort") || "desc"; // desc=newest
-
-  // filtering logic
-  const filtered = useMemo(() => {
-    // sort by date
-    const sorted = [...articles].sort((a, b) => {
-      const da = new Date(a.date || 0).getTime();
-      const db = new Date(b.date || 0).getTime();
-      return sort === "asc" ? da - db : db - da;
+  const sortedArticles = useMemo(() => {
+    return [...articles].sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0;
+      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      return sort === 'new' ? dateB - dateA : dateA - dateB;
     });
-
-    return sorted;
   }, [sort]);
-
-  function updateParam(key: string, value: string) {
-    const next = new URLSearchParams(params);
-    if (value) next.set(key, value); else next.delete(key);
-    setParams(next, { replace: true });
-  }
 
   return (
     <PageContainer>
@@ -105,32 +94,40 @@ export default function MagazineIndex() {
           align="center"
           goldTitle
           divider="none"
-          size="md"
         />
 
-        <div className="mb-12 flex justify-center">
-            <label className="flex items-center gap-2 text-sm text-subtle">
-              <span>{c.sort}</span>
-              <select
-                value={sort}
-                onChange={(e) => updateParam("sort", e.target.value)}
-                className="rounded-full border border-[var(--border)] bg-[var(--card)] px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
-                aria-label={c.sort}
-              >
-                <option value="desc">{c.sortNew}</option>
-                <option value="asc">{c.sortOld}</option>
-              </select>
-            </label>
+        <div className="my-8 flex justify-center items-center gap-2">
+          <span className="text-sm text-subtle">{c.sort}:</span>
+          <button
+            onClick={() => setSort('new')}
+            className={`px-3 py-1 text-sm rounded-full transition ${
+              sort === 'new'
+                ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200'
+                : 'text-subtle hover:bg-neutral-100 dark:hover:bg-neutral-800'
+            }`}
+          >
+            {c.sortNew}
+          </button>
+          <button
+            onClick={() => setSort('old')}
+            className={`px-3 py-1 text-sm rounded-full transition ${
+              sort === 'old'
+                ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200'
+                : 'text-subtle hover:bg-neutral-100 dark:hover:bg-neutral-800'
+            }`}
+          >
+            {c.sortOld}
+          </button>
         </div>
 
-        {filtered.length === 0 ? (
-          <div className="text-center text-sm text-subtle py-16">{c.noArticles}</div>
-        ) : (
+        {sortedArticles.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filtered.map((a) => (
-              <ArticleCard key={a.slug} article={a} />
+            {sortedArticles.map(article => (
+              <ArticleCard key={article.slug} article={article} />
             ))}
           </div>
+        ) : (
+          <p className="py-16 text-center text-subtle">{c.noArticles}</p>
         )}
       </main>
     </PageContainer>

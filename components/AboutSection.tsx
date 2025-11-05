@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import type { Language } from '../App';
 
@@ -84,7 +85,7 @@ const AboutSection: React.FC = () => {
           <span className={language === 'KR' ? 'font-noto-kr' : ''}>{currentContent.text}</span>
 
           {/* 미니 버튼 */}
-          <Link
+          <ReactRouterDOM.Link
             to="/about"
             className={`${BUTTON_INLINE} ml-2`}
             aria-label={language === 'EN' ? 'Read about Auralis' : '오랄리스 소개 페이지로'}
@@ -97,7 +98,7 @@ const AboutSection: React.FC = () => {
               <span>{labelText}</span>
               <span aria-hidden className="arrow">→</span>
             </span>
-          </Link>
+          </ReactRouterDOM.Link>
         </p>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 
 const ALBUMS_BASE = '/albums';
@@ -24,12 +25,12 @@ const ContactSection: React.FC = () => {
           <ul className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-xs sm:text-sm sm:gap-x-6">
             {navLinks.map(link => (
               <li key={link.href}>
-                <Link 
+                <ReactRouterDOM.Link 
                   to={link.href} 
                   className="text-subtle text-link-hover transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded"
                 >
                   {language === 'EN' ? link.en : link.kr}
-                </Link>
+                </ReactRouterDOM.Link>
               </li>
             ))}
           </ul>

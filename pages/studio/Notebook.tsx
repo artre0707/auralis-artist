@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useSiteContext } from '../../contexts/SiteContext';
-import { useNavigate } from "react-router-dom";
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 
 export type Note = {
   id: string;
@@ -23,7 +24,7 @@ export default function NotebookSection() {
   const { language } = useSiteContext();
   const [items, setItems] = useState<Note[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const navigate = ReactRouterDOM.useNavigate();
 
   useEffect(() => {
     try {

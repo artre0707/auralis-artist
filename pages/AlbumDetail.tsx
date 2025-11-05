@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import AlbumBadges from '../components/AlbumBadges';
 import { albumsData, Track, Album } from '../data/albums';
@@ -115,12 +116,12 @@ const Breadcrumb: React.FC<{ title: string }> = ({ title }) => {
   return (
     <nav aria-label="Breadcrumb" className="text-xs sm:text-sm text-subtle">
       <ol className="flex items-center gap-2 sm:gap-3">
-        <li><Link to="/" className="text-link-hover">{c.home}</Link></li>
+        <li><ReactRouterDOM.Link to="/" className="text-link-hover">{c.home}</ReactRouterDOM.Link></li>
         <li className="opacity-60">/</li>
         <li className="min-w-0">
-          <Link to="/albums" className="text-link-hover whitespace-nowrap truncate max-w-[8.5rem] sm:max-w-none">
+          <ReactRouterDOM.Link to="/albums" className="text-link-hover whitespace-nowrap truncate max-w-[8.5rem] sm:max-w-none">
             {c.collections}
-          </Link>
+          </ReactRouterDOM.Link>
         </li>
         <li className="opacity-60">/</li>
         <li className="min-w-0">
@@ -467,7 +468,7 @@ const PresaveButton: React.FC<{ url?: string; isKR: boolean }> = ({ url, isKR })
 
 /* ───────────── main */
 const AlbumDetail: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } = ReactRouterDOM.useParams<{ slug: string }>();
   const { language } = useSiteContext();
   const c = pageContent[language];
 
@@ -477,7 +478,7 @@ const AlbumDetail: React.FC = () => {
         <div className="min-h-screen text-center px-4 pt-16">
           <h1 className="auralis-hero-title text-4xl md:text-5xl font-medium tracking-tight mb-4">{c.notFoundTitle}</h1>
           <p className="text-subtle">{c.notFoundBody}</p>
-          <Link to="/albums" className="text-link mt-6 inline-block">{c.backToAlbums}</Link>
+          <ReactRouterDOM.Link to="/albums" className="text-link mt-6 inline-block">{c.backToAlbums}</ReactRouterDOM.Link>
         </div>
       </PageContainer>
     );
@@ -495,7 +496,7 @@ const AlbumDetail: React.FC = () => {
         <div className="min-h-screen text-center px-4 pt-16">
           <h1 className="auralis-hero-title text-4xl md:text-5xl font-medium tracking-tight mb-4">{c.notFoundTitle}</h1>
           <p className="text-subtle">{c.notFoundBody}</p>
-          <Link to="/albums" className="text-link mt-6 inline-block">{c.backToAlbums}</Link>
+          <ReactRouterDOM.Link to="/albums" className="text-link mt-6 inline-block">{c.backToAlbums}</ReactRouterDOM.Link>
         </div>
       </PageContainer>
     );

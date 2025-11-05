@@ -1,11 +1,12 @@
 // pages/studio/Muse.tsx
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from '../../contexts/SiteContext';
 import type { Note as NotebookNote } from "./Notebook";
 import { albumsData } from "../../data/albums";
-import { useTranslate } from "../../hooks/useTranslate";
+import CanvasTranslateButton from "../../components/CanvasTranslateButton";
 
 const MotionSection = motion.section;
 
@@ -33,7 +34,6 @@ type Props = {
 
 export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Props) {
   const { language, museSeed } = useSiteContext();
-  const { translateText, loading: translationLoading } = useTranslate();
 
   const [input, setInput] = useState("");
   const [data, setData] = useState<MuseOutputWithKR | null>(null);
@@ -80,32 +80,6 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
     if (!data) return;
     navigator.clipboard.writeText(buildPlainText(data)).catch(()=>{});
   }
-
-  const handleTranslateToKR = async () => {
-    if (!data) return;
-    
-    const [
-        titleKR, moodKR, instrumentationKR, conceptKR,
-        motifKR, harmonyKR, tempoKR, dynamicsKR
-    ] = await Promise.all([
-        translateText(data.title, "EN", "KR"),
-        translateText(data.mood, "EN", "KR"),
-        translateText(data.instrumentation, "EN", "KR"),
-        translateText(data.concept, "EN", "KR"),
-        translateText(data.musicalElements.motif, "EN", "KR"),
-        translateText(data.musicalElements.harmony, "EN", "KR"),
-        translateText(data.musicalElements.tempo, "EN", "KR"),
-        translateText(data.musicalElements.dynamics, "EN", "KR"),
-    ]);
-
-    setData(prev => prev ? {
-        ...prev,
-        titleKR, moodKR, instrumentationKR, conceptKR,
-        musicalElementsKR: {
-            motif: motifKR, harmony: harmonyKR, tempo: tempoKR, dynamics: dynamicsKR
-        }
-    } : null);
-  };
 
   const handleSendToNotebook = () => {
     if (!data) return;
@@ -165,18 +139,18 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
 
       {/* Studio Quick Nav */}
       <div className="mb-6 flex items-center gap-2">
-        <Link
+        <ReactRouterDOM.Link
           to="/studio/collab"
           className="inline-flex items-center gap-2 rounded-full px-4 py-2 ring-1 ring-[var(--accent)]/40 text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-colors"
         >
           🤝 Collab
-        </Link>
-        <Link
+        </ReactRouterDOM.Link>
+        <ReactRouterDOM.Link
           to="/studio/colorboard"
           className="inline-flex items-center gap-2 rounded-full px-4 py-2 ring-1 ring-[var(--border)] hover:bg-white/60 dark:hover:bg-white/10 transition-colors text-subtle"
         >
           🎨 Colorboard
-        </Link>
+        </ReactRouterDOM.Link>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-3">
@@ -228,9 +202,6 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-serif text-gradient-auralis post-title">{data.title}</h3>
             <div className="flex items-center gap-2">
-              <button onClick={handleTranslateToKR} disabled={translationLoading} className="text-xs rounded-md px-3 py-1.5 bg-[#CBAE7A] text-white hover:opacity-95 disabled:opacity-60">
-                {translationLoading ? c.translating : c.translate}
-              </button>
               <button onClick={handleSendToNotebook} className="text-xs rounded-md px-3 py-1.5 bg-amber-600 text-white hover:opacity-90">{c.saveToNotebook}</button>
               <button onClick={handlePublish} className="text-xs rounded-md px-3 py-1.5 bg-amber-100 text-amber-800 hover:bg-amber-200 transition">{c.publish}</button>
               <button onClick={copyAll} className="text-xs rounded-md px-3 py-1.5 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">{c.copy}</button>
@@ -262,11 +233,15 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
             </ul>
           </div>
 
+          <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-700">
+            <CanvasTranslateButton getEnglishText={() => buildPlainText(data)} />
+          </div>
+
           {museSeed?.meta?.albumKey && (
             <div className="mt-10 text-center">
-              <Link to={`/albums/${museSeed.meta.albumKey}`} className="text-xs underline text-zinc-500 hover:text-[#CBAE7A] transition">
+              <ReactRouterDOM.Link to={`/albums/${museSeed.meta.albumKey}`} className="text-xs underline text-zinc-500 hover:text-[#CBAE7A] transition">
                 {language === "KR" ? "← 앨범 페이지로 돌아가기" : "← Back to Album Page"}
-              </Link>
+              </ReactRouterDOM.Link>
             </div>
           )}
         </MotionSection>

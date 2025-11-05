@@ -1,6 +1,7 @@
 // pages/Studio.tsx
 import React, { useEffect, useMemo } from "react";
-import { useSearchParams, useNavigate, useLocation, useParams, NavLink, Link } from "react-router-dom";
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import PageContainer from "../components/PageContainer";
 import PageHero from "../components/PageHero";
 import { useSiteContext } from "../contexts/SiteContext";
@@ -47,10 +48,10 @@ const labels = {
 export default function Studio() {
   const { language, setMuseSeed } = useSiteContext();
   const L = labels[language];
-  const [params, setParams] = useSearchParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { tab: tabFromParam } = useParams<{ tab?: string }>();
+  const [params, setParams] = ReactRouterDOM.useSearchParams();
+  const navigate = ReactRouterDOM.useNavigate();
+  const location = ReactRouterDOM.useLocation();
+  const { tab: tabFromParam } = ReactRouterDOM.useParams<{ tab?: string }>();
 
   const tab: Tab = useMemo(() => {
     const rawTab = tabFromParam || params.get('tab') || 'Muse';
@@ -88,8 +89,9 @@ export default function Studio() {
 
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
-    // FIX: The type checker was incorrectly inferring `id` as `string | number`. The root cause was in `saveNote`. With that fixed, this now works correctly without extra casts or type annotations.
-    const id = saveNote(payload);
+    // FIX: The `saveNote` function's return type is inferred as `string | number`,
+    // which causes a type error. Explicitly cast the result to a string.
+    const id = String(saveNote(payload));
     navigate(`/elysia/${id}`);
   };
 
@@ -101,7 +103,7 @@ export default function Studio() {
         {/* Tab Navigation */}
         <nav className="-mt-4 mb-10 flex justify-center gap-6 text-sm">
           {TABS.map((t) => (
-            <NavLink
+            <ReactRouterDOM.NavLink
               key={t}
               to={t === 'Muse' ? '/studio' : `/studio/${t.toLowerCase()}`}
               end={t === 'Muse'}
@@ -112,7 +114,7 @@ export default function Studio() {
               }`}
             >
               {L.tabs[t as keyof typeof L.tabs]}
-            </NavLink>
+            </ReactRouterDOM.NavLink>
           ))}
         </nav>
 
@@ -134,12 +136,12 @@ export default function Studio() {
           <>
             <NotebookSection />
             <div className="mt-8 flex justify-center">
-              <Link
+              <ReactRouterDOM.Link
                 to="/elysia"
                 className="rounded-full px-4 py-2 border border-[var(--border)] hover:border-amber-300/70 text-sm"
               >
                 {L.ctas.toReaders}
-              </Link>
+              </ReactRouterDOM.Link>
             </div>
           </>
         )}

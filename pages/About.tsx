@@ -4,7 +4,8 @@ import PageContainer from '@/components/PageContainer';
 import PageHero from '@/components/PageHero';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { motion, Variants } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import clsx from 'clsx';
 
 type Lang = 'EN' | 'KR';
@@ -73,7 +74,7 @@ const fadeUp: Variants = {
 
 export default function About() {
   const { language } = useSiteContext();
-  const navigate = useNavigate();
+  const navigate = ReactRouterDOM.useNavigate();
   const lang = (language as Lang) || 'EN';
   const c = copy[lang];
 

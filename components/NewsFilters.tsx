@@ -29,8 +29,8 @@ export default function NewsFilters({ tags, years }: Props) {
   };
 
   const [open, setOpen] = useState<{ search: boolean; year: boolean; tag: boolean }>({
-    search: false,
-    year: false,
+    search: true,
+    year: true,
     tag: true,
   });
 

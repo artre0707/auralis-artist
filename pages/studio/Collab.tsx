@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from "../../contexts/SiteContext";
 import Modal from "../../components/Modal";
 import { AnimatePresence, motion } from "framer-motion";
@@ -421,7 +422,7 @@ const CollabSection: React.FC = () => {
   const [threads, setThreads] = useState<Thread[]>([]);
   const { userName: currentUser, setUserName: setCurrentUser } = useUserName();
   const [form, setForm] = useState<Partial<Omit<Thread, 'id' | 'createdAt' | 'author'>>>({});
-  const [params] = useSearchParams();
+  const [params] = ReactRouterDOM.useSearchParams();
 
   useEffect(() => {
     try {

@@ -1,6 +1,7 @@
 
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from "@/contexts/SiteContext";
 
 const ALBUMS_BASE = '/albums';
@@ -226,12 +227,12 @@ const ConnectSection: React.FC = () => {
 
             <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-300">
               {c.newestRelease}{" "}
-              <Link
+              <ReactRouterDOM.Link
                 to={`${ALBUMS_BASE}/resonance-after-the-first-suite`}
                 className="underline underline-offset-4 text-link-hover dark:text-neutral-200"
               >
                 Resonance: After the First Suite
-              </Link>
+              </ReactRouterDOM.Link>
             </p>
           </div>
         </div>

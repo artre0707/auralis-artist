@@ -2,7 +2,7 @@
 
 // ---- Types ----
 export interface ElysiaNote {
-  id: string;                 // 항상 string
+  id: string;                 // ✅ 항상 string
   title: string;
   body?: string;
   cover?: string;
@@ -12,10 +12,16 @@ export interface ElysiaNote {
   likes: number;
   featured: boolean;
   author?: string;
+
+  // KR 번역 필드(선택)
   titleKR?: string;
   bodyKR?: string;
+
+  // 섹션형 본문(선택)
   sections?: { label: string; text: string }[];
   sectionsKR?: { label: string; text: string }[];
+
+  // 메타데이터(선택)
   meta?: {
     albumKey?: string;
     sourceTitle?: string;
@@ -23,12 +29,13 @@ export interface ElysiaNote {
     slug?: string;
     catalogNo?: string;
   };
-  // Legacy fields for migration
+
+  // 구버전 호환
   musicTitle?: string;
   musicUrl?: string;
 }
 
-const STORAGE_KEY = 'elysia:notes';
+const STORAGE_KEY = "elysia:notes";
 
 // ---- Helpers ----
 function readAll(): ElysiaNote[] {
@@ -46,26 +53,26 @@ function writeAll(notes: ElysiaNote[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
 }
 
-// ---- API ----
+// ---- Public APIs ----
 export function getAllNotes(): ElysiaNote[] {
   return readAll();
 }
 
 export function getNote(id: string): ElysiaNote | null {
-  return readAll().find(n => n.id === id) ?? null;
+  return readAll().find((n) => n.id === id) ?? null;
 }
 
-// FIX: `saveNote` must always return a string. The `Date.now()` fallback returned a number, causing a type error. It is now converted to a string, and the function's return type is explicitly set to `string`.
+/**
+ * 새 노트를 저장하고 ID(string)를 반환
+ */
 export function saveNote(
-  note: Omit<ElysiaNote, 'id' | 'createdAt' | 'likes' | 'featured'>
+  note: Omit<ElysiaNote, "id" | "createdAt" | "likes" | "featured">
 ): string {
-  let id: string;
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    id = crypto.randomUUID();
-  } else {
-    // FIX: Date.now() returns a number. It must be converted to a string.
-    id = Date.now().toString(36);
-  }
+  // ✅ 항상 문자열 ID 생성
+  const id =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : Date.now().toString(36);
 
   const newNote: ElysiaNote = {
     id,
@@ -83,38 +90,34 @@ export function saveNote(
     sections: note.sections,
     sectionsKR: note.sectionsKR,
     meta: note.meta,
+    musicTitle: note.musicTitle,
+    musicUrl: note.musicUrl,
   };
 
   const all = readAll();
   writeAll([newNote, ...all]);
-  return id;
+  return id; // ✅ string 보장
 }
 
 export function likeNote(id: string): number {
   const all = readAll();
-  const idx = all.findIndex(n => n.id === id);
+  const idx = all.findIndex((n) => n.id === id);
   if (idx === -1) return 0;
-  all[idx] = { ...all[idx], likes: (all[idx].likes ?? 0) + 1 };
+  const likes = (all[idx].likes ?? 0) + 1;
+  all[idx] = { ...all[idx], likes };
   writeAll(all);
-  return all[idx].likes;
+  return likes;
 }
 
 export function updateNote(
   id: string,
-  patch: Partial<Omit<ElysiaNote, 'id' | 'createdAt'>>
+  patch: Partial<Omit<ElysiaNote, "id" | "createdAt">>
 ): ElysiaNote | null {
   const all = readAll();
-  const idx = all.findIndex(n => n.id === id);
+  const idx = all.findIndex((n) => n.id === id);
   if (idx === -1) return null;
   const updated = { ...all[idx], ...patch };
   all[idx] = updated;
   writeAll(all);
   return updated;
-}
-
-export function deleteNote(id: string): boolean {
-  const all = readAll();
-  const next = all.filter(n => n.id !== id);
-  writeAll(next);
-  return next.length !== all.length;
 }

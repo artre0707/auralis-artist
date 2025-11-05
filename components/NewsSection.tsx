@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 
 const ALBUMS_BASE = '/albums';
 
 const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) => {
   const { language } = useSiteContext();
-  const navigate = useNavigate();
+  const navigate = ReactRouterDOM.useNavigate();
 
   const newsSlug = 'resonance-after-the-first-suite-out-now';
 
@@ -159,7 +160,7 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3 items-center" data-no-card>
-              <Link
+              <ReactRouterDOM.Link
                 to={`${ALBUMS_BASE}/resonance-after-the-first-suite`}
                 onClick={stop}
                 className={BUTTON_PILL}
@@ -167,7 +168,7 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
                 <span className="relative z-10">
                   {language === 'EN' ? 'Embrace the Album' : '앨범과 마주하다'}
                 </span>
-              </Link>
+              </ReactRouterDOM.Link>
 
               <a
                 href={listenHref}
