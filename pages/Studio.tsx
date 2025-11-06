@@ -7,6 +7,7 @@ import PageHero from "../components/PageHero";
 import { useSiteContext } from "../contexts/SiteContext";
 import { albumsData } from '../data/albums';
 import { albumToMuseSeed } from '../utils/albumToMuseSeed';
+import { trackMetaEvent } from '@/utils/metaPixel';
 
 // Sections
 import MuseSection from "./studio/Muse";
@@ -53,6 +54,11 @@ export default function Studio() {
   const location = ReactRouterDOM.useLocation();
   const { tab: tabFromParam } = ReactRouterDOM.useParams<{ tab?: string }>();
 
+  // Track page visit
+  useEffect(() => {
+    trackMetaEvent('VisitElysia');
+  }, []);
+
   const tab: Tab = useMemo(() => {
     const rawTab = tabFromParam || params.get('tab') || 'Muse';
     const normalized = rawTab.charAt(0).toUpperCase() + rawTab.slice(1).toLowerCase();
@@ -90,6 +96,7 @@ export default function Studio() {
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
     // FIX: The `saveNote` function returns a `NoteID` (string), so the explicit `String()` cast was redundant and causing a type error.
+    // FIX: The `saveNote` function was being inferred as returning `string | number`, causing a type error. Explicitly casting to String resolves this.
     const id: NoteID = String(saveNote(payload));
     navigate(`/elysia/${id}`);
   };

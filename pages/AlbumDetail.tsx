@@ -13,6 +13,7 @@ import Btn from '../components/Btn';
 import WhispersOfTheHeart from '../components/WhispersOfTheHeart';
 import WhispersOfTheHeartKR from '../components/WhispersOfTheHeartKR';
 import { ParallaxImage } from '../components/Parallax';
+import { trackMetaEvent } from '@/utils/metaPixel';
 
 type AlbumKey = keyof typeof albumsData;
 const MotionDiv = motion.div;
@@ -541,13 +542,14 @@ const AlbumDetail: React.FC = () => {
         variant="primaryGlow"
         size="md"
         arrow
+        onClick={() => trackMetaEvent('PlayMusic', { platform: 'SmartLink', track: album.title })}
       >
         {c.buttonLabels.listenNow}
       </Btn>
 
       {/* 플랫폼 버튼들은 기존 그대로 */}
       {album.links?.spotify ? (
-        <Btn href={album.links.spotify} variant="outlineGhost" size="md" arrow={false}>
+        <Btn href={album.links.spotify} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Spotify', track: album.title })}>
           {c.buttonLabels.spotify}
         </Btn>
       ) : (
@@ -557,7 +559,7 @@ const AlbumDetail: React.FC = () => {
       )}
 
       {album.links?.appleMusic ? (
-        <Btn href={album.links.appleMusic} variant="outlineGhost" size="md" arrow={false}>
+        <Btn href={album.links.appleMusic} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music', track: album.title })}>
           {c.buttonLabels.appleMusic}
         </Btn>
       ) : (
@@ -567,7 +569,7 @@ const AlbumDetail: React.FC = () => {
       )}
 
       {album.links?.youtube ? (
-        <Btn href={album.links.youtube} variant="outlineGhost" size="md" arrow={false}>
+        <Btn href={album.links.youtube} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'YouTube', track: album.title })}>
           {c.buttonLabels.youtube}
         </Btn>
       ) : (
@@ -577,7 +579,7 @@ const AlbumDetail: React.FC = () => {
       )}
 
       {album.links?.flo ? (
-        <Btn href={album.links.flo} variant="outlineGhost" size="md" arrow={false}>
+        <Btn href={album.links.flo} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'FLO', track: album.title })}>
           {c.buttonLabels.flo}
         </Btn>
       ) : (
@@ -587,7 +589,7 @@ const AlbumDetail: React.FC = () => {
       )}
 
       {album.links?.bandcamp ? (
-        <Btn href={album.links.bandcamp} variant="outlineGhost" size="md" arrow={false}>
+        <Btn href={album.links.bandcamp} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Bandcamp', track: album.title })}>
           {c.buttonLabels.bandcamp}
         </Btn>
       ) : (

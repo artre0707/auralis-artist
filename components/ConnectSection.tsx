@@ -5,6 +5,7 @@ import React, { useMemo, useState } from "react";
 import * as ReactRouterDOM from "react-router-dom";
 import { useSiteContext } from "@/contexts/SiteContext";
 import SubscribeForm from "./SubscribeForm";
+import { trackMetaEvent } from "@/utils/metaPixel";
 
 const ALBUMS_BASE = '/albums';
 type IGItem = { href: string; src: string; alt: string };
@@ -154,17 +155,17 @@ const ConnectSection: React.FC = () => {
             <p className="mt-1 text-sm text-neutral-400 dark:text-neutral-200 leading-relaxed">{c.listenSub}</p>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <a href="https://open.spotify.com/artist/48Y3hooTTdatHfOBLCQRDP" target="_blank" rel="noopener noreferrer" className={chipFull}>
+              <a href="https://open.spotify.com/artist/48Y3hooTTdatHfOBLCQRDP" target="_blank" rel="noopener noreferrer" className={chipFull} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Spotify', track: 'Artist Profile' })}>
                 {c.streaming.spotify}
               </a>
-              <a href="https://music.apple.com/kr/artist/auralis/49597004" target="_blank" rel="noopener noreferrer" className={chipFull}>{c.streaming.appleMusic}</a>
+              <a href="https://music.apple.com/kr/artist/auralis/49597004" target="_blank" rel="noopener noreferrer" className={chipFull} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music', track: 'Artist Profile' })}>{c.streaming.appleMusic}</a>
               <a tabIndex={-1} aria-disabled="true" className={`${chipFull} opacity-70 cursor-not-allowed`}>
                 {c.streaming.amazonMusic}
               </a>
-              <a href="https://auralis-official.bandcamp.com/album/resonance-after-the-first-suite" target="_blank" rel="noopener noreferrer" className={chipFull}>
+              <a href="https://auralis-official.bandcamp.com/album/resonance-after-the-first-suite" target="_blank" rel="noopener noreferrer" className={chipFull} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Bandcamp', track: 'Resonance: After the First Suite' })}>
                 {c.streaming.bandcamp}
               </a>
-              <a href="https://www.music-flo.com/detail/artist/412675301/track?sortType=POPULARITY&roleType=ALL" target="_blank" rel="noopener noreferrer" className={chipFull}>
+              <a href="https://www.music-flo.com/detail/artist/412675301/track?sortType=POPULARITY&roleType=ALL" target="_blank" rel="noopener noreferrer" className={chipFull} onClick={() => trackMetaEvent('PlayMusic', { platform: 'FLO', track: 'Artist Profile' })}>
                 {c.streaming.flo}
               </a>
               <a tabIndex={-1} aria-disabled="true" className={`${chipFull} opacity-70 cursor-not-allowed`}>
@@ -188,7 +189,7 @@ const ConnectSection: React.FC = () => {
         <div className="space-y-6">
           {/* Hero */}
           <div className={card + " overflow-hidden"}>
-            <a href="https://www.youtube.com/@auralis.artist" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.youtube.com/@auralis.artist" target="_blank" rel="noopener noreferrer" onClick={() => trackMetaEvent('PlayMusic', { platform: 'YouTube', track: 'Artist Channel' })}>
               <div className="aspect-[4/3] w-full overflow-hidden">
                 <img
                   src="https://picsum.photos/seed/yt-teaser/800/600"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import { getAllNotes, likeNote, ElysiaNote } from "../../services/magazineStore";
@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useSiteContext } from "../../contexts/SiteContext";
 import PageHero from "../../components/PageHero";
 import { useTheme } from "../../hooks/useTheme";
+import { trackMetaEvent } from "@/utils/metaPixel";
 
 const intro = {
   EN: {
@@ -30,6 +31,10 @@ export default function ElysiaIndex() {
       return [];
     }
   });
+
+  useEffect(() => {
+    trackMetaEvent('VisitElysia');
+  }, []);
 
   const handleLike = (id: string) => {
     if (likedIds.includes(id)) return;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { trackMetaEvent } from "@/utils/metaPixel";
 
 type Lang = "EN" | "KR";
 interface Props {
@@ -91,6 +92,7 @@ const SubscribeForm: React.FC<Props> = ({ language }) => {
       setState("ok");
       setMsg(t.success);
       setEmail("");
+      trackMetaEvent('SubscribeNewsletter');
     } catch {
       setState("err");
       setMsg(t.unknownError);

@@ -4,6 +4,7 @@ import React from 'react';
 // FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
 import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
+import { trackMetaEvent } from '@/utils/metaPixel';
 
 const ALBUMS_BASE = '/albums';
 
@@ -173,7 +174,10 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
 
               <a
                 href={listenHref}
-                onClick={stop}
+                onClick={(e) => {
+                  stop(e);
+                  trackMetaEvent('PlayMusic', { platform: 'SmartLink', track: 'Resonance: After the First Suite' });
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={BUTTON_PILL}
@@ -185,7 +189,10 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
 
               <a
                 href={watchHref}
-                onClick={stop}
+                onClick={(e) => {
+                  stop(e);
+                  trackMetaEvent('PlayMusic', { platform: 'YouTube', track: 'Resonance: After the First Suite' });
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={BUTTON_PILL}
