@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 // FIX: Changed react-router-dom imports to use a wildcard import to resolve module export errors.
 import * as ReactRouterDOM from 'react-router-dom';
@@ -14,7 +15,7 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
 
   // 외부 링크
   const LISTEN_BASE = 'https://auralis.bfan.link/resonance-after-the-first-suite-2';
-  const YT_PLAYLIST  = 'https://www.youtube.com/playlist?list=PLDNrR1uLGhzLYbFroTDlebSQmHtuJYtwC';
+  const YT_PLAYLIST  = 'https://www.youtube.com/@auralis.artist';
   const listenHref = `${LISTEN_BASE}?utm_source=site&utm_medium=news_card&utm_campaign=resonance_release&utm_content=listen_button`;
   const watchHref  = `${YT_PLAYLIST}?utm_source=site&utm_medium=news_card&utm_campaign=resonance_release&utm_content=youtube_button`;
 
