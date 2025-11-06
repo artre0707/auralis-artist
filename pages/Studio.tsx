@@ -16,7 +16,7 @@ import Colorboard from "./studio/Colorboard";
 
 
 // Newly added magazine storage utility
-import { saveNote, ElysiaNote } from "../services/magazineStore";
+import { saveNote, ElysiaNote, NoteID } from "../services/magazineStore";
 
 type AlbumKey = keyof typeof albumsData;
 
@@ -89,8 +89,8 @@ export default function Studio() {
 
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
-    const id = saveNote(payload);
-    // FIX: The `saveNote` function returns a string, so it can be used directly. The explicit `String()` cast was causing a type error.
+    // FIX: The `saveNote` function returns a `NoteID` (string), so the explicit `String()` cast was redundant and causing a type error.
+    const id: NoteID = saveNote(payload);
     navigate(`/elysia/${id}`);
   };
 

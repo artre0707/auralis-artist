@@ -1,8 +1,10 @@
 // services/magazineStore.ts
 
 // ---- Types ----
+export type NoteID = string;
+
 export interface ElysiaNote {
-  id: string;                 // ✅ 항상 string
+  id: NoteID;                 // ✅ 항상 string
   title: string;
   body?: string;
   cover?: string;
@@ -58,7 +60,7 @@ export function getAllNotes(): ElysiaNote[] {
   return readAll();
 }
 
-export function getNote(id: string): ElysiaNote | null {
+export function getNote(id: NoteID): ElysiaNote | null {
   return readAll().find((n) => n.id === id) ?? null;
 }
 
@@ -67,7 +69,7 @@ export function getNote(id: string): ElysiaNote | null {
  */
 export function saveNote(
   note: Omit<ElysiaNote, "id" | "createdAt" | "likes" | "featured">
-): string {
+): NoteID {
   // ✅ 항상 문자열 ID 생성
   const id =
     typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -99,7 +101,7 @@ export function saveNote(
   return id; // ✅ string 보장
 }
 
-export function likeNote(id: string): number {
+export function likeNote(id: NoteID): number {
   const all = readAll();
   const idx = all.findIndex((n) => n.id === id);
   if (idx === -1) return 0;
@@ -110,7 +112,7 @@ export function likeNote(id: string): number {
 }
 
 export function updateNote(
-  id: string,
+  id: NoteID,
   patch: Partial<Omit<ElysiaNote, "id" | "createdAt">>
 ): ElysiaNote | null {
   const all = readAll();

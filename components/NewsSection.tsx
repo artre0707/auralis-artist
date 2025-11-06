@@ -15,9 +15,9 @@ const NewsSection: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) =>
 
   // 외부 링크
   const LISTEN_BASE = 'https://auralis.bfan.link/resonance-after-the-first-suite-2';
-  const YT_PLAYLIST  = 'https://www.youtube.com/@auralis.artist';
+  const YT_PLAYLIST  = 'https://www.youtube.com/watch?v=f9Du-utVUxE';
   const listenHref = `${LISTEN_BASE}?utm_source=site&utm_medium=news_card&utm_campaign=resonance_release&utm_content=listen_button`;
-  const watchHref  = `${YT_PLAYLIST}?utm_source=site&utm_medium=news_card&utm_campaign=resonance_release&utm_content=youtube_button`;
+  const watchHref  = `${YT_PLAYLIST}&utm_source=site&utm_medium=news_card&utm_campaign=resonance_release&utm_content=youtube_button`;
 
   const goDetail = () => navigate(`/news/${newsSlug}`);
 

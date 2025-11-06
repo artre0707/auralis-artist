@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useSiteContext } from '../../contexts/SiteContext';
 // FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
 import * as ReactRouterDOM from "react-router-dom";
+import { NoteID } from "../../services/magazineStore";
 
 export type Note = {
-  id: string;
+  id: NoteID;
   title: string;
   seed: string;
   chords?: string;

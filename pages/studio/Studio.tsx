@@ -1,8 +1,9 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+// pages/studio/Studio.tsx
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { saveNote } from '../services/magazineStore';
+import { saveNote, NoteID } from '../services/magazineStore';
 
 export default function Studio() {
   const [params] = useSearchParams();
@@ -119,7 +120,7 @@ export default function Studio() {
     try {
       setSaving(true);
       // FIX: The saveNote function correctly returns a string, so the explicit String() cast is redundant and can cause type errors in some environments.
-      const id = saveNote({
+      const id: NoteID = saveNote({
           title: museTitle,
           body: museNotes,
           cover: museCover || undefined,

@@ -183,7 +183,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: null,
       displayGenre: { EN: "Ballet, Classical", KR: "발레, 클래식" },
-      releaseDate: '2025-11-19',
+      releaseDate: '2025-11-24',
       duration: '6 min 11 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -259,7 +259,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: null,
       displayGenre: { EN: "Neo-Classical, Contemporary Piano", KR: "네오 클래식, 컨템퍼러리 피아노" },
-      releaseDate: '2025-11-17',
+      releaseDate: '2025-11-20',
       duration: '35 min 40 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
