@@ -64,11 +64,6 @@ export default function ElysiaArticle() {
         divider="fade"
         className={isDarkMode ? "hero-transparent hero-bottom-hairline" : ""}
         gradientOverlay={!isDarkMode}
-        backgroundImage={
-          isDarkMode
-            ? undefined
-            : "https://images.unsplash.com/photo-1518602264539-53b028731b54?q=80&w=1920&auto=format&fit=crop"
-        }
       />
 
       {/* ⬇️ 밤모드 가독성 전역 CSS가 적용되도록 래퍼에 elysia-detail 부착 */}
