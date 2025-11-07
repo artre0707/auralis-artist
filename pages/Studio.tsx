@@ -87,7 +87,8 @@ export default function Studio() {
   }, [albumKey, setMuseSeed, language]);
 
   useEffect(() => {
-    if (!TABS.includes(tab)) {
+    // FIX: Changed `TABS.includes(tab)` to `TABS.indexOf(tab) === -1` to potentially resolve a subtle TypeScript error with array `includes` on union types.
+    if (TABS.indexOf(tab) === -1) {
       setParams({ tab: 'Muse' }, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,7 +96,6 @@ export default function Studio() {
 
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
-    // FIX: The saveNote function correctly returns a string, so the explicit String() cast is redundant and was causing a type error.
     const id: NoteID = saveNote(payload);
     navigate(`/elysia/${id}`);
   };

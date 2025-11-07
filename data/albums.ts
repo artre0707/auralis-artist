@@ -72,6 +72,81 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
+  'resonance-through-the-barcarolle': {
+    status: 'upcoming',
+    title: 'Resonance: Through the Barcarolle',
+    slug: 'resonance-through-the-barcarolle',
+    coverUrl: 'https://www.auralis-music.com/images/albums/resonance-along-the-barcarolle.jpg',
+    catalogueNo: 'ARTRE2025-010',
+    seriesInfo: {
+      name: { EN: 'Resonance Series', KR: '레조넌스 시리즈' },
+      subtitle: { EN: 'Echoes of Classics', KR: '클래식의 메아리' },
+    },
+    links: {
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CROSSOVER'],
+      displayGenre: { EN: 'Classical, Crossover', KR: '클래식, 크로스오버' },
+      releaseDate: 'November 26, 2025',
+      duration: '2 min 38 sec',
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Arranger', KR: '편곡' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Composer', KR: '작곡가' }, name: 'Gabriel Fauré' },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+    ],
+    content: {
+      EN: {
+        subtitle: 'Echoes of Fauré, reimagined.',
+        description: [
+          'Auralis presents a delicate and lyrical piano reinterpretation of Gabriel Fauré’s Barcarolle No.1.',
+          'Echoes of Fauré – Drifted Elegance flows not beyond Fauré but within his music—capturing the quiet moments where memory and emotion intertwine.',
+          'A gentle resonance that bridges classical beauty with modern sensitivity.',
+        ],
+        feelingInspiredText: 'Where memory meets melody.',
+        tracklist: [
+          { no: 1, title: 'Echoes of Fauré – Drifted Elegance', duration: '2:38', isTitle: true },
+        ],
+        linerNotes: {
+          p1: 'This single resides within the currents of Fauré’s language rather than after it. It is a quiet study in light, motion, and remembrance—how a familiar barcarolle can hold new breath.',
+          quote: '"Flowing through memory, gently."',
+        },
+      },
+      KR: {
+        subtitle: '포레의 메아리, 새로운 울림.',
+        description: [
+          '오랄리스는 가브리엘 포레의 「Barcarolle No.1」을 섬세하고 서정적으로 재해석한 피아노 편곡을 선보입니다.',
+          '「Echoes of Fauré – Drifted Elegance」는 포레 이후가 아닌, 그의 음악 속을 흐르는 새로운 울림으로, 고요한 선율 속에서 기억과 감정이 교차하는 순간을 담았습니다.',
+          '전통의 아름다움과 현대적 감성을 잇는 조용한 공명입니다.',
+        ],
+        feelingInspiredText: '기억이 선율을 만나는 순간.',
+        tracklist: [
+          { no: 1, title: 'Echoes of Fauré – Drifted Elegance', duration: '2:38', isTitle: true },
+        ],
+        linerNotes: {
+          p1: '이 싱글은 포레의 언어 ‘이후’가 아니라 그 ‘안’에서 흐릅니다. 익숙한 바카롤이 새 숨을 머금는 방식—빛과 움직임, 회상을 조용히 탐구합니다.',
+          quote: '“기억을 따라, 조용히 흐르다.”',
+        },
+      },
+    },
+  },
   'resonance-after-the-first-suite': {
     status: 'released',
     title: 'Resonance: After the First Suite',
