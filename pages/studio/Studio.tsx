@@ -119,7 +119,6 @@ export default function Studio() {
     }
     try {
       setSaving(true);
-      // FIX: The saveNote function correctly returns a string, so the explicit String() cast is redundant and can cause type errors in some environments.
       const id: NoteID = saveNote({
           title: museTitle,
           body: museNotes,
@@ -127,7 +126,8 @@ export default function Studio() {
           albumSlug: prefill.slug || undefined,
           catalogue: prefill.catalogue || undefined,
         });
-      navigate(`/elysia/${id}`);
+      // FIX: Explicitly cast the `id` from `saveNote` to a string to resolve a TypeScript error where the type was inferred as `string | number`.
+      navigate(`/elysia/${String(id)}`);
     } finally {
       setSaving(false);
     }

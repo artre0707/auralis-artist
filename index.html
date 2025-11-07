@@ -265,12 +265,28 @@
         0%   { transform: translateX(0); }
         100% { transform: translateX(-50%); }
       }
+
       .animate-scroll-x {
         animation: scroll-x 48s linear infinite;
+        filter: saturate(0.9) brightness(0.98);
+        transition: filter 0.3s ease;
+        will-change: transform;
       }
-      @media (prefers-reduced-motion: reduce){
+
+      .animate-scroll-x:hover {
+        filter: saturate(1.05) brightness(1);
+      }
+
+      @media (max-width: 768px) {
         .animate-scroll-x {
-          animation: none;
+          animation-duration: 60s;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-scroll-x {
+          animation: none !important;
+          transform: none !important;
         }
       }
     </style>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { Album } from '@/data/albums';
+import clsx from 'clsx';
 
 interface StripProps {
   titleEN: string;
@@ -11,6 +12,19 @@ interface StripProps {
 
 const AlbumStrip: React.FC<StripProps> = ({ titleEN, titleKR, items }) => {
   const { language } = useSiteContext();
+  const [paused, setPaused] = useState(false);
+  const isTouchPause = useRef(false);
+
+  useEffect(() => {
+    // Only auto-resume if the pause was initiated by a touch event
+    if (paused && isTouchPause.current) {
+      const timer = setTimeout(() => {
+        setPaused(false);
+        isTouchPause.current = false; // Reset after resuming
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [paused]);
   
   if (!items || items.length === 0) return null;
 
@@ -23,16 +37,22 @@ const AlbumStrip: React.FC<StripProps> = ({ titleEN, titleKR, items }) => {
         </header>
 
         <div className="relative">
-          {/* Edge fade masks */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 md:w-12 z-10 bg-gradient-to-r from-[var(--bg)] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 md:w-12 z-10 bg-gradient-to-l from-[var(--bg)] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 md:w-16 z-10 bg-gradient-to-r from-[var(--bg)] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 md:w-16 z-10 bg-gradient-to-l from-[var(--bg)] to-transparent" />
 
           <div className="overflow-hidden">
             <div
-              className="flex gap-6 animate-scroll-x hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] will-change-transform"
+              className={clsx(
+                "flex gap-6 animate-scroll-x will-change-transform",
+                paused && "[animation-play-state:paused]"
+              )}
+              onMouseEnter={() => { isTouchPause.current = false; setPaused(true); }}
+              onMouseLeave={() => setPaused(false)}
+              onFocusCapture={() => { isTouchPause.current = false; setPaused(true); }}
+              onBlurCapture={() => setPaused(false)}
+              onTouchStart={() => { isTouchPause.current = true; setPaused(true); }}
               aria-label="New & Upcoming albums auto-scrolling list"
             >
-              {/* Duplicate items for infinite loop */}
               {[...items, ...items].map((album, i) => (
                 <ReactRouterDOM.Link
                   key={`${album.slug}-${i}`}
