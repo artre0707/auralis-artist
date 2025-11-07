@@ -33,6 +33,8 @@ const pageContent = {
       bandcamp: 'Bandcamp',
       linkComingSoon: 'Link coming soon',
       moreVideo: 'View more video',
+      vibe: 'VIBE',
+      appleMusicClassical: 'Apple Music Classical',
     },
     albumInfo: { collection: 'Collection', subTheme: 'Sub-theme', releaseDate: 'Release Date', duration: 'Duration' },
     section: {
@@ -58,6 +60,8 @@ const pageContent = {
       bandcamp: 'Bandcamp',
       linkComingSoon: '링크 준비 중',
       moreVideo: '다른 영상 보기',
+      vibe: 'VIBE',
+      appleMusicClassical: 'Apple Music Classical',
     },
     albumInfo: { collection: '컬렉션', subTheme: '서브테마', releaseDate: '발매일', duration: '총 재생 시간' },
     section: {
@@ -597,6 +601,22 @@ const AlbumDetail: React.FC = () => {
           {c.buttonLabels.bandcamp}
         </Btn>
       )}
+
+      {/* VIBE (disabled) */}
+      <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+        {c.buttonLabels.vibe}
+      </Btn>
+
+      {/* Apple Music Classical (active) */}
+      <Btn
+        href="https://classical.music.apple.com/us/album/1841847315"
+        variant="outlineGhost"
+        size="md"
+        arrow={false}
+        onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music Classical', track: album.title })}
+      >
+        {c.buttonLabels.appleMusicClassical}
+      </Btn>
     </>
   ) : (
     <>
