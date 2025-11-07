@@ -180,7 +180,7 @@ const MediaSection: React.FC = () => {
   const textOnly = rawLabel.replace(/→/g, '').trim();
 
   return (
-    <section id="watch-section" className="scroll-mt-28 md:scroll-mt-32 py-12 sm:py-14 lg:py-16 bg-transparent">
+    <section id="watch-section" className="scroll-mt-28 md:scroll-mt-32 pt-20 md:pt-28 lg:pt-32 pb-12 sm:pb-14 lg:pb-16 bg-transparent">
       <style>{forceStyles}</style>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">

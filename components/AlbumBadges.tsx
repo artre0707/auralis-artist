@@ -16,7 +16,7 @@ const AlbumBadges: React.FC<AlbumBadgesProps> = ({ tags, className }) => {
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className || ''}`}>
-      {tags.map((tag) => (
+      {tags.slice(0, 4).map((tag) => (
         <span
           key={tag}
           className="inline-block rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300"

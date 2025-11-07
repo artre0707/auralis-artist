@@ -74,6 +74,86 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
+  'resonance-through-the-wedding-march': {
+    status: 'upcoming',
+    title: 'Resonance: Through the Wedding March',
+    slug: 'resonance-through-the-wedding-march',
+    coverUrl: 'https://www.auralis-music.com/images/albums/resonance-through-the-wedding-march.jpg',
+    catalogueNo: 'ARTRE2025-012',
+    seriesInfo: {
+      name: { EN: 'Resonance Series', KR: '레조넌스 시리즈' },
+      subtitle: { EN: 'Echoes of Classics', KR: '클래식의 메아리' },
+    },
+    links: {
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'EASY LISTENING', 'CROSSOVER'],
+      displayGenre: { EN: 'Classical, Easy Listening, Crossover', KR: '클래식, 이지 리스닝, 크로스오버' },
+      releaseDate: '2025-11-30',
+      duration: '3 min 04 sec',
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Composer', KR: '작곡가' }, name: 'Richard Wagner' },
+      { role: { EN: 'Arranged by', KR: '편곡' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Music Technician', KR: '뮤직 테크니션' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { EN: 'Created by', KR: '제작' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+    ],
+    content: {
+      EN: {
+        subtitle: 'Light above, shadow beneath.',
+        description: [
+          'The sixth chapter of the Resonance Series, Resonance: Through the Wedding March reimagines Wagner’s Bridal Chorus as a dual piano reflection of ceremony and emotion.',
+          '“Echoes of Wagner I – Processional Light” embodies the solemn beauty of tradition, while “Echoes of Wagner II – Shadow Veil” unveils the quiet tension beneath its surface.',
+          'Between light and shadow, between ritual and introspection, Auralis offers a serene dialogue on love, tradition, and silence.',
+        ],
+        feelingInspiredText: 'Two pianos tracing a vow — ceremony above, stillness below.',
+        tracklist: [
+          { no: 1, title: 'Echoes of Wagner I – Processional Light', duration: '2:01', isTitle: true },
+          { no: 2, title: 'Echoes of Wagner II – Shadow Veil', duration: '1:03' },
+        ],
+        linerNotes: {
+          p1: 'This EP contemplates the Bridal Chorus through two complementary lenses — the luminous ritual of procession and the shadowed space of inner feeling. In restraint and resonance, the familiar theme becomes a quiet meditation.',
+          quote: '"Light above, shadow beneath."',
+        },
+      },
+      KR: {
+        subtitle: '빛 위에, 그림자 아래.',
+        description: [
+          '레조넌스 시리즈의 여섯 번째 챕터. 바그너의 「신부의 합창(Bridal Chorus)」을 의식과 감정의 이중 피아노로 재해석했습니다.',
+          '「Echoes of Wagner I – Processional Light」는 전통의 엄숙한 아름다움을, 「Echoes of Wagner II – Shadow Veil」은 그 아래 흐르는 고요한 긴장을 드러냅니다.',
+          '빛과 그림자, 의식과 내면 사이에서, 사랑과 전통, 그리고 침묵에 관한 잔잔한 대화를 건넵니다.',
+        ],
+        feelingInspiredText: '서약을 그리는 두 대의 피아노 — 위로는 의식, 아래에는 고요.',
+        tracklist: [
+          { no: 1, title: '에코즈 오브 바그너 I – 행진의 빛', duration: '2:01', isTitle: true },
+          { no: 2, title: '에코즈 오브 바그너 II – 그림자의 베일', duration: '1:03' },
+        ],
+        linerNotes: {
+          p1: '이 EP는 ‘신부의 합창’을 두 개의 보완적 시선으로 사유합니다. 행진의 빛이 주는 의식의 장엄함과 그 아래 잠긴 내면의 미세한 떨림. 절제와 공명 속에서 익숙한 선율은 조용한 명상이 됩니다.',
+          quote: '“빛 위에, 그림자 아래.”',
+        },
+      },
+    },
+  },
   'sonic-voyage-first-voyage': {
     status: 'upcoming',
     title: 'Sonic Voyage: First Voyage',
