@@ -165,8 +165,8 @@ export const albumsData: { [key: string]: Album } = {
     seriesInfo: {
        name: { EN: 'Chorégraphie Series', KR: '코레그라피 시리즈' },
        subtitle: {
-         EN: 'Diary',
-         KR: '일기'
+         EN: 'Quiet Stage',
+         KR: '고요한 무대'
        },
     },
     links: {
@@ -208,7 +208,7 @@ export const albumsData: { [key: string]: Album } = {
         feelingInspiredText: "The graceful arc of a dancer's movement, translating joy and introspection into sound, satin ribbons and soliloquies.",
         tracklist: [
           { no: 1, title: 'Morning Stretch', duration: '1:23', isTitle: false },
-          { no: 2, title: "Journey of Practice", duration: '1:56', isTitle: true },
+          { no: 2, title: "Journey of Practice", duration: '1:57', isTitle: true },
           { no: 3, title: 'Solitude in Motion', duration: '1:34', isTitle: false },
           { no: 4, title: "Curtain of Memories", duration: '1:17', isTitle: true },
         ],
