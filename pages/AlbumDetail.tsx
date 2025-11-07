@@ -15,6 +15,7 @@ import WhispersOfTheHeartKR from '../components/WhispersOfTheHeartKR';
 import { ParallaxImage } from '../components/Parallax';
 import { trackMetaEvent } from '@/utils/metaPixel';
 import { formatReleaseDate } from '../utils/date';
+import ReleaseCaption from '../components/ReleaseCaption';
 
 type AlbumKey = keyof typeof albumsData;
 const MotionDiv = motion.div;
@@ -175,7 +176,10 @@ const AlbumInfoSection: React.FC<{ album: Album }> = ({ album }) => {
         )}
         <div>
           <dt className="text-[12px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{c.albumInfo.releaseDate}</dt>
-          <dd className="album-meta-text">{formatReleaseDate(language, album.details?.releaseDate)}</dd>
+          <dd className="album-meta-text">
+            {formatReleaseDate(language, album.details?.releaseDate)}
+            <ReleaseCaption en={album.caption?.EN} kr={album.caption?.KR} />
+          </dd>
         </div>
         <div>
           <dt className="text-[12px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Genre</dt>

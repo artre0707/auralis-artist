@@ -89,12 +89,8 @@ export default function Studio() {
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
     const id: NoteID = saveNote(payload);
-    // FIX: The 'id' variable is of type NoteID, which is an alias for 'string'.
-    // The explicit .toString() call is redundant and was likely causing a misleading type error.
-    // FIX: Explicitly convert `id` to a string to resolve TypeScript error where it was inferred as `string | number`.
-    // FIX: Removed redundant .toString() call as 'id' is already a string.
-    // FIX: Explicitly convert id to string using `.toString()` to fix the TypeScript error where `id` is inferred as `string | number`.
-    navigate(`/elysia/${id.toString()}`);
+    // FIX: Removed explicit `String()` cast. The `saveNote` function returns a string, so the cast is redundant and was causing a type error.
+    navigate(`/elysia/${id}`);
   };
 
   useEffect(() => {

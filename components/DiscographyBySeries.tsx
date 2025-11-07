@@ -89,6 +89,9 @@ const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
         )}
         <h3 className="text-base sm:text-lg font-medium">{album.title}</h3>
         <p className="text-xs text-subtle mt-1">{formatReleaseDate(language, album.details?.releaseDate)}</p>
+        {album.caption?.[language] && (
+            <p className="text-xs italic text-subtle mt-1.5 px-2">{album.caption[language]}</p>
+        )}
       </div>
     </Link>
   );

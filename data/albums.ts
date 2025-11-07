@@ -54,6 +54,9 @@ export type Album = {
     distributor: string;
     upc: string | null;
   };
+  caption?: {
+    [key in Language]: string;
+  };
   credits: {
     role: { [key in Language]: string };
     name: string | { [key in Language]: string };
@@ -74,6 +77,158 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
+  'lullabook-on-a-birthday-morning': {
+    status: 'upcoming',
+    title: 'Lullabook: On a Birthday Morning',
+    slug: 'lullabook-on-a-birthday-morning',
+    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-on-a-birthday-morning.jpg',
+    catalogueNo: 'ARTRE2025-065',
+    seriesInfo: {
+      name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },
+      subtitle: { EN: 'Echoes of Childhood', KR: '어린 시절의 메아리' },
+    },
+    links: {
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
+      displayGenre: { EN: 'Piano Solo, Classical Crossover, Lullaby', KR: '피아노 솔로, 클래식 크로스오버, 자장가' },
+      releaseDate: '2025-12-01',
+      duration: '1 min 08 sec',
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
+    },
+    caption: {
+      KR: '기억 속의 별이 오늘 다시 조용히 빛납니다.',
+      EN: 'The star of memory quietly shines again today.',
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: 'Auralis' },
+      { role: { EN: 'Composers', KR: '작곡가' }, name: 'Mildred J. Hill, Patty Smith Hill' },
+      { role: { EN: 'Arranged by', KR: '편곡' }, name: 'Auralis' },
+      { role: { EN: 'Music Technician', KR: '뮤직 테크니션' }, name: 'Auralis' },
+      { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: 'Auralis' },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: 'Auralis Music' },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: 'ARTRE' },
+      { role: { EN: 'Created by', KR: '제작' }, name: 'Auralis Music' },
+    ],
+    content: {
+      EN: {
+        subtitle: 'A new morning begins in light.',
+        description: [
+          'A new morning opens with a quiet smile — Lullabook: On a Birthday Morning reimagines the classic American children’s song “Happy Birthday to You” as a tender and reflective piano piece.',
+          'Rather than cheerful celebration alone, this arrangement carries the warmth of gratitude, the light of memory, and the gentle emotion that accompanies growing another year older.',
+          'It is a song of beginning — a soft candlelight echo that glows quietly within the heart.',
+        ],
+        feelingInspiredText: 'Another candle, another wish — a tiny glow for a new beginning.',
+        tracklist: [{ no: 1, title: 'A Birthday Song', duration: '1:08', isTitle: true }],
+        linerNotes: {
+          p1: 'This single traces the familiar birthday melody with softness and poise — a reflective moment between gratitude and hope, lit by a single, gentle flame.',
+          quote: '"The star of memory quietly shines again today."',
+        },
+      },
+      KR: {
+        subtitle: '빛 속에서 새 아침이 시작됩니다.',
+        description: [
+          '고요한 미소로 열리는 아침 — 「생일 축하합니다」 선율을 부드럽고 사색적인 피아노 곡으로 재해석했습니다.',
+          '단순한 축하의 기쁨을 넘어, 감사의 온기와 기억의 빛, 한 해를 더 살아낸 마음의 미묘한 감정을 담았습니다.',
+          '작은 촛불처럼, 마음속에서 잔잔히 빛나는 ‘시작의 노래’입니다.',
+        ],
+        feelingInspiredText: '또 하나의 초, 또 하나의 소원 — 새 시작을 위한 작은 빛.',
+        tracklist: [{ no: 1, title: '생일의 노래', duration: '1:08', isTitle: true }],
+        linerNotes: {
+          p1: '익숙한 생일 노래를 절제된 선율로 그려, 감사와 희망 사이의 조용한 순간을 담았습니다. 한 줄기 부드러운 불빛처럼 마음을 밝히는 음악.',
+          quote: '“기억 속의 별이 오늘 다시 조용히 빛납니다.”',
+        },
+      },
+    },
+  },
+  'lullabook-under-the-little-star': {
+    status: 'upcoming',
+    title: 'Lullabook: Under the Little Star',
+    slug: 'lullabook-under-the-little-star',
+    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook_under_the_little_star.jpg',
+    catalogueNo: 'ARTRE2025-064',
+    seriesInfo: {
+      name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },
+      subtitle: { EN: 'Echoes of Childhood', KR: '어린 시절의 메아리' },
+    },
+    links: {
+      listenNow: null, spotify: null, appleMusic: null, youtube: null, bandcamp: null,
+      believe: null, amazonMusic: null, flo: null, vibe: null, presave: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
+      displayGenre: { EN: 'Piano Solo, Lullaby, Classical Crossover', KR: '피아노 솔로, 자장가, 클래식 크로스오버' },
+      releaseDate: '2025-12-01',
+      duration: '4 min 23 sec',
+      publisher: 'Auralis Music', label: 'Auralis Music', management: 'ARTRE', distributor: 'ARTRE', upc: null,
+    },
+    caption: {
+      EN: 'A small star rises — quietly marking a day of light.',
+      KR: '작은 별 하나가 떠오르며, 조용히 빛의 날을 기록합니다.',
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: 'Auralis' },
+      { role: { EN: 'Composer', KR: '작곡가' }, name: 'French Folk Song' },
+      { role: { EN: 'Arranged by', KR: '편곡' }, name: 'Auralis' },
+      { role: { EN: 'Music Technician', KR: '뮤직 테크니션' }, name: 'Auralis' },
+      { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: 'Auralis' },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: 'Auralis Music' },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: 'ARTRE' },
+      { role: { EN: 'Created by', KR: '제작' }, name: 'Auralis Music' },
+    ],
+    content: {
+      EN: {
+        subtitle: 'A small star rises, carrying dreams and warmth.',
+        description: [
+          'Lullabook opens like a tiny storybook of childhood.',
+          'Under a quiet starlit sky, two gentle piano pieces unfold—whispering warmth, memory, and dream.',
+          'Inspired by “Twinkle, Twinkle, Little Star,” this EP is both a lullaby for little hearts and a song of remembrance for adults.',
+          'Between sleep and memory, night and light, a small star rises to bless the quiet corners of our world.',
+        ],
+        feelingInspiredText: 'Soft songs for little hearts — glowing with dreamlight.',
+        tracklist: [
+          { no: 1, title: 'Under the Starry Sky', duration: '1:44', isTitle: true },
+          { no: 2, title: 'Lullaby of the Little Star', duration: '2:39' },
+        ],
+        linerNotes: {
+          p1: 'The Lullabook Series opens with tender piano whispers that recall childhood nights under the stars. Simple, luminous, and warm — music that remembers the innocence of sleep.',
+          quote: '"Tiny melodies, infinite tenderness."',
+        },
+      },
+      KR: {
+        subtitle: '작은 별이 떠오르며, 꿈과 따뜻함을 품고 흐릅니다.',
+        description: [
+          '럴러북 시리즈는 어린 시절의 기억을 부드러운 이야기책처럼 펼칩니다.',
+          '고요한 별빛 하늘 아래 두 곡의 피아노 음악이 따스히 흐르며, 추억과 꿈을 속삭입니다.',
+          '‘반짝반짝 작은 별’의 프랑스 민요 선율에서 영감을 받아, 아이들을 위한 자장가이자 어른들을 위한 기억의 노래로 완성되었습니다.',
+          '잠과 기억, 밤과 빛 사이에서, 작은 별 하나가 세상의 고요한 구석을 비춥니다.',
+        ],
+        feelingInspiredText: '작은 마음을 위한 부드러운 노래 — 꿈빛으로 물든 자장가.',
+        tracklist: [
+          { no: 1, title: '별빛 아래에서', duration: '1:44', isTitle: true },
+          { no: 2, title: '작은 별의 자장가', duration: '2:39' },
+        ],
+        linerNotes: {
+          p1: '럴러북 시리즈의 첫 번째 앨범은 별빛 아래의 어린 시절을 떠올리게 하는 두 곡의 피아노 자장가입니다. 단순하고 따뜻한 선율 속에서, 잠과 기억이 부드럽게 이어집니다.',
+          quote: '“작은 선율 속에, 무한한 다정함이 머문다.”',
+        },
+      },
+    },
+  },
   'resonance-through-the-wedding-march': {
     status: 'upcoming',
     title: 'Resonance: Through the Wedding March',

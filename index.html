@@ -143,9 +143,6 @@
       .gold-card img{transition:transform .4s ease,filter .3s ease}
       .gold-card:hover img{transform:scale(1.04);filter:brightness(1.05)}
 
-      @media (prefers-reduced-motion: reduce){
-        *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-      }
       @supports (text-wrap: balance){.text-balance{text-wrap:balance}}
 
       /* ============================================
@@ -262,6 +259,20 @@
       .collab-history-modal .bg-white { background: transparent !important; }
       .history-dialog .text-neutral-800,
       .collab-history-modal .text-neutral-800 { color: var(--fg) !important; }
+      
+      /* New Auto-scrolling marquee */
+      @keyframes scroll-x {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      .animate-scroll-x {
+        animation: scroll-x 48s linear infinite;
+      }
+      @media (prefers-reduced-motion: reduce){
+        .animate-scroll-x {
+          animation: none;
+        }
+      }
     </style>
 
     <script type="importmap">
