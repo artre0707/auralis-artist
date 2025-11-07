@@ -6,15 +6,16 @@ import React from 'react';
 
 interface AlbumBadgesProps {
   tags: string[] | null;
+  className?: string;
 }
 
-const AlbumBadges: React.FC<AlbumBadgesProps> = ({ tags }) => {
+const AlbumBadges: React.FC<AlbumBadgesProps> = ({ tags, className }) => {
   if (!tags || tags.length === 0) {
     return null;
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className={`flex flex-wrap items-center gap-2 ${className || ''}`}>
       {tags.map((tag) => (
         <span
           key={tag}

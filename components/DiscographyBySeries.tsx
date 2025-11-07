@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import { albumsData, Album } from '../data/albums';
+import AlbumBadges from './AlbumBadges';
+import { parseReleaseDate, formatReleaseDate } from '../utils/date';
 
 type SeriesMeta = {
   title: { EN: string; KR: string };
@@ -50,13 +52,6 @@ const SERIES_META: Record<string, SeriesMeta> = {
   },
 };
 
-/* helpers */
-function parseDate(s?: string) {
-  if (!s) return null;
-  const t = Date.parse(s);
-  return Number.isNaN(t) ? null : new Date(t);
-}
-
 const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
   const { language } = useSiteContext();
   const albumContent = album.content[language];
@@ -66,6 +61,9 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
         <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105" loading="lazy" decoding="async" />
       </div>
       <div className="mt-4">
+        {album.details.formatGenre && (
+          <AlbumBadges tags={album.details.formatGenre} className="justify-center mb-2" />
+        )}
         <h3 className="font-normal text-base sm:text-lg accent-text dark:text-[#E7CF9F] leading-relaxed transition-colors duration-200">{album.title}</h3>
         <p className={`text-sm text-subtle mt-1 leading-relaxed ${language === 'KR' ? 'font-noto-kr' : ''}`}>{albumContent.subtitle}</p>
       </div>
@@ -75,8 +73,6 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
 
 const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
   const { language } = useSiteContext();
-  const date = album.details?.releaseDate;
-  const tba = language === 'KR' ? '발매일 미정' : 'TBA';
   return (
     <Link to={`/albums/${album.slug}`} className="group block text-center rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)]">
       <div className="rounded-2xl overflow-hidden bg-card border border-[var(--border)] hover:border-[#CBAE7A]/50 transition max-w-[260px] mx-auto">
@@ -88,8 +84,11 @@ const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
         </div>
       </div>
       <div className="mt-4">
+        {album.details.formatGenre && (
+          <AlbumBadges tags={album.details.formatGenre} className="justify-center mb-2" />
+        )}
         <h3 className="text-base sm:text-lg font-medium">{album.title}</h3>
-        <p className="text-xs text-subtle mt-1">{date ? date : tba}</p>
+        <p className="text-xs text-subtle mt-1">{formatReleaseDate(language, album.details?.releaseDate)}</p>
       </div>
     </Link>
   );
@@ -107,8 +106,8 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
     }
     return xs.sort(
       (a, b) =>
-        (parseDate(b.details?.releaseDate || '')?.getTime() ?? 0) -
-        (parseDate(a.details?.releaseDate || '')?.getTime() ?? 0)
+        (parseReleaseDate(b.details?.releaseDate)?.getTime() ?? 0) -
+        (parseReleaseDate(a.details?.releaseDate)?.getTime() ?? 0)
     );
   }, [all, filterGenre]);
 
@@ -119,8 +118,8 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
     }
     return xs.sort(
       (a, b) =>
-        (parseDate(a.details?.releaseDate || '')?.getTime() ?? Number.POSITIVE_INFINITY) -
-        (parseDate(b.details?.releaseDate || '')?.getTime() ?? Number.POSITIVE_INFINITY)
+        (parseReleaseDate(a.details?.releaseDate)?.getTime() ?? Number.POSITIVE_INFINITY) -
+        (parseReleaseDate(b.details?.releaseDate)?.getTime() ?? Number.POSITIVE_INFINITY)
     );
   }, [all, filterGenre]);
 

@@ -86,6 +86,15 @@ export default function Studio() {
     }
   }, [albumKey, setMuseSeed, language]);
 
+  // Muse → Elysia direct publishing
+  const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
+    const id: NoteID = saveNote(payload);
+    // FIX: The 'id' variable is of type NoteID, which is an alias for 'string'.
+    // The explicit .toString() call is redundant and was likely causing a misleading type error.
+    // FIX: Explicitly convert `id` to a string to resolve TypeScript error where it was inferred as `string | number`.
+    navigate(`/elysia/${id.toString()}`);
+  };
+
   useEffect(() => {
     // FIX: Changed `TABS.includes(tab)` to `TABS.indexOf(tab) === -1` to potentially resolve a subtle TypeScript error with array `includes` on union types.
     if (TABS.indexOf(tab) === -1) {
@@ -93,13 +102,6 @@ export default function Studio() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
-
-  // Muse → Elysia direct publishing
-  const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
-    const id: NoteID = saveNote(payload);
-    // FIX: Explicitly cast `id` to a string to resolve TypeScript error. The type inference for `saveNote`'s return value appears to be incorrect in this context, resulting in a `string | number` type.
-    navigate(`/elysia/${String(id)}`);
-  };
 
   return (
     <PageContainer>

@@ -2,17 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import { albumsData, Album } from '../data/albums';
-
-function parseReleaseDate(a: Album): number {
-  const raw =
-    (a.details as any).releaseDate || // Updated to match structure
-    (a as any).released ||
-    (a as any).publishedAt ||
-    (a as any).date ||
-    '';
-  const t = Date.parse(raw);
-  return Number.isNaN(t) ? 0 : t;
-}
+import { parseReleaseDate } from '../utils/date';
 
 const FeaturedReleases: React.FC<{ count?: number; filterGenre?: string }> = ({ count = 3, filterGenre }) => {
   const { language } = useSiteContext();
@@ -28,8 +18,8 @@ const FeaturedReleases: React.FC<{ count?: number; filterGenre?: string }> = ({ 
     }
     
     const filtered = base.filter((a) => a && a.slug);
-    const sorted = filtered.slice().sort((a, b) => parseReleaseDate(b) - parseReleaseDate(a));
-    const hasAnyDate = sorted.some((x) => parseReleaseDate(x) > 0);
+    const sorted = filtered.slice().sort((a, b) => (parseReleaseDate(b.details?.releaseDate)?.getTime() ?? 0) - (parseReleaseDate(a.details?.releaseDate)?.getTime() ?? 0));
+    const hasAnyDate = sorted.some((x) => (parseReleaseDate(x.details?.releaseDate)?.getTime() ?? 0) > 0);
     return (hasAnyDate ? sorted : filtered).slice(0, Math.max(1, Math.min(3, count)));
   }, [count, filterGenre]);
 

@@ -14,6 +14,7 @@ import WhispersOfTheHeart from '../components/WhispersOfTheHeart';
 import WhispersOfTheHeartKR from '../components/WhispersOfTheHeartKR';
 import { ParallaxImage } from '../components/Parallax';
 import { trackMetaEvent } from '@/utils/metaPixel';
+import { formatReleaseDate } from '../utils/date';
 
 type AlbumKey = keyof typeof albumsData;
 const MotionDiv = motion.div;
@@ -174,7 +175,7 @@ const AlbumInfoSection: React.FC<{ album: Album }> = ({ album }) => {
         )}
         <div>
           <dt className="text-[12px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{c.albumInfo.releaseDate}</dt>
-          <dd className="album-meta-text">{album.details?.releaseDate ?? ''}</dd>
+          <dd className="album-meta-text">{formatReleaseDate(language, album.details?.releaseDate)}</dd>
         </div>
         <div>
           <dt className="text-[12px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Genre</dt>
@@ -511,6 +512,7 @@ const AlbumDetail: React.FC = () => {
   const albumContent = album.content?.[language] ?? { subtitle: '', description: [], tracklist: [] as Track[] };
   const safeDescription = Array.isArray(albumContent.description) ? albumContent.description : [albumContent.description].filter(Boolean) as string[];
   const hasVideos = Boolean(album.videos?.titleTrack || album.videos?.fullAlbum);
+  const releaseDateText = formatReleaseDate(language, album.details?.releaseDate);
 
   return (
     <PageContainer>
@@ -624,11 +626,10 @@ const AlbumDetail: React.FC = () => {
       <PresaveButton  isKR={language === 'KR'} />
 
       <div className="flex items-center justify-center rounded-full border border-[var(--border)] text-sm px-3 py-2 text-subtle">
-        {album.details?.releaseDate
-          ? `${language === 'KR' ? '발매일' : 'Release'} • ${album.details.releaseDate}`
-          : language === 'KR'
-          ? '발매일 미정'
-          : 'TBA'}
+        {releaseDateText === 'TBA' || releaseDateText === '발매일 미정'
+          ? releaseDateText
+          : `${language === 'KR' ? '발매일' : 'Release'} • ${releaseDateText}`
+        }
       </div>
     </>
   )}

@@ -10,6 +10,8 @@ export type Track = {
   isTitle?: boolean;
 };
 
+// Guide: It's recommended to store releaseDate in 'YYYY-MM-DD' format for consistency,
+// though other formats like "Month DD, YYYY" are also supported for display parsing.
 export type Album = {
   status: ReleaseStatus;
   title: string;
@@ -72,6 +74,91 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
+  'sonic-voyage-first-voyage': {
+    status: 'upcoming',
+    title: 'Sonic Voyage: First Voyage',
+    slug: 'sonic-voyage-first-voyage',
+    coverUrl: 'https://www.auralis-music.com/images/albums/sonic-voyage-first-voyage.jpg',
+    catalogueNo: 'ARTRE2025-011',
+    seriesInfo: {
+      name: { EN: 'Sonic Voyages Series', KR: '소닉 보이지스 시리즈' },
+      subtitle: { EN: 'Sound Explorations', KR: '사운드 익스플로레이션' },
+    },
+    links: {
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'EP', 'PIANO', 'AMBIENT'],
+      displayGenre: { EN: 'Ambient, Piano, Instrumental', KR: '앰비언트, 피아노, 인스트루멘탈' },
+      releaseDate: '2025-11-28',
+      duration: '11 min 49 sec',
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Composer', KR: '작곡가' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Music Technician', KR: '뮤직 테크니션' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { EN: 'Created by', KR: '제작' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+    ],
+    content: {
+      EN: {
+        subtitle: 'Music for focus and calm — a sound voyage through silence.',
+        description: [
+          'The first journey of the Sonic Voyages Series, Auralis invites listeners on an ambient piano exploration inspired by wind, waves, starlight, and distant horizons.',
+          'Each piece unfolds like a calm expedition through sound — a meditative voyage designed for focus, relaxation, and emotional clarity.',
+          'Let your mind drift freely across tranquil soundscapes where silence breathes and melodies move like light.',
+        ],
+        feelingInspiredText: 'Sonic Voyage: immerse yourself in the sound of stillness.',
+        tracklist: [
+          { no: 1, title: 'Whispers of the Wind', duration: '1:56' },
+          { no: 2, title: 'Rhythm of the Waves', duration: '2:26' },
+          { no: 3, title: 'Starlit Route', duration: '1:54' },
+          { no: 4, title: 'Distant Horizon', duration: '2:32' },
+          { no: 5, title: 'Dreamlike Voyage', duration: '3:01' },
+        ],
+        linerNotes: {
+          p1: 'This EP marks the first voyage into the Sonic Voyages Series — a study of sound as movement and stillness. Auralis weaves natural imagery into ambient piano textures, inviting quiet focus and introspection.',
+          quote: '"Music for focus and calm — a sound voyage through silence."',
+        },
+      },
+      KR: {
+        subtitle: '집중과 휴식을 위한 앰비언트 피아노 여정',
+        description: [
+          '‘소리로 떠나는 여행’을 주제로 한 [Sonic Voyages Series]의 첫 번째 여정.',
+          '오랄리스는 바람, 파도, 별빛, 그리고 지평선을 모티프로 앰비언트 피아노 사운드로 이루어진 감각적인 공간을 그려냅니다.',
+          '집중과 몰입, 휴식과 회복을 위한 부드러운 사운드 트래블 — 일상의 소음 속에서 마음을 고요히 정화시키는 순수한 청각적 여정이 시작됩니다.',
+        ],
+        feelingInspiredText: '소리의 고요 속으로 스며드는 여정, Sonic Voyage.',
+        tracklist: [
+          { no: 1, title: '바람의 속삭임 (Whispers of the Wind)', duration: '1:56' },
+          { no: 2, title: '파도의 리듬 (Rhythm of the Waves)', duration: '2:26' },
+          { no: 3, title: '별빛 항로 (Starlit Route)', duration: '1:54' },
+          { no: 4, title: '먼 지평선 (Distant Horizon)', duration: '2:32' },
+          { no: 5, title: '꿈결의 여행 (Dreamlike Voyage)', duration: '3:01' },
+        ],
+        linerNotes: {
+          p1: '이 EP는 ‘소리로 떠나는 여행’ 시리즈의 첫 항해를 담고 있습니다. 오랄리스는 자연의 이미지를 앰비언트 피아노 텍스처로 엮어내며, 집중과 사색을 위한 고요한 사운드 공간을 그립니다.',
+          quote: '“집중과 휴식을 위한 앰비언트 피아노 여정.”',
+        },
+      },
+    },
+  },
   'resonance-through-the-barcarolle': {
     status: 'upcoming',
     title: 'Resonance: Through the Barcarolle',
@@ -97,7 +184,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CROSSOVER'],
       displayGenre: { EN: 'Classical, Crossover', KR: '클래식, 크로스오버' },
-      releaseDate: 'November 26, 2025',
+      releaseDate: '2025-11-26',
       duration: '2 min 38 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -178,7 +265,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ["DIGITAL", "SINGLE", "PIANO", "CROSSOVER"],
       displayGenre: { EN: "Classical, Crossover", KR: "클래식, 크로스오버" },
-      releaseDate: 'October 1, 2025',
+      releaseDate: '2025-10-01',
       duration: '5 min 8 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -256,7 +343,7 @@ export const albumsData: { [key: string]: Album } = {
       presave: 'https://example.com/presave-ballet',
     },
     details: {
-      formatGenre: null,
+      formatGenre: ["DIGITAL", "EP", "PIANO", "BALLET"],
       displayGenre: { EN: "Ballet, Classical", KR: "발레, 클래식" },
       releaseDate: '2025-11-24',
       duration: '6 min 11 sec',
@@ -332,7 +419,7 @@ export const albumsData: { [key: string]: Album } = {
       presave: null,
     },
     details: {
-      formatGenre: null,
+      formatGenre: ["DIGITAL", "ALBUM", "PIANO", "Meditation"],
       displayGenre: { EN: "Neo-Classical, Relaxation, Meditation", KR: "네오 클래식, 힐링, 명상" },
       releaseDate: '2025-11-20',
       duration: '18 min 07 sec',
@@ -380,9 +467,14 @@ export const albumsData: { [key: string]: Album } = {
         ],
         feelingInspiredText: "벨벳 하늘에 첫 별이 나타나는 듯한, 고요한 순간을 위한 단순하고 진심 어린 멜로디.",
         tracklist: [
-          { no: 1, title: '첫 별', duration: '2:50', isTitle: false },
-          { no: 2, title: '벨벳 시간', duration: '3:10', isTitle: true },
-          { no: 3, title: '종이 달', duration: '3:05', isTitle: false },
+          { no: 1, title: '평화로운 초원 (Peaceful Meadow)', duration: '2:08', isTitle: false },
+          { no: 2, title: '부드러운 빛 (Soft Light)', duration: '2:54', isTitle: true },
+          { no: 3, title: '속삭이는 잎들 (Whispering Leaves)', duration: '1:48', isTitle: false },
+          { no: 4, title: '아침 노을 (Morning Glow)', duration: '2:47', isTitle: true },
+          { no: 5, title: '이른 안개 (Early Mist)', duration: '1:36', isTitle: false },
+          { no: 6, title: '끝없는 평화 (Endless Peace)', duration: '2:35', isTitle: true },
+          { no: 7, title: '황금빛 새벽 (Golden Dawn)', duration: '2:24', isTitle: false },
+          { no: 8, title: '이슬방울의 춤 (Dewdrop Dance)', duration: '1:18', isTitle: true },
         ],
         linerNotes: {
             p1: "단순함으로의 회귀. 이 음악은 조용한 시간을 위한 동반자, 삶의 가장 평화로운 순간의 배경에 있는 부드러운 흥얼거림이 되도록 만들어졌습니다.",
