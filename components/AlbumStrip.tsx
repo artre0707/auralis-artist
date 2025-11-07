@@ -21,7 +21,7 @@ const AlbumStrip: React.FC<StripProps> = ({ titleEN, titleKR, items }) => {
       const timer = setTimeout(() => {
         setPaused(false);
         isTouchPause.current = false; // Reset after resuming
-      }, 3000);
+      }, 2000); // User request: shorten pause to 2s
       return () => clearTimeout(timer);
     }
   }, [paused]);

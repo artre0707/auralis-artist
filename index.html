@@ -266,8 +266,21 @@
         100% { transform: translateX(-50%); }
       }
 
+      :root {
+        --scroll-speed: 48s;
+      }
+      @media (max-width: 1024px) {
+        :root { --scroll-speed: 42s; }
+      }
+      @media (max-width: 768px) {
+        :root { --scroll-speed: 36s; }
+      }
+      @media (max-width: 480px) {
+        :root { --scroll-speed: 32s; }
+      }
+
       .animate-scroll-x {
-        animation: scroll-x 48s linear infinite;
+        animation: scroll-x var(--scroll-speed) linear infinite;
         filter: saturate(0.9) brightness(0.98);
         transition: filter 0.3s ease;
         will-change: transform;
@@ -279,7 +292,7 @@
 
       @media (max-width: 768px) {
         .animate-scroll-x {
-          animation-duration: 60s;
+          gap: 1rem;
         }
       }
 
