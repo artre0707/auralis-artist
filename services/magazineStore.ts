@@ -70,8 +70,8 @@ export function getNote(id: NoteID): ElysiaNote | null {
 export function saveNote(
   note: Omit<ElysiaNote, "id" | "createdAt" | "likes" | "featured">
 ): NoteID {
-  // ✅ 항상 문자열 ID 생성
-  const id =
+  // FIX: Explicitly type `id` as a string to resolve type inference issues.
+  const id: string =
     typeof crypto !== "undefined" && "randomUUID" in crypto
       ? crypto.randomUUID()
       : Date.now().toString(36);
