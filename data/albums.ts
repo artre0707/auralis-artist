@@ -81,7 +81,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Lullabook: On a Birthday Morning',
     slug: 'lullabook-on-a-birthday-morning',
-    coverUrl: '/images/lullabook-on-a-birthday-morning.jpg',
+    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-on-a-birthday-morning.jpg',
     catalogueNo: 'ARTRE2025-065',
     seriesInfo: {
       name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },
@@ -159,7 +159,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Lullabook: Under the Little Star',
     slug: 'lullabook-under-the-little-star',
-    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook_under_the_little_star.jpg',
+    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-under-the-little-star.jpg',
     catalogueNo: 'ARTRE2025-064',
     seriesInfo: {
       name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },

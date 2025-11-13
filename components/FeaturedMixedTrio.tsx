@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { albumsData, Album } from '@/data/albums';
+import { parseReleaseDate } from '@/utils/date';
 
 // --- Seeding and Randomization Utilities ---
 
@@ -50,6 +51,21 @@ const seededShuffle = <T,>(array: T[], rng: () => number): T[] => {
   }
   return shuffled;
 };
+
+// --- Upcoming Album Date Filter Helper ---
+const UPCOMING_WINDOW_DAYS = 20;
+
+function isWithinUpcomingWindow(album: Album): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const release = parseReleaseDate(album.details.releaseDate);
+  if (!release) return false;
+  release.setHours(0, 0, 0, 0);
+
+  const diffDays = (release.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+  return diffDays >= 0 && diffDays <= UPCOMING_WINDOW_DAYS;
+}
 
 // --- Album Card Component ---
 
@@ -109,7 +125,9 @@ const FeaturedMixedTrio: React.FC = () => {
         
         const allAlbums = Object.values(albumsData);
         const released = allAlbums.filter((a) => a.status === 'released');
-        const upcoming = allAlbums.filter((a) => a.status === 'upcoming');
+        const upcoming = allAlbums
+          .filter((a) => a.status === 'upcoming')
+          .filter(isWithinUpcomingWindow);
         
         const shuffledReleased = seededShuffle(released, rng);
         const shuffledUpcoming = seededShuffle(upcoming, rng);

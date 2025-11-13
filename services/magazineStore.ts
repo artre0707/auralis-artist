@@ -74,7 +74,6 @@ export function saveNote(
   const id: NoteID =
     typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
       ? crypto.randomUUID()
-      // FIX: The fallback for ID generation was returning a number from `Date.now()`, which caused the function's return type to be inferred as `string | number`. This created a type error where a `string` was strictly required. The fix is to convert the number to a string using `.toString(36)`.
       : Date.now().toString(36);
 
   const newNote: ElysiaNote = {

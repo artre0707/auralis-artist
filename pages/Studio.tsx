@@ -144,8 +144,16 @@ export default function Studio() {
             try {
               const key = "auralis-notebook";
               const prev = JSON.parse(localStorage.getItem(key) || "[]");
-              // FIX: Changed createdAt to be an ISO string to avoid type conflicts.
-              const withId = { id: crypto.randomUUID(), createdAt: new Date().toISOString(), ...note };
+              // FIX: Added a fallback for crypto.randomUUID to prevent type errors, ensuring the 'id' is always a string. This follows the robust ID generation pattern used elsewhere in the application.
+              const withId = {
+                id:
+                  typeof crypto !== 'undefined' &&
+                  typeof crypto.randomUUID === 'function'
+                    ? crypto.randomUUID()
+                    : Date.now().toString(36),
+                createdAt: new Date().toISOString(),
+                ...note
+              };
               localStorage.setItem(key, JSON.stringify([withId, ...prev]));
               if (goToNotebook) navigate('/studio/notebook');
             } catch (e) { console.error(e); }
