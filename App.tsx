@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react';
-// FIX: Changed import to wildcard to resolve module export errors.
+
+import React, { useEffect, lazy, Suspense } from 'react';
+// Keep wildcard import to prevent module resolution issues with CDN.
 import * as ReactRouterDOM from "react-router-dom";
 import { AnimatePresence } from 'framer-motion';
 import SiteLayout from "./pages/SiteLayout";
-import Home from "./pages/Home";
-import Albums from "./pages/Albums";
-import About from "./pages/About";
-import News from "./pages/News";
-import NewsArticle from './pages/NewsArticle';
-import AlbumDetail from "./pages/AlbumDetail";
-import Studio from './pages/Studio';
 import RouteTransition from './components/RouteTransition';
-import MagazineIndex from './pages/MagazineIndex';
-import MagazineArticle from './pages/MagazineArticle';
-import ElysiaIndex from "./pages/elysia/ElysiaIndex";
-import ElysiaArticle from "./pages/elysia/ElysiaArticle";
-import NotFound from './pages/NotFound';
+
+const Home = lazy(() => import("./pages/Home"));
+const Albums = lazy(() => import("./pages/Albums"));
+const About = lazy(() => import("./pages/About"));
+const News = lazy(() => import("./pages/News"));
+const NewsArticle = lazy(() => import('./pages/NewsArticle'));
+const AlbumDetail = lazy(() => import("./pages/AlbumDetail"));
+const Studio = lazy(() => import('./pages/Studio'));
+const MagazineIndex = lazy(() => import('./pages/MagazineIndex'));
+const MagazineArticle = lazy(() => import('./pages/MagazineArticle'));
+const ElysiaIndex = lazy(() => import("./pages/elysia/ElysiaIndex"));
+const ElysiaArticle = lazy(() => import("./pages/elysia/ElysiaArticle"));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
 
 export type Language = 'EN' | 'KR';
 
@@ -71,13 +74,18 @@ const AnimatedRoutes = () => {
 };
 
 const App: React.FC = () => {
+  // Always use HashRouter as suggested by the user's code, simplifying the router logic.
+  const Router = ReactRouterDOM.HashRouter;
+
   return (
-    <ReactRouterDOM.HashRouter>
+    <Router>
       <ScrollToTopOnRouteChange />
       <SiteLayout>
-        <AnimatedRoutes />
+        <Suspense fallback={<div className="w-full h-screen flex items-center justify-center text-subtle">Loading...</div>}>
+          <AnimatedRoutes />
+        </Suspense>
       </SiteLayout>
-    </ReactRouterDOM.HashRouter>
+    </Router>
   );
 }
 

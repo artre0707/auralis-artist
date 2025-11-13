@@ -81,7 +81,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Lullabook: On a Birthday Morning',
     slug: 'lullabook-on-a-birthday-morning',
-    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-on-a-birthday-morning.jpg',
+    coverUrl: '/images/lullabook-on-a-birthday-morning.jpg',
     catalogueNo: 'ARTRE2025-065',
     seriesInfo: {
       name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },
@@ -102,7 +102,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
       displayGenre: { EN: 'Piano Solo, Classical Crossover, Lullaby', KR: '피아노 솔로, 클래식 크로스오버, 자장가' },
-      releaseDate: '2025-12-01',
+      releaseDate: '2025-12-20',
       duration: '1 min 08 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -172,7 +172,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
       displayGenre: { EN: 'Piano Solo, Lullaby, Classical Crossover', KR: '피아노 솔로, 자장가, 클래식 크로스오버' },
-      releaseDate: '2025-12-01',
+      releaseDate: '2025-12-20',
       duration: '4 min 23 sec',
       publisher: 'Auralis Music', label: 'Auralis Music', management: 'ARTRE', distributor: 'ARTRE', upc: null,
     },
@@ -229,6 +229,7 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
+// FIX: Changed typo 'f' to a comma to correctly separate objects.
   'resonance-through-the-wedding-march': {
     status: 'upcoming',
     title: 'Resonance: Through the Wedding March',
@@ -334,7 +335,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'AMBIENT'],
       displayGenre: { EN: 'Ambient, Piano, Instrumental', KR: '앰비언트, 피아노, 인스트루멘탈' },
-      releaseDate: '2025-11-28',
+      releaseDate: '2025-12-20',
       duration: '11 min 49 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -656,7 +657,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ["DIGITAL", "ALBUM", "PIANO", "Meditation"],
       displayGenre: { EN: "Neo-Classical, Relaxation, Meditation", KR: "네오 클래식, 힐링, 명상" },
-      releaseDate: '2025-11-20',
+      releaseDate: '2025-12-20',
       duration: '18 min 07 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',

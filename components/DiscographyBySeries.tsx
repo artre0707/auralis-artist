@@ -58,7 +58,11 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
   return (
     <Link to={`/albums/${album.slug}`} className="group block text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)] rounded-2xl">
       <div className="album-card rounded-2xl overflow-hidden bg-card border border-[#CBAE7A]/20 hover:border-[#CBAE7A]/40 shadow-[0_0_10px_rgba(203,174,122,0.08)] hover:shadow-[0_0_16px_rgba(203,174,122,0.15)] transition will-change-transform max-w-[260px] mx-auto">
-        <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105" loading="lazy" decoding="async" />
+        <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105" loading="lazy" decoding="async" onError={(e) => {
+          e.currentTarget.src =
+            "data:image/svg+xml;utf8," +
+            encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>");
+        }} />
       </div>
       <div className="mt-4">
         {album.details.formatGenre && (
@@ -77,7 +81,11 @@ const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
     <Link to={`/albums/${album.slug}`} className="group block text-center rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)]">
       <div className="rounded-2xl overflow-hidden bg-card border border-[var(--border)] hover:border-[#CBAE7A]/50 transition max-w-[260px] mx-auto">
         <div className="relative">
-          <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105 grayscale-[18%]" loading="lazy" decoding="async" />
+          <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105 grayscale-[18%]" loading="lazy" decoding="async" onError={(e) => {
+            e.currentTarget.src =
+              "data:image/svg+xml;utf8," +
+              encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>");
+          }} />
           <span className="absolute left-2 top-2 rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase bg-[#CBAE7A]/90 text-black shadow">
             {language === 'KR' ? '발매 예정' : 'Coming Soon'}
           </span>
@@ -115,7 +123,19 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
   }, [all, filterGenre]);
 
   const upcoming = useMemo(() => {
-    let xs = all.filter(a => a.status !== 'released');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Start of today
+    const twentyDaysInMs = 20 * 24 * 60 * 60 * 1000;
+
+    let xs = all.filter(a => {
+      if (a.status === 'released') return false;
+      const releaseDate = parseReleaseDate(a.details?.releaseDate);
+      if (!releaseDate) return false;
+      releaseDate.setHours(0, 0, 0, 0);
+      const timeDiff = releaseDate.getTime() - today.getTime();
+      return timeDiff >= 0 && timeDiff <= twentyDaysInMs;
+    });
+
     if (filterGenre) {
       xs = xs.filter(a => a.details.formatGenre?.some(g => g.toLowerCase() === filterGenre.toLowerCase()));
     }

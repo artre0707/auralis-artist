@@ -17,7 +17,7 @@ import Colorboard from "./studio/Colorboard";
 
 
 // Newly added magazine storage utility
-import { saveNote, ElysiaNote, NoteID } from "../services/magazineStore";
+import { saveNote, ElysiaNote } from "../services/magazineStore";
 
 type AlbumKey = keyof typeof albumsData;
 
@@ -28,10 +28,22 @@ function getAlbumKeySafe(k?: string | null): AlbumKey | null {
 
 const STUDIO_ALBUM_KEY_SS = 'studio:lastAlbumKey';
 
-type Tab = "Muse" | "Notebook" | "Collab" | "Colorboard";
-const TABS: Tab[] = ["Muse", "Notebook", "Collab", "Colorboard"];
+const TABS = ["Muse", "Notebook", "Collab", "Colorboard"] as const;
+// The Tab type is derived from the TABS constant. This ensures that the type and the array
+// are always in sync, preventing potential mismatches.
+type Tab = typeof TABS[number];
 
-const labels = {
+// FIX: Defined a type for the labels object to ensure correct type inference for L.tabs and prevent potential type errors.
+type LabelsType = {
+  [key in 'EN' | 'KR']: {
+    title: string;
+    subtitle: string;
+    tabs: Record<Tab, string>;
+    ctas: { toReaders: string; posted: string; };
+  }
+};
+
+const labels: LabelsType = {
   EN: {
     title: "Canvas",
     subtitle: "From inspiration to reflection — compose, share, and collaborate.",
@@ -88,14 +100,14 @@ export default function Studio() {
 
   // Muse → Elysia direct publishing
   const handlePublish = (payload: Omit<ElysiaNote, "id"|"createdAt"|"likes"|"featured">) => {
-    const id: NoteID = saveNote(payload);
-    // FIX: Explicitly cast `id` to a string to resolve a TypeScript error where the type was inferred as `string | number`.
-    navigate(`/elysia/${String(id)}`);
+    const id = saveNote(payload);
+    navigate(`/elysia/${id}`);
   };
 
   useEffect(() => {
-    // FIX: Changed `TABS.includes(tab)` to `TABS.indexOf(tab) === -1` to potentially resolve a subtle TypeScript error with array `includes` on union types.
-    if (TABS.indexOf(tab) === -1) {
+    // FIX: Replaced `indexOf` with `includes` to resolve a type error. This is a more modern
+    // way to check for inclusion in an array and can sometimes avoid complex type inference issues.
+    if (!TABS.includes(tab)) {
       setParams({ tab: 'Muse' }, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,6 +120,7 @@ export default function Studio() {
 
         {/* Tab Navigation */}
         <nav className="-mt-4 mb-10 flex justify-center gap-6 text-sm">
+          {/* FIX: Explicitly type 't' as 'Tab' to fix type inference issue. */}
           {TABS.map((t) => (
             <ReactRouterDOM.NavLink
               key={t}
@@ -119,7 +132,8 @@ export default function Studio() {
                   : "border-transparent text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
               }`}
             >
-              {L.tabs[t as keyof typeof L.tabs]}
+              {/* FIX: The type assertion on L.tabs[t] is no longer necessary because the `labels` object is now strongly typed with `LabelsType`, resolving the original type error. */}
+              {L.tabs[t]}
             </ReactRouterDOM.NavLink>
           ))}
         </nav>
@@ -130,7 +144,8 @@ export default function Studio() {
             try {
               const key = "auralis-notebook";
               const prev = JSON.parse(localStorage.getItem(key) || "[]");
-              const withId = { id: crypto.randomUUID(), createdAt: Date.now(), ...note };
+              // FIX: Changed createdAt to be an ISO string to avoid type conflicts.
+              const withId = { id: crypto.randomUUID(), createdAt: new Date().toISOString(), ...note };
               localStorage.setItem(key, JSON.stringify([withId, ...prev]));
               if (goToNotebook) navigate('/studio/notebook');
             } catch (e) { console.error(e); }

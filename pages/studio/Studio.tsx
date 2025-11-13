@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useSiteContext } from '../contexts/SiteContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { saveNote, NoteID } from '../services/magazineStore';
+import { saveNote } from '../services/magazineStore';
 
 export default function Studio() {
   const [params] = useSearchParams();
@@ -119,15 +119,14 @@ export default function Studio() {
     }
     try {
       setSaving(true);
-      const id: NoteID = saveNote({
+      const id = saveNote({
           title: museTitle,
           body: museNotes,
           cover: museCover || undefined,
           albumSlug: prefill.slug || undefined,
           catalogue: prefill.catalogue || undefined,
         });
-      // FIX: Explicitly cast the `id` from `saveNote` to a string to resolve a TypeScript error where the type was inferred as `string | number`.
-      navigate(`/elysia/${String(id)}`);
+      navigate(`/elysia/${id}`);
     } finally {
       setSaving(false);
     }

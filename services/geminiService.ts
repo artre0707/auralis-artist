@@ -13,32 +13,6 @@ export type MuseOutput = {
   };
 };
 
-/* ───────────────── API 키 공통 획득 로직 ─────────────────
-   - 브라우저: import.meta.env.VITE_GOOGLE_API_KEY (Cloudflare Pages Variables)
-   - 서버/빌드: process.env.GOOGLE_API_KEY / VITE_GOOGLE_API_KEY / API_KEY
-   - 필요시 window.__GOOGLE_API_KEY__ 같은 전역도 허용(옵션)
-*/
-function getApiKey(): string | undefined {
-  // @ts-ignore - Vite 환경에서만 존재
-  const viteKey = typeof window !== "undefined" ? (import.meta as any)?.env?.VITE_GOOGLE_API_KEY : undefined;
-  const winKey = typeof window !== "undefined" ? (window as any).__GOOGLE_API_KEY__ : undefined;
-
-  return (
-    viteKey ||
-    winKey ||
-    process.env.GOOGLE_API_KEY ||
-    process.env.VITE_GOOGLE_API_KEY ||
-    process.env.API_KEY
-  );
-}
-
-const API_KEY = getApiKey();
-if (!API_KEY) {
-  throw new Error(
-    "An API Key must be set when running in a browser (missing VITE_GOOGLE_API_KEY / GOOGLE_API_KEY)."
-  );
-}
-
 const schema = {
   type: Type.OBJECT,
   properties: {
@@ -92,6 +66,13 @@ const schema = {
   required: ["title", "mood", "instrumentation", "concept", "musicalElements"],
 };
 
+function createClient(apiKey: string) {
+  if (!apiKey) {
+    throw new Error("An API Key must be provided to create a Gemini client.");
+  }
+  return new GoogleGenAI({ apiKey });
+}
+
 function extractJson(text: string): string {
   const fence = text.match(/```json\s*([\s\S]*?)```/i);
   if (fence) return fence[1].trim();
@@ -141,17 +122,13 @@ function fallbackFromText(text: string, lang: "en" | "ko"): MuseOutput {
   };
 }
 
-/* ───────────────── 공통 클라이언트 ───────────────── */
-function createClient() {
-  return new GoogleGenAI({ apiKey: API_KEY! });
-}
-
 /* ───────────────── 메인 생성 함수 ───────────────── */
 export async function generateMuseJSON(
   prompt: string,
-  lang: "en" | "ko" = "en"
+  lang: "en" | "ko" = "en",
+  apiKey: string
 ): Promise<MuseOutput> {
-  const ai = createClient();
+  const ai = createClient(apiKey);
 
   const systemInstruction =
     lang === "ko"
@@ -192,10 +169,10 @@ export async function generateMuseJSON(
  * @param target "ko" | "en"
  * @returns 감성적으로 번역된 문장
  */
-export async function translateText(text: string, target: "ko" | "en"): Promise<string> {
+export async function translateText(text: string, target: "ko" | "en", apiKey: string): Promise<string> {
   if (!text || !text.trim()) return text;
 
-  const ai = createClient();
+  const ai = createClient(apiKey);
 
   if (target === "ko") {
     const prompt = `

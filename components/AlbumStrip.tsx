@@ -65,6 +65,13 @@ const AlbumStrip: React.FC<StripProps> = ({ titleEN, titleKR, items }) => {
                     className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "data:image/svg+xml;utf8," +
+                        encodeURIComponent(
+                          `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>`
+                        );
+                    }}
                   />
                 </ReactRouterDOM.Link>
               ))}

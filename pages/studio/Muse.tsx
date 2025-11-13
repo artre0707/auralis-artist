@@ -71,8 +71,21 @@ export default function MuseSection({ onSendToNotebook, onPublishToReaders }: Pr
     if (!input.trim() || loading) return;
     setLoading(true); setError(null); setData(null);
     try {
-      const { generateMuseJSON } = await import("../../services/geminiService");
-      const json = await generateMuseJSON(input, language === "KR" ? "ko" : "en");
+      const res = await fetch("/api/muse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: input,
+          lang: language === 'KR' ? 'ko' : 'en',
+        }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: 'Failed to parse error response' }));
+        throw new Error(errData.error || errData.message || `Server error: ${res.status}`);
+      }
+      
+      const json = await res.json();
       setData(json);
     } catch (err: any) {
       setError(err?.message || "Error occurred");

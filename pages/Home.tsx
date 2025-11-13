@@ -22,8 +22,19 @@ const Home: React.FC = () => {
   const { language } = useSiteContext();
 
   const newAndUpcoming = React.useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Start of today
+    const twentyDaysInMs = 20 * 24 * 60 * 60 * 1000;
+
     return Object.values(albumsData)
-      .filter(a => a.status !== 'released')
+      .filter(a => {
+        if (a.status === 'released') return false;
+        const releaseDate = parseReleaseDate(a.details.releaseDate);
+        if (!releaseDate) return false;
+        releaseDate.setHours(0, 0, 0, 0);
+        const timeDiff = releaseDate.getTime() - today.getTime();
+        return timeDiff >= 0 && timeDiff <= twentyDaysInMs;
+      })
       .sort((a, b) => (parseReleaseDate(a.details.releaseDate)?.getTime() ?? Infinity) - (parseReleaseDate(b.details.releaseDate)?.getTime() ?? Infinity))
       .slice(0, 6);
   }, []);

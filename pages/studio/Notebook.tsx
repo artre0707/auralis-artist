@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useEffect, useState } from "react";
 import { useSiteContext } from '../../contexts/SiteContext';
 // FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
@@ -13,7 +15,8 @@ export type Note = {
   chords?: string;
   tempo?: string;
   notes?: string;
-  createdAt: number;
+  // FIX: Changed createdAt type from number to string to handle ISO date strings.
+  createdAt: string;
   titleKR?: string;
   seedKR?: string;
   notesKR?: string;
@@ -24,7 +27,7 @@ const NOTEBOOK_KEY = "auralis-notebook";
 export default function NotebookSection() {
   const { language } = useSiteContext();
   const [items, setItems] = useState<Note[]>([]);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<NoteID | null>(null);
   const navigate = ReactRouterDOM.useNavigate();
 
   useEffect(() => {
@@ -32,17 +35,18 @@ export default function NotebookSection() {
       const raw = localStorage.getItem(NOTEBOOK_KEY);
       if (raw) {
         const notes = JSON.parse(raw);
-        setItems(notes.sort((a: Note, b: Note) => b.createdAt - a.createdAt));
+        // FIX: Update sorting to handle ISO date strings.
+        setItems(notes.sort((a: Note, b: Note) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
       }
     } catch {}
   }, []);
 
   const persist = (next: Note[]) => {
-    setItems(next.sort((a,b) => b.createdAt - a.createdAt));
+    setItems(next.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
     try { localStorage.setItem(NOTEBOOK_KEY, JSON.stringify(next)); } catch {}
   };
 
-  const remove = (id: string) => persist(items.filter(n => n.id !== id));
+  const remove = (id: NoteID) => persist(items.filter(n => n.id !== id));
 
   const handleCopy = (note: Note) => {
     const textToCopy = `${note.title}\n\nSeed:\n${note.seed}\n\nChords:\n${note.chords}\n\nTempo:\n${note.tempo}\n\nNotes:\n${note.notes}`;
