@@ -55,6 +55,13 @@ function writeAll(notes: ElysiaNote[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
 }
 
+function generateNoteId(): NoteID {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36);
+}
+
 // ---- Public APIs ----
 export function getAllNotes(): ElysiaNote[] {
   return readAll();
@@ -70,11 +77,7 @@ export function getNote(id: NoteID): ElysiaNote | null {
 export function saveNote(
   note: Omit<ElysiaNote, "id" | "createdAt" | "likes" | "featured">
 ): NoteID {
-  // FIX: The fallback for ID generation was returning a number from `Date.now()`, which caused the function's return type to be inferred as `string | number`. This created a type error where a `string` was strictly required. The fix is to convert the number to a string using `.toString(36)`.
-  const id: NoteID =
-    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-      ? crypto.randomUUID()
-      : Date.now().toString(36);
+  const id = generateNoteId();
 
   const newNote: ElysiaNote = {
     id,

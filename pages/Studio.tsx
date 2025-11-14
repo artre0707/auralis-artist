@@ -21,9 +21,10 @@ import { saveNote, ElysiaNote } from "../services/magazineStore";
 
 type AlbumKey = keyof typeof albumsData;
 
-function getAlbumKeySafe(k?: string | null): AlbumKey | null {
-  if (!k) return null;
-  return (k in albumsData ? (k as AlbumKey) : null);
+function getAlbumKeySafe(k?: any): AlbumKey | null {
+  if (k === null || k === undefined) return null;
+  const keyStr = String(k);
+  return (keyStr in albumsData ? (keyStr as AlbumKey) : null);
 }
 
 const STUDIO_ALBUM_KEY_SS = 'studio:lastAlbumKey';
@@ -56,6 +57,13 @@ const labels: LabelsType = {
     tabs: { Muse: "뮤즈", Notebook: "노트북", Collab: "협업", Colorboard: "컬러보드" },
     ctas: { toReaders: "엘리시아 노트 열기", posted: "엘리시아 노트로 게시됨" }
   }
+};
+
+const generateId = (): string => {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36);
 };
 
 export default function Studio() {
@@ -91,7 +99,8 @@ export default function Studio() {
   useEffect(() => {
     if (albumKey) {
         const album = albumsData[albumKey];
-        sessionStorage.setItem(STUDIO_ALBUM_KEY_SS, albumKey);
+        // FIX: Explicitly convert albumKey to a string to satisfy sessionStorage.setItem's signature.
+        sessionStorage.setItem(STUDIO_ALBUM_KEY_SS, String(albumKey));
         setMuseSeed(albumToMuseSeed(album, language));
     } else {
         setMuseSeed(null);
@@ -144,13 +153,8 @@ export default function Studio() {
             try {
               const key = "auralis-notebook";
               const prev = JSON.parse(localStorage.getItem(key) || "[]");
-              // FIX: Added a fallback for crypto.randomUUID to prevent type errors, ensuring the 'id' is always a string. This follows the robust ID generation pattern used elsewhere in the application.
               const withId = {
-                id:
-                  typeof crypto !== 'undefined' &&
-                  typeof crypto.randomUUID === 'function'
-                    ? crypto.randomUUID()
-                    : Date.now().toString(36),
+                id: generateId(),
                 createdAt: new Date().toISOString(),
                 ...note
               };
