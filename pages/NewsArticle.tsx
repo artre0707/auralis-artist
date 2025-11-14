@@ -128,43 +128,74 @@ const NewsArticle: React.FC = () => {
         </div>
 
         {/* 관련 자료 카드 */}
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 mt-14">
-          <article className="rounded-2xl overflow-hidden border border-card bg-card shadow-sm">
-            <Link to={`${ALBUMS_BASE}/resonance-after-the-first-suite`} className="block">
-              <div className="relative h-40 sm:h-48 overflow-hidden">
-                <img
-                  src={relatedCover}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-all duration-500 ease-out grayscale-[35%] brightness-[0.9] contrast-[0.98] group-hover:grayscale-0"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-transparent dark:from-black/45 dark:via-black/25 dark:to-transparent" />
+        {article.cta ? (
+          <div className="max-w-4xl mx-auto px-6 sm:px-8 mt-14">
+            <article className="rounded-2xl overflow-hidden border border-card bg-card shadow-sm group">
+              <a href={article.cta.link} target="_blank" rel="noopener noreferrer" className="block">
+                <div className="relative h-40 sm:h-48 overflow-hidden">
+                  <img
+                    src={relatedCover}
+                    alt={title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-all duration-500 ease-out grayscale-[35%] brightness-[0.9] contrast-[0.98] group-hover:grayscale-0"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-transparent dark:from-black/45 dark:via-black/25 dark:to-transparent" />
+                </div>
+              </a>
+              <div className="p-5 sm:p-6">
+                <p className="text-sm text-subtle mb-4">
+                  {isKorean ? article.cta.KR.sectionTitle : article.cta.EN.sectionTitle}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a href={article.cta.link} target="_blank" rel="noopener noreferrer" className={BUTTON_PILL}>
+                    <span className="relative z-10">
+                      → {isKorean ? article.cta.KR.buttonLabel : article.cta.EN.buttonLabel}
+                    </span>
+                  </a>
+                </div>
               </div>
-            </Link>
+            </article>
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto px-6 sm:px-8 mt-14">
+            <article className="rounded-2xl overflow-hidden border border-card bg-card shadow-sm">
+              <Link to={`${ALBUMS_BASE}/resonance-after-the-first-suite`} className="block">
+                <div className="relative h-40 sm:h-48 overflow-hidden">
+                  <img
+                    src={relatedCover}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-all duration-500 ease-out grayscale-[35%] brightness-[0.9] contrast-[0.98] group-hover:grayscale-0"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-transparent dark:from-black/45 dark:via-black/25 dark:to-transparent" />
+                </div>
+              </Link>
 
-            <div className="p-5 sm:p-6">
-              <p className="text-sm text-subtle mb-4">{c.relatedIntro}</p>
-              <div className="flex flex-wrap gap-3">
-                <Link to={`${ALBUMS_BASE}/resonance-after-the-first-suite`} className={BUTTON_PILL}>
-                  <span className="relative z-10">
-                    {language === 'EN' ? 'Embrace the Album' : '앨범과 마주하다'}
-                  </span>
-                </Link>
-                <a href={listenHref} target="_blank" rel="noopener noreferrer" className={BUTTON_PILL}>
-                  <span className="relative z-10">
-                    {language === 'EN' ? 'Drift into Sound' : '지금 듣기'}
-                  </span>
-                </a>
-                <a href={watchHref} target="_blank" rel="noopener noreferrer" className={BUTTON_PILL}>
-                  <span className="relative z-10">
-                    {language === 'EN' ? 'See the Music' : 'YouTube에서 보기'}
-                  </span>
-                </a>
+              <div className="p-5 sm:p-6">
+                <p className="text-sm text-subtle mb-4">{c.relatedIntro}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Link to={`${ALBUMS_BASE}/resonance-after-the-first-suite`} className={BUTTON_PILL}>
+                    <span className="relative z-10">
+                      {language === 'EN' ? 'Embrace the Album' : '앨범과 마주하다'}
+                    </span>
+                  </Link>
+                  <a href={listenHref} target="_blank" rel="noopener noreferrer" className={BUTTON_PILL}>
+                    <span className="relative z-10">
+                      {language === 'EN' ? 'Drift into Sound' : '지금 듣기'}
+                    </span>
+                  </a>
+                  <a href={watchHref} target="_blank" rel="noopener noreferrer" className={BUTTON_PILL}>
+                    <span className="relative z-10">
+                      {language === 'EN' ? 'See the Music' : 'YouTube에서 보기'}
+                    </span>
+                  </a>
+                </div>
               </div>
-            </div>
-          </article>
-        </div>
+            </article>
+          </div>
+        )}
         
         <BackToSection type="news" className="mt-12" />
       </article>
