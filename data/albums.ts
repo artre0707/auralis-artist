@@ -42,6 +42,7 @@ export type Album = {
     flo: string | null;
     vibe: string | null;
     presave?: string | null;
+    shazam?: string | null;
   };
   details: {
     formatGenre: string[] | null;
@@ -98,6 +99,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
@@ -167,7 +169,7 @@ export const albumsData: { [key: string]: Album } = {
     },
     links: {
       listenNow: null, spotify: null, appleMusic: null, youtube: null, bandcamp: null,
-      believe: null, amazonMusic: null, flo: null, vibe: null, presave: null,
+      believe: null, amazonMusic: null, flo: null, vibe: null, presave: null, shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
@@ -251,6 +253,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'EASY LISTENING', 'CROSSOVER'],
@@ -331,6 +334,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'AMBIENT'],
@@ -416,6 +420,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CROSSOVER'],
@@ -497,6 +502,7 @@ export const albumsData: { [key: string]: Album } = {
       amazonMusic: 'https://www.amazon.de/music/player/albums/B0FS93MNZ9',
       flo: "https://www.music-flo.com/detail/album/444504241/albumtrack",
       vibe: null,
+      shazam: 'https://www.shazam.com/album/1841847315/resonance-after-the-first-suite-echoes-of-classics-single',
     },
     details: {
       formatGenre: ["DIGITAL", "SINGLE", "PIANO", "CROSSOVER"],
@@ -577,6 +583,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: 'https://example.com/presave-ballet',
+      shazam: null,
     },
     details: {
       formatGenre: ["DIGITAL", "EP", "PIANO", "BALLET"],
@@ -653,6 +660,7 @@ export const albumsData: { [key: string]: Album } = {
       flo: null,
       vibe: null,
       presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ["DIGITAL", "ALBUM", "PIANO", "Meditation"],

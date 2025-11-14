@@ -37,6 +37,7 @@ const pageContent = {
       moreVideo: 'View more video',
       vibe: 'VIBE',
       appleMusicClassical: 'Apple Music Classical',
+      shazam: 'Shazam',
     },
     albumInfo: { collection: 'Collection', subTheme: 'Sub-theme', releaseDate: 'Release Date', duration: 'Duration' },
     section: {
@@ -64,6 +65,7 @@ const pageContent = {
       moreVideo: '다른 영상 보기',
       vibe: 'VIBE',
       appleMusicClassical: 'Apple Music Classical',
+      shazam: 'Shazam',
     },
     albumInfo: { collection: '컬렉션', subTheme: '서브테마', releaseDate: '발매일', duration: '총 재생 시간' },
     section: {
@@ -612,6 +614,17 @@ const AlbumDetail: React.FC = () => {
       <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
         {c.buttonLabels.vibe}
       </Btn>
+
+      {/* SHAZAM button added */}
+      {album.links?.shazam ? (
+        <Btn href={album.links.shazam} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Shazam', track: album.title })}>
+          {c.buttonLabels.shazam}
+        </Btn>
+      ) : (
+        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+          {c.buttonLabels.shazam}
+        </Btn>
+      )}
 
       {/* Apple Music Classical (active) */}
       <Btn
