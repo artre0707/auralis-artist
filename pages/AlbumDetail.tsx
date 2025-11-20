@@ -550,7 +550,11 @@ const AlbumDetail: React.FC = () => {
   {isReleased ? (
     <>
       <Btn
-        href={album.links?.listenNow ?? 'https://auralis.bfan.link/resonance-after-the-first-suite-2'}
+        href={
+            album.links?.listenNow ??
+            album.links?.presave ??
+            'https://auralis.bfan.link/resonance-after-the-first-suite-2'
+        }
         variant="primaryGlow"
         size="md"
         arrow
@@ -639,9 +643,9 @@ const AlbumDetail: React.FC = () => {
     </>
     ) : (
     <>
-      {/* ✅ 여기만 바꾸면 모든 'upcoming' 앨범에 공통 적용 (Chorégraphie 포함) */}
+      {/* ✅ Upcoming 상태: presave 우선, 없으면 listenNow (동일 링크) 사용 */}
       <PresaveButton
-        url={album.links?.presave ?? undefined}
+        url={album.links?.presave ?? album.links?.listenNow ?? undefined}
         isKR={language === 'KR'}
       />
 
