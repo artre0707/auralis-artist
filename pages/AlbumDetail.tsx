@@ -637,10 +637,13 @@ const AlbumDetail: React.FC = () => {
         {c.buttonLabels.appleMusicClassical}
       </Btn>
     </>
-  ) : (
+    ) : (
     <>
       {/* ✅ 여기만 바꾸면 모든 'upcoming' 앨범에 공통 적용 (Chorégraphie 포함) */}
-      <PresaveButton  isKR={language === 'KR'} />
+      <PresaveButton
+        url={album.links?.presave ?? undefined}
+        isKR={language === 'KR'}
+      />
 
       <div className="flex items-center justify-center rounded-full border border-[var(--border)] text-sm px-3 py-2 text-subtle">
         {releaseDateText === 'TBA' || releaseDateText === '발매일 미정'
@@ -650,6 +653,7 @@ const AlbumDetail: React.FC = () => {
       </div>
     </>
   )}
+
 </div>
                 </div>
 
