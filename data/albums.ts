@@ -21,6 +21,8 @@ export type Album = {
   magazineSlug?: string;
   featuredVideoUrl?: string; // Fallback for older data structure
   videos?: {
+    // ✅ Teaser/Preview 추가
+    teaser?: string;
     titleTrack?: string;
     track1?: string;
     track2?: string;
@@ -82,7 +84,7 @@ export const albumsData: { [key: string]: Album } = {
     status: 'upcoming',
     title: 'Lullabook: On a Birthday Morning',
     slug: 'lullabook-on-a-birthday-morning',
-    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-on-a-birthday-morning.jpg',
+    coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-pastel-morning.jpg',
     catalogueNo: 'ARTRE2025-065',
     seriesInfo: {
       name: { EN: 'Lullabook Series', KR: '럴러북 시리즈' },
@@ -231,7 +233,7 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
-// FIX: Changed typo 'f' to a comma to correctly separate objects.
+  // FIX: Changed typo 'f' to a comma to correctly separate objects.
   'resonance-through-the-wedding-march': {
     status: 'upcoming',
     title: 'Resonance: Through the Wedding March',
@@ -483,6 +485,7 @@ export const albumsData: { [key: string]: Album } = {
     coverUrl: 'https://www.auralis-music.com/images/albums/resonance-after-the-first-suite.jpg',
     catalogueNo: "ARTRE2025-009",
     videos: {
+      // 필요하면 여기 teaser: '...' 나중에 추가 가능
       titleTrack: 'https://www.youtube.com/watch?v=f9Du-utVUxE&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5&index=2',
       track1: 'https://www.youtube.com/watch?v=xk0JSviIitA&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5',
       fullAlbum: 'https://www.youtube.com/watch?v=H7GURKtbU00&t=283s'
@@ -501,7 +504,7 @@ export const albumsData: { [key: string]: Album } = {
       believe: 'https://believemusic.link/resonance-after-the-first-suite',
       amazonMusic: 'https://www.amazon.de/music/player/albums/B0FS93MNZ9',
       flo: "https://www.music-flo.com/detail/album/444504241/albumtrack",
-      vibe: null,
+      vibe: "https://vibe.naver.com/album/35746668",
       shazam: 'https://www.shazam.com/album/1841847315/resonance-after-the-first-suite-echoes-of-classics-single',
     },
     details: {

@@ -265,16 +265,51 @@ const VideoShell: React.FC<{ title: string; src: string }> = ({ title, src }) =>
   </div>
 );
 
-const FeaturedVideos: React.FC<{ titleUrl?: string; fullUrl?: string; track1Url?: string }> = ({ titleUrl, fullUrl, track1Url }) => {
+// ✅ Teaser / Title Track / Full Album 을 순서대로, URL 있는 것만 노출
+const FeaturedVideos: React.FC<{
+  teaserUrl?: string;
+  titleUrl?: string;
+  fullUrl?: string;
+  track1Url?: string;
+}> = ({ teaserUrl, titleUrl, fullUrl, track1Url }) => {
   const { language } = useSiteContext();
   const s = pageContent[language].section;
+
+  const videosToShow: { title: string; url: string }[] = [];
+
+  if (teaserUrl) {
+    videosToShow.push({
+      title: language === 'KR' ? '티저 영상' : 'Teaser',
+      url: teaserUrl,
+    });
+  }
+  if (titleUrl) {
+    videosToShow.push({
+      title: language === 'KR' ? '타이틀 트랙' : 'Title Track',
+      url: titleUrl,
+    });
+  }
+  if (fullUrl) {
+    videosToShow.push({
+      title: language === 'KR' ? '풀 앨범 영상' : 'Full Album Video',
+      url: fullUrl,
+    });
+  }
+
+  if (!videosToShow.length && !track1Url) {
+    return null;
+  }
+
   return (
     <section className="mx-auto max-w-6xl px-6">
       <SectionHeader title={s.videosTitle} subtitle={s.videosSub} divider />
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        {titleUrl ? <VideoShell title={language === 'KR' ? '타이틀 트랙' : 'Title Track'} src={toEmbedSrc(titleUrl)} /> : null}
-        {fullUrl ? <VideoShell title={language === 'KR' ? '풀 앨범 영상' : 'Full Album Video'} src={toEmbedSrc(fullUrl)} /> : null}
-      </div>
+      {videosToShow.length > 0 && (
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {videosToShow.map((v, idx) => (
+            <VideoShell key={idx} title={v.title} src={toEmbedSrc(v.url)} />
+          ))}
+        </div>
+      )}
       {track1Url && (
         <div className="mt-4 flex items-center justify-center">
           <Btn href={track1Url} variant="outlineGhost" arrow>
@@ -467,7 +502,7 @@ const PresaveButton: React.FC<{ url?: string; isKR: boolean }> = ({ url, isKR })
       className="
         w-full px-5 py-2.5 text-sm rounded-full
         border border-[var(--border)]
-        bg-neutral-100/60 dark:bg-white/5
+        bg-neutral-100/60 dark:bg:white/5
         text-neutral-400 dark:text-neutral-500
         cursor-not-allowed
       "
@@ -517,7 +552,12 @@ const AlbumDetail: React.FC = () => {
   const isReleased = album.status === 'released';
   const albumContent = album.content?.[language] ?? { subtitle: '', description: [], tracklist: [] as Track[] };
   const safeDescription = Array.isArray(albumContent.description) ? albumContent.description : [albumContent.description].filter(Boolean) as string[];
-  const hasVideos = Boolean(album.videos?.titleTrack || album.videos?.fullAlbum);
+  // ✅ teaser / titleTrack / fullAlbum 중 하나라도 있으면 hasVideos = true
+  const hasVideos = Boolean(
+    album.videos?.teaser ||
+    album.videos?.titleTrack ||
+    album.videos?.fullAlbum
+  );
   const releaseDateText = formatReleaseDate(language, album.details?.releaseDate);
 
   return (
@@ -547,118 +587,124 @@ const AlbumDetail: React.FC = () => {
 
                   {/* Buttons */}
                   <div className="grid grid-cols-2 gap-3 mt-6">
-  {isReleased ? (
-    <>
-      <Btn
-        href={
-            album.links?.listenNow ??
-            album.links?.presave ??
-            'https://auralis.bfan.link/resonance-after-the-first-suite-2'
-        }
-        variant="primaryGlow"
-        size="md"
-        arrow
-        onClick={() => trackMetaEvent('PlayMusic', { platform: 'SmartLink', track: album.title })}
-      >
-        {c.buttonLabels.listenNow}
-      </Btn>
+                    {isReleased ? (
+                      <>
+                        <Btn
+                          href={
+                              album.links?.listenNow ??
+                              album.links?.presave ??
+                              'https://auralis.bfan.link/resonance-after-the-first-suite-2'
+                          }
+                          variant="primaryGlow"
+                          size="md"
+                          arrow
+                          onClick={() => trackMetaEvent('PlayMusic', { platform: 'SmartLink', track: album.title })}
+                        >
+                          {c.buttonLabels.listenNow}
+                        </Btn>
 
-      {/* 플랫폼 버튼들은 기존 그대로 */}
-      {album.links?.spotify ? (
-        <Btn href={album.links.spotify} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Spotify', track: album.title })}>
-          {c.buttonLabels.spotify}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.spotify}
-        </Btn>
-      )}
+                        {/* 플랫폼 버튼들은 기존 그대로 */}
+                        {album.links?.spotify ? (
+                          <Btn href={album.links.spotify} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Spotify', track: album.title })}>
+                            {c.buttonLabels.spotify}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.spotify}
+                          </Btn>
+                        )}
 
-      {album.links?.appleMusic ? (
-        <Btn href={album.links.appleMusic} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music', track: album.title })}>
-          {c.buttonLabels.appleMusic}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.appleMusic}
-        </Btn>
-      )}
+                        {album.links?.appleMusic ? (
+                          <Btn href={album.links.appleMusic} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music', track: album.title })}>
+                            {c.buttonLabels.appleMusic}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.appleMusic}
+                          </Btn>
+                        )}
 
-      {album.links?.youtube ? (
-        <Btn href={album.links.youtube} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'YouTube', track: album.title })}>
-          {c.buttonLabels.youtube}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.youtube}
-        </Btn>
-      )}
+                        {album.links?.youtube ? (
+                          <Btn href={album.links.youtube} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'YouTube', track: album.title })}>
+                            {c.buttonLabels.youtube}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.youtube}
+                          </Btn>
+                        )}
 
-      {album.links?.flo ? (
-        <Btn href={album.links.flo} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'FLO', track: album.title })}>
-          {c.buttonLabels.flo}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.flo}
-        </Btn>
-      )}
+                        {album.links?.flo ? (
+                          <Btn href={album.links.flo} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'FLO', track: album.title })}>
+                            {c.buttonLabels.flo}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.flo}
+                          </Btn>
+                        )}
 
-      {album.links?.bandcamp ? (
-        <Btn href={album.links.bandcamp} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Bandcamp', track: album.title })}>
-          {c.buttonLabels.bandcamp}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.bandcamp}
-        </Btn>
-      )}
+                        {album.links?.bandcamp ? (
+                          <Btn href={album.links.bandcamp} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Bandcamp', track: album.title })}>
+                            {c.buttonLabels.bandcamp}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.bandcamp}
+                          </Btn>
+                        )}
 
-      {/* VIBE (disabled) */}
-      <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-        {c.buttonLabels.vibe}
-      </Btn>
+                        {/* ✅ VIBE: links.vibe 값이 있을 때만 활성화 */}
+                        {album.links?.vibe ? (
+                          <Btn href={album.links.vibe} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'VIBE', track: album.title })}>
+                            {c.buttonLabels.vibe}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.vibe}
+                          </Btn>
+                        )}
 
-      {/* SHAZAM button added */}
-      {album.links?.shazam ? (
-        <Btn href={album.links.shazam} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Shazam', track: album.title })}>
-          {c.buttonLabels.shazam}
-        </Btn>
-      ) : (
-        <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
-          {c.buttonLabels.shazam}
-        </Btn>
-      )}
+                        {/* SHAZAM button added */}
+                        {album.links?.shazam ? (
+                          <Btn href={album.links.shazam} variant="outlineGhost" size="md" arrow={false} onClick={() => trackMetaEvent('PlayMusic', { platform: 'Shazam', track: album.title })}>
+                            {c.buttonLabels.shazam}
+                          </Btn>
+                        ) : (
+                          <Btn disabled variant="outlineGhost" size="md" arrow={false} disabledTitle={c.buttonLabels.linkComingSoon}>
+                            {c.buttonLabels.shazam}
+                          </Btn>
+                        )}
 
-      {/* Apple Music Classical (active) */}
-      <Btn
-        href="https://classical.music.apple.com/us/album/1841847315"
-        variant="outlineGhost"
-        size="md"
-        arrow={false}
-        onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music Classical', track: album.title })}
-      >
-        {c.buttonLabels.appleMusicClassical}
-      </Btn>
-    </>
-    ) : (
-    <>
-      {/* ✅ Upcoming 상태: presave 우선, 없으면 listenNow (동일 링크) 사용 */}
-      <PresaveButton
-        url={album.links?.presave ?? album.links?.listenNow ?? undefined}
-        isKR={language === 'KR'}
-      />
+                        {/* Apple Music Classical (active) */}
+                        <Btn
+                          href="https://classical.music.apple.com/us/album/1841847315"
+                          variant="outlineGhost"
+                          size="md"
+                          arrow={false}
+                          onClick={() => trackMetaEvent('PlayMusic', { platform: 'Apple Music Classical', track: album.title })}
+                        >
+                          {c.buttonLabels.appleMusicClassical}
+                        </Btn>
+                      </>
+                    ) : (
+                      <>
+                        {/* ✅ Upcoming 상태: presave 우선, 없으면 listenNow (동일 링크) 사용 */}
+                        <PresaveButton
+                          url={album.links?.presave ?? album.links?.listenNow ?? undefined}
+                          isKR={language === 'KR'}
+                        />
 
-      <div className="flex items-center justify-center rounded-full border border-[var(--border)] text-sm px-3 py-2 text-subtle">
-        {releaseDateText === 'TBA' || releaseDateText === '발매일 미정'
-          ? releaseDateText
-          : `${language === 'KR' ? '발매일' : 'Release'} • ${releaseDateText}`
-        }
-      </div>
-    </>
-  )}
+                        <div className="flex items-center justify-center rounded-full border border-[var(--border)] text-sm px-3 py-2 text-subtle">
+                          {releaseDateText === 'TBA' || releaseDateText === '발매일 미정'
+                            ? releaseDateText
+                            : `${language === 'KR' ? '발매일' : 'Release'} • ${releaseDateText}`
+                          }
+                        </div>
+                      </>
+                    )}
 
-</div>
+                  </div>
                 </div>
 
                 {/* Right column */}
@@ -676,9 +722,17 @@ const AlbumDetail: React.FC = () => {
 
           {isReleased && albumContent?.tracklist?.length ? <Tracklist tracks={albumContent.tracklist} /> : null}
 
-          {isReleased && (hasVideos
-            ? <FeaturedVideos titleUrl={album.videos?.titleTrack ?? undefined} fullUrl={album.videos?.fullAlbum ?? undefined} track1Url={album.videos?.track1 ?? undefined} />
-            : (album.featuredVideoUrl ? <SingleVideo url={album.featuredVideoUrl} /> : null)
+          {isReleased && (
+            hasVideos ? (
+              <FeaturedVideos
+                teaserUrl={album.videos?.teaser ?? undefined}
+                titleUrl={album.videos?.titleTrack ?? undefined}
+                fullUrl={album.videos?.fullAlbum ?? undefined}
+                track1Url={album.videos?.track1 ?? undefined}
+              />
+            ) : (
+              album.featuredVideoUrl ? <SingleVideo url={album.featuredVideoUrl} /> : null
+            )
           )}
 
           {/* ▼▼▼ Reflections 섹션 복원: 영상 바로 아래에 표시 ▼▼▼ */}
@@ -700,47 +754,47 @@ const AlbumDetail: React.FC = () => {
         
       </main>
       {/* ───────────── 공통 하단 네비게이션 (항상 노출) */}
-<section
-  aria-label="Album footer navigation"
-  className="max-w-6xl mx-auto px-6 mt-16 sm:mt-20 pt-8 border-t border-[var(--border)]"
->
-  <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-0">
-    {/* ← Back to Albums */}
-    <Btn
-      to="/albums"
-      variant="outlineGhost"
-      arrow
-      className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
-    >
-      {pageContent[language].backToAlbums}
-    </Btn>
+      <section
+        aria-label="Album footer navigation"
+        className="max-w-6xl mx-auto px-6 mt-16 sm:mt-20 pt-8 border-t border-[var(--border)]"
+      >
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-0">
+          {/* ← Back to Albums */}
+          <Btn
+            to="/albums"
+            variant="outlineGhost"
+            arrow
+            className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
+          >
+            {pageContent[language].backToAlbums}
+          </Btn>
 
-    {/* Prev / Next Navigation */}
-    <div className="flex gap-3 sm:gap-4">
-      {(album as any).prevSlug && (
-        <Btn
-          to={`/albums/${(album as any).prevSlug}`}
-          variant="outlineGhost"
-          arrow={false}
-          arrowLeft
-          className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
-        >
-          {language === 'KR' ? '이전 앨범' : 'Previous'}
-        </Btn>
-      )}
-      {(album as any).nextSlug && (
-        <Btn
-          to={`/albums/${(album as any).nextSlug}`}
-          variant="outlineGhost"
-          arrow
-          className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
-        >
-          {language === 'KR' ? '다음 앨범' : 'Next'}
-        </Btn>
-      )}
-    </div>
-  </div>
-</section>
+          {/* Prev / Next Navigation */}
+          <div className="flex gap-3 sm:gap-4">
+            {(album as any).prevSlug && (
+              <Btn
+                to={`/albums/${(album as any).prevSlug}`}
+                variant="outlineGhost"
+                arrow={false}
+                arrowLeft
+                className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
+              >
+                {language === 'KR' ? '이전 앨범' : 'Previous'}
+              </Btn>
+            )}
+            {(album as any).nextSlug && (
+              <Btn
+                to={`/albums/${(album as any).nextSlug}`}
+                variant="outlineGhost"
+                arrow
+                className="text-[color:var(--link)] hover:text-[color:var(--accent)]"
+              >
+                {language === 'KR' ? '다음 앨범' : 'Next'}
+              </Btn>
+            )}
+          </div>
+        </div>
+      </section>
     </PageContainer>
   );
 };
