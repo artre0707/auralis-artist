@@ -1,3 +1,4 @@
+// pages/Home.tsx
 import React from 'react';
 // FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
 import * as ReactRouterDOM from 'react-router-dom';
@@ -21,15 +22,30 @@ const collectionsHeaderCopy = {
 const Home: React.FC = () => {
   const { language } = useSiteContext();
 
-  // 하단 스트립: 발매 예정 앨범 전체를 날짜순으로 정렬해서 사용
-  const upcomingStrip = React.useMemo(() => {
-    return Object.values(albumsData)
+  // 🔁 스트립용: 발매예정 + 발매완료 전체를 한 줄로
+  const stripItems = React.useMemo(() => {
+    const all = Object.values(albumsData);
+
+    // 1) 업커밍: 가까운 발매일 순 (오래된 → 최근)
+    const upcoming = all
       .filter(a => a.status === 'upcoming')
-      .sort(
-        (a, b) =>
-          (parseReleaseDate(a.details.releaseDate)?.getTime() ?? Infinity) -
-          (parseReleaseDate(b.details.releaseDate)?.getTime() ?? Infinity)
-      );
+      .sort((a, b) => {
+        const ad = parseReleaseDate(a.details.releaseDate)?.getTime() ?? Infinity;
+        const bd = parseReleaseDate(b.details.releaseDate)?.getTime() ?? Infinity;
+        return ad - bd;
+      });
+
+    // 2) 발매 완료: 최신 앨범이 먼저 보이도록 (최근 → 예전)
+    const released = all
+      .filter(a => a.status === 'released')
+      .sort((a, b) => {
+        const ad = parseReleaseDate(a.details.releaseDate)?.getTime() ?? 0;
+        const bd = parseReleaseDate(b.details.releaseDate)?.getTime() ?? 0;
+        return bd - ad;
+      });
+
+    // 3) 업커밍 먼저, 그 뒤로 전체 디스코그래피
+    return [...upcoming, ...released];
   }, []);
 
   // CTA Button logic from original DiscographySection
@@ -75,16 +91,16 @@ const Home: React.FC = () => {
         <SectionHeader title={headerCopy.title} subtitle={headerCopy.subtitle} />
       </div>
 
-      {/* 상단 3개 (발매 1 + 발매예정 2) */}
+      {/* 위: 3개 추천 (기존 FeaturedMixedTrio 그대로) */}
       <div className="-mt-4">
         <FeaturedMixedTrio />
       </div>
 
-      {/* 하단 마퀴: 발매예정 전체 */}
+      {/* 아래: 전체 앨범 + 업커밍이 한 줄로 자동 스크롤 */}
       <AlbumStrip
-        titleEN="New & Upcoming"
-        titleKR="새 소식 & 발매 예정"
-        items={upcomingStrip}
+        titleEN="Albums & Upcoming"
+        titleKR="발매 & 발매 예정"
+        items={stripItems}
       />
 
       <div className="text-center mt-12 mb-8">

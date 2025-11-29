@@ -80,9 +80,9 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
-  'lullabook-on-a-pastel-morning': {
+  'lullabook-pastel-morning': {
     status: 'upcoming',
-    title: 'Lullabook: On a Pastel Morning',
+    title: 'Lullabook: Pastel Morning',
     slug: 'lullabook-on-a-pastel-morning',
     coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-pastel-morning.jpg',
     catalogueNo: 'ARTRE2025-065',
