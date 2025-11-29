@@ -80,6 +80,83 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
+    'choregraphie-etudes-de-ballet-class': {
+    status: 'upcoming',
+    title: 'Chorégraphie: Études de Ballet (Class)',
+    slug: 'choregraphie-etudes-de-ballet-class',
+    coverUrl: 'https://www.auralis-music.com/images/albums/choregraphie-etudes-de-ballet.jpg',
+    catalogueNo: 'ARTRE2025-034',
+    seriesInfo: {
+      name: { EN: 'Chorégraphie Series', KR: 'Chorégraphie 시리즈' },
+      subtitle: { EN: 'Class', KR: 'Class' },
+    },
+    links: {
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+      shazam: null,
+    },
+    details: {
+      formatGenre: ['DIGITAL', 'ALBUM', 'PIANO', 'BALLET'],
+      displayGenre: {
+        EN: 'Ballet, Classical Crossover',
+        KR: '발레, 클래식 크로스오버',
+      },
+      // ✅ 발매일 12월 3일
+      releaseDate: '2025-12-03',
+      duration: '40 min 55 sec',
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
+    },
+    credits: [
+      { role: { EN: 'Producer & Pianist', KR: '프로듀서 & 피아니스트' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Composer', KR: '작곡' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
+      { role: { EN: 'Music Technician', KR: '뮤직 테크니션' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { EN: 'Created by', KR: '제작' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+    ],
+    content: {
+      EN: {
+        // ▶ 여기 부제가 디테일 페이지에서 제목 아래 한 줄로 들어가
+        subtitle: 'Music that follows each step',
+        description: [
+          'Chorégraphie: Études de Ballet (Class) is an original piano collection shaped around the quiet flow of a real ballet class.',
+          'From warm-up to center, each piece keeps a clear pulse and gentle tone—steady enough for movement, calm enough for focused listening.',
+        ],
+        feelingInspiredText: 'Steady rhythm, clear phrasing, and a gentle musical focus for every exercise.',
+        tracklist: [], // 나중에 36곡 채워 넣기
+        linerNotes: {
+          p1: 'A ballet class translated into piano: music that traces each exercise with clarity, breath, and ease. Designed for dancers, yet soft enough to live in the background of everyday life.',
+          quote: '“A quiet class, written in piano.”',
+        },
+      },
+      KR: {
+        subtitle: '한 동작, 한 숨을 따라가는 피아노',
+        description: [
+          '실제 발레 클래스의 흐름을 바탕으로 구성한 오리지널 피아노 에튀드 모음입니다.',
+          '웜업부터 센터까지 각 동작을 안정된 리듬과 부드러운 톤으로 받쳐 주어, 연습 음악은 물론 차분한 감상과 작업용 음악으로도 잘 어울립니다.',
+        ],
+        feelingInspiredText: '한 동작 한 숨을 따라가는 안정된 리듬과 부드러운 피아노 톤.',
+        tracklist: [], // 나중에 36곡 채워 넣기
+        linerNotes: {
+          p1: '발레 클래스의 구조를 그대로 옮겨온 피아노 음악입니다. 웜업에서 센터까지, 매 동작을 또렷한 박과 부드러운 울림으로 감싸며 무용수와 듣는 이 모두에게 편안한 호흡을 선사합니다.',
+          quote: '“조용한 발레 클래스를 피아노로 쓴 한 시간.”',
+        },
+      },
+    },
+  }
   'lullabook-pastel-morning': {
     status: 'upcoming',
     title: 'Lullabook: Pastel Morning',
@@ -615,10 +692,10 @@ export const albumsData: { [key: string]: Album } = {
         ],
         feelingInspiredText: "The graceful arc of a dancer's movement, translating joy and introspection into sound, satin ribbons and soliloquies.",
         tracklist: [
-          { no: 1, title: 'Morning Stretch', duration: '1:23', isTitle: false },
-          { no: 2, title: "Journey of Practice", duration: '1:57', isTitle: true },
+          { no: 1, title: 'Morning Stretch', duration: '1:23', isTitle: true },
+          { no: 2, title: "Journey of Practice", duration: '1:57', isTitle: false },
           { no: 3, title: 'Solitude in Motion', duration: '1:34', isTitle: false },
-          { no: 4, title: "Curtain of Memories", duration: '1:17', isTitle: true },
+          { no: 4, title: "Curtain of Memories", duration: '1:17', isTitle: false },
         ],
         linerNotes: {
             p1: "The piano and the body both tell stories without words. This album is an attempt to find the harmony between them, where each note is a step, and every melody is a leap of faith.",
