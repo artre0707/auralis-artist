@@ -80,7 +80,7 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
-    'choregraphie-etudes-de-ballet-class': {
+  'choregraphie-etudes-de-ballet-class': {
     status: 'upcoming',
     title: 'Chorégraphie: Études de Ballet (Class)',
     slug: 'choregraphie-etudes-de-ballet-class',
@@ -129,34 +129,37 @@ export const albumsData: { [key: string]: Album } = {
     ],
     content: {
       EN: {
-        // ▶ 여기 부제가 디테일 페이지에서 제목 아래 한 줄로 들어가
-        subtitle: 'Music that follows each step',
+        // ▶ 디테일 페이지에서 제목 아래 한 줄
+        subtitle: 'Piano studies shaped like a ballet class',
         description: [
-          'Chorégraphie: Études de Ballet (Class) is an original piano collection shaped around the quiet flow of a real ballet class.',
-          'From warm-up to center, each piece keeps a clear pulse and gentle tone—steady enough for movement, calm enough for focused listening.',
+          'Chorégraphie: Études de Ballet (Class) is an original piano collection shaped like a full ballet class—from first plié at the barre to the final reverence.',
+          'Each étude keeps a clear pulse, lyrical line, and gentle focus, supporting dancers in motion while remaining cinematic enough for quiet, mindful listening.',
         ],
-        feelingInspiredText: 'Steady rhythm, clear phrasing, and a gentle musical focus for every exercise.',
+        feelingInspiredText:
+          'Piano études that move with the class — steady in rhythm, soft in tone, quietly cinematic.',
         tracklist: [], // 나중에 36곡 채워 넣기
         linerNotes: {
-          p1: 'A ballet class translated into piano: music that traces each exercise with clarity, breath, and ease. Designed for dancers, yet soft enough to live in the background of everyday life.',
-          quote: '“A quiet class, written in piano.”',
+          p1: 'A ballet class translated into piano — music that traces each exercise as a small scene in motion, holding rhythm for the body and space for the mind.',
+          quote: '“Where each exercise becomes a quiet piece of choreography in sound.”',
         },
       },
       KR: {
-        subtitle: '움직임과 호흡을 담아낸 피아노',
+        subtitle: '발레 클래스를 따라 흐르는 피아노',
         description: [
-          '실제 발레 클래스의 흐름을 바탕으로 구성한 오리지널 피아노 에튀드 모음입니다.',
-          '웜업부터 센터까지 각 동작을 안정된 리듬과 부드러운 톤으로 받쳐 주어, 연습 음악은 물론 차분한 감상과 작업용 음악으로도 잘 어울립니다.',
+          '실제 발레 수업의 흐름을 바탕으로 구성한 오리지널 피아노 에튀드 컬렉션입니다.',
+          '바에서 센터까지의 동작을 받쳐 주는 안정된 박과 서정적인 선율, 그리고 조용히 영화 같은 여운을 남기는 사운드를 담았습니다.',
         ],
-        feelingInspiredText: '한 동작 한 숨을 따라가는 안정된 리듬과 부드러운 피아노 톤.',
+        feelingInspiredText:
+          '발레 클래스의 호흡에 맞춰 흐르는 피아노 — 단단한 박, 부드러운 톤, 은은하게 번지는 시네마틱 무드.',
         tracklist: [], // 나중에 36곡 채워 넣기
         linerNotes: {
-          p1: '발레 클래스의 구조를 그대로 옮겨온 피아노 음악입니다. 웜업에서 센터까지, 매 동작을 또렷한 박과 부드러운 울림으로 감싸며 무용수와 듣는 이 모두에게 편안한 호흡을 선사합니다.',
-          quote: '“조용한 발레 클래스를 피아노로 쓴 한 시간.”',
+          p1: '이 앨범은 한 시간의 발레 클래스를 온전히 피아노로 옮겨 놓은 듯한 작품입니다. 각 에튀드는 동작의 리듬을 지탱하면서도, 듣는 이에게는 마음을 고요하게 정리해 주는 작은 장면처럼 다가옵니다.',
+          quote: '“움직임의 시간을 피아노로 기록한 발레 클래스.”',
         },
       },
     },
-  }
+  },
+
   'lullabook-pastel-morning': {
     status: 'upcoming',
     title: 'Lullabook: Pastel Morning',
@@ -182,7 +185,10 @@ export const albumsData: { [key: string]: Album } = {
     },
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
-      displayGenre: { EN: 'Piano Solo, Classical Crossover, Lullaby', KR: '피아노 솔로, 클래식 크로스오버, 자장가' },
+      displayGenre: {
+        EN: 'Piano Solo, Classical Crossover, Lullaby',
+        KR: '피아노 솔로, 클래식 크로스오버, 자장가',
+      },
       releaseDate: '2025-12-30',
       duration: '1 min 08 sec',
       publisher: 'Auralis Music',
@@ -236,6 +242,7 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
+
   'lullabook-under-the-little-star': {
     status: 'upcoming',
     title: 'Lullabook: Under the Little Star',
@@ -247,15 +254,31 @@ export const albumsData: { [key: string]: Album } = {
       subtitle: { EN: 'Echoes of Childhood', KR: '어린 시절의 메아리' },
     },
     links: {
-      listenNow: null, spotify: null, appleMusic: null, youtube: null, bandcamp: null,
-      believe: null, amazonMusic: null, flo: null, vibe: null, presave: null, shazam: null,
+      listenNow: null,
+      spotify: null,
+      appleMusic: null,
+      youtube: null,
+      bandcamp: null,
+      believe: null,
+      amazonMusic: null,
+      flo: null,
+      vibe: null,
+      presave: null,
+      shazam: null,
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
-      displayGenre: { EN: 'Piano Solo, Lullaby, Classical Crossover', KR: '피아노 솔로, 자장가, 클래식 크로스오버' },
+      displayGenre: {
+        EN: 'Piano Solo, Lullaby, Classical Crossover',
+        KR: '피아노 솔로, 자장가, 클래식 크로스오버',
+      },
       releaseDate: '2025-12-10',
       duration: '4 min 23 sec',
-      publisher: 'Auralis Music', label: 'Auralis Music', management: 'ARTRE', distributor: 'ARTRE', upc: null,
+      publisher: 'Auralis Music',
+      label: 'Auralis Music',
+      management: 'ARTRE',
+      distributor: 'ARTRE',
+      upc: null,
     },
     caption: {
       EN: 'A small star rises — quietly marking a day of light.',
@@ -310,6 +333,7 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
+
   // FIX: Changed typo 'f' to a comma to correctly separate objects.
   'resonance-through-the-wedding-march': {
     status: 'released',
@@ -336,7 +360,10 @@ export const albumsData: { [key: string]: Album } = {
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'EASY LISTENING', 'CROSSOVER'],
-      displayGenre: { EN: 'Classical, Easy Listening, Crossover', KR: '클래식, 이지 리스닝, 크로스오버' },
+      displayGenre: {
+        EN: 'Classical, Easy Listening, Crossover',
+        KR: '클래식, 이지 리스닝, 크로스오버',
+      },
       releaseDate: '2025-11-30',
       duration: '3 min 04 sec',
       publisher: 'Auralis Music',
@@ -353,45 +380,47 @@ export const albumsData: { [key: string]: Album } = {
       { role: { EN: 'Artwork & Design', KR: '아트워크 & 디자인' }, name: { EN: 'Auralis', KR: '오랄리스' } },
       { role: { EN: 'Label & Publisher', KR: '레이블 & 퍼블리셔' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
       { role: { EN: 'Management & Distributor', KR: '매니지먼트 & 유통' }, name: { EN: 'ARTRE', KR: '아르트레' } },
-      { role: { EN: 'Created by', KR: '제작' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
     ],
     content: {
       EN: {
         subtitle: 'Light above, shadow beneath.',
         description: [
-          'The sixth chapter of the Resonance Series, Resonance: Through the Wedding March reimagines Wagner’s Bridal Chorus as a dual piano reflection of ceremony and emotion.',
-          '“Echoes of Wagner I – Processional Light” embodies the solemn beauty of tradition, while “Echoes of Wagner II – Shadow Veil” unveils the quiet tension beneath its surface.',
-          'Between light and shadow, between ritual and introspection, Auralis offers a serene dialogue on love, tradition, and silence.',
+          'Auralis reimagines Wagner’s Bridal Chorus as a two-part ambient piano suite.',
+          'Echoes of Wagner I – Processional Light traces the ceremonial clarity of the original theme, while Echoes of Wagner II – Shadow Veil uncovers the quiet tension beneath its ritual beauty.',
+          'Suspended between harmony and stillness, the music whispers of emotion, memory, and the weight of a moment carried in light.',
         ],
-        feelingInspiredText: 'Two pianos tracing a vow — ceremony above, stillness below.',
+        feelingInspiredText:
+          'A quiet piano suite where ceremony, memory, and shadow share the same vow.',
         tracklist: [
           { no: 1, title: 'Echoes of Wagner I – Processional Light', duration: '2:01', isTitle: true },
           { no: 2, title: 'Echoes of Wagner II – Shadow Veil', duration: '1:03' },
         ],
         linerNotes: {
-          p1: 'This EP contemplates the Bridal Chorus through two complementary lenses — the luminous ritual of procession and the shadowed space of inner feeling. In restraint and resonance, the familiar theme becomes a quiet meditation.',
-          quote: '"Light above, shadow beneath."',
+          p1: 'A contemplation on how ceremony becomes memory. Here, the resonance of Wagner’s theme turns into a minimalist dialogue between tradition and introspection, illumination and shadow. Each movement unfolds like a story told without words, carrying the emotional imprint of a passage through time.',
+          quote: '"A ceremony remembered in piano, long after the aisle has emptied."',
         },
       },
       KR: {
         subtitle: '빛 위에, 그림자 아래.',
         description: [
-          '레조넌스 시리즈의 여섯 번째 챕터. 바그너의 「신부의 합창(Bridal Chorus)」을 의식과 감정의 이중 피아노로 재해석했습니다.',
-          '「Echoes of Wagner I – Processional Light」는 전통의 엄숙한 아름다움을, 「Echoes of Wagner II – Shadow Veil」은 그 아래 흐르는 고요한 긴장을 드러냅니다.',
-          '빛과 그림자, 의식과 내면 사이에서, 사랑과 전통, 그리고 침묵에 관한 잔잔한 대화를 건넵니다.',
+          '오랄리스는 바그너의 ‘브라이들 코러스’를 두 개의 앰비언트 피아노 모음으로 새롭게 그립니다.',
+          '「Echoes of Wagner I – Processional Light」는 의식의 빛과 단정함을, 「Echoes of Wagner II – Shadow Veil」은 그 아래 숨겨진 고요한 긴장과 그림자를 드러냅니다.',
+          '화성과 침묵 사이에 떠 있는 듯한 이 음악은 빛 속에 잠긴 감정과 순간의 무게를 조용히 속삭입니다.',
         ],
-        feelingInspiredText: '서약을 그리는 두 대의 피아노 — 위로는 의식, 아래에는 고요.',
+        feelingInspiredText:
+          '의식의 순간을 잔향으로 남기는 두 대의 피아노 — 빛과 그림자 사이에 머무는 서약.',
         tracklist: [
           { no: 1, title: '에코즈 오브 바그너 I – 행진의 빛', duration: '2:01', isTitle: true },
           { no: 2, title: '에코즈 오브 바그너 II – 그림자의 베일', duration: '1:03' },
         ],
         linerNotes: {
-          p1: '이 EP는 ‘신부의 합창’을 두 개의 보완적 시선으로 사유합니다. 행진의 빛이 주는 의식의 장엄함과 그 아래 잠긴 내면의 미세한 떨림. 절제와 공명 속에서 익숙한 선율은 조용한 명상이 됩니다.',
-          quote: '“빛 위에, 그림자 아래.”',
+          p1: '의식이 어떻게 기억이 되는지에 대한 음악적 성찰. 이 앨범에서 바그너의 테마는 전통과 내면, 빛과 그림자 사이를 오가는 미니멀한 대화로 다시 태어납니다. 각 악장은 말없이도 시간의 통과를 품은 작은 서사처럼 흘러가며, 마음속에 오래 남는 정서를 남깁니다.',
+          quote: '“식이 끝난 뒤에도 계속 울리는 조용한 피아노의 서약.”',
         },
       },
     },
   },
+
   'sonic-voyage-first-voyage': {
     status: 'upcoming',
     title: 'Sonic Voyage: First Voyage',
@@ -417,7 +446,10 @@ export const albumsData: { [key: string]: Album } = {
     },
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'AMBIENT'],
-      displayGenre: { EN: 'Ambient, Piano, Instrumental', KR: '앰비언트, 피아노, 인스트루멘탈' },
+      displayGenre: {
+        EN: 'Ambient, Piano, Instrumental',
+        KR: '앰비언트, 피아노, 인스트루멘탈',
+      },
       releaseDate: '2025-12-30',
       duration: '11 min 49 sec',
       publisher: 'Auralis Music',
@@ -478,6 +510,7 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
+
   'resonance-through-the-barcarolle': {
     status: 'released',
     title: 'Resonance: Through the Barcarolle',
@@ -503,7 +536,10 @@ export const albumsData: { [key: string]: Album } = {
     },
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CROSSOVER'],
-      displayGenre: { EN: 'Classical, Crossover', KR: '클래식, 크로스오버' },
+      displayGenre: {
+        EN: 'Classical, Crossover',
+        KR: '클래식, 크로스오버',
+      },
       releaseDate: '2025-11-26',
       duration: '2 min 38 sec',
       publisher: 'Auralis Music',
@@ -554,39 +590,43 @@ export const albumsData: { [key: string]: Album } = {
       },
     },
   },
+
   'resonance-after-the-first-suite': {
     status: 'released',
     title: 'Resonance: After the First Suite',
     slug: 'resonance-after-the-first-suite',
     magazineSlug: 'liner-notes-resonance',
     coverUrl: 'https://www.auralis-music.com/images/albums/resonance-after-the-first-suite.jpg',
-    catalogueNo: "ARTRE2025-009",
+    catalogueNo: 'ARTRE2025-009',
     videos: {
       // 필요하면 여기 teaser: '...' 나중에 추가 가능
-      titleTrack: 'https://www.youtube.com/watch?v=f9Du-utVUxE&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5&index=2',
+      titleTrack:
+        'https://www.youtube.com/watch?v=f9Du-utVUxE&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5&index=2',
       track1: 'https://www.youtube.com/watch?v=xk0JSviIitA&list=PLDNrR1uLGhzIcAkk2elW1gDPxjaEcpne5',
-      fullAlbum: 'https://www.youtube.com/watch?v=H7GURKtbU00&t=283s'
+      fullAlbum: 'https://www.youtube.com/watch?v=H7GURKtbU00&t=283s',
     },
     seriesInfo: {
-      name: { EN: "Resonance Series", KR: "레조넌스 시리즈" },
-      subtitle: { EN: "Echoes of Classics", KR: "클래식의 메아리" },
+      name: { EN: 'Resonance Series', KR: '레조넌스 시리즈' },
+      subtitle: { EN: 'Echoes of Classics', KR: '클래식의 메아리' },
     },
     links: {
       // FIX: Added the specific smart link for this album to match the `listenNow` property.
       listenNow: 'https://auralis.bfan.link/resonance-after-the-first-suite-2',
       spotify: 'https://open.spotify.com/album/5zGA1aoBj5QBahmV5Yir5y',
-      appleMusic: 'https://music.apple.com/kr/album/echoes-of-bach-i-first-light-inspired-by-j-s-bach/1841847315?i=1841847426',
+      appleMusic:
+        'https://music.apple.com/kr/album/echoes-of-bach-i-first-light-inspired-by-j-s-bach/1841847315?i=1841847426',
       youtube: 'https://www.youtube.com/watch?v=b6ApKZhqeGs&list=PLDNrR1uLGhzLYbFroTDlebSQmHtuJYtwC',
       bandcamp: 'https://auralis-official.bandcamp.com/album/resonance-after-the-first-suite',
       believe: 'https://believemusic.link/resonance-after-the-first-suite',
       amazonMusic: 'https://www.amazon.de/music/player/albums/B0FS93MNZ9',
-      flo: "https://www.music-flo.com/detail/album/444504241/albumtrack",
-      vibe: "https://vibe.naver.com/album/35746668",
-      shazam: 'https://www.shazam.com/album/1841847315/resonance-after-the-first-suite-echoes-of-classics-single',
+      flo: 'https://www.music-flo.com/detail/album/444504241/albumtrack',
+      vibe: 'https://vibe.naver.com/album/35746668',
+      shazam:
+        'https://www.shazam.com/album/1841847315/resonance-after-the-first-suite-echoes-of-classics-single',
     },
     details: {
-      formatGenre: ["DIGITAL", "SINGLE", "PIANO", "CROSSOVER"],
-      displayGenre: { EN: "Classical, Crossover", KR: "클래식, 크로스오버" },
+      formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CROSSOVER'],
+      displayGenre: { EN: 'Classical, Crossover', KR: '클래식, 크로스오버' },
       releaseDate: '2025-10-01',
       duration: '5 min 8 sec',
       publisher: 'Auralis Music',
@@ -596,30 +636,35 @@ export const albumsData: { [key: string]: Album } = {
       upc: null,
     },
     credits: [
-        { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
-        { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
-        { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
-        { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
+      { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      {
+        role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' },
+        name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' },
+      },
+      { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
     ],
     content: {
       EN: {
         subtitle: 'Echoes of timeless emotions, gently voiced through piano',
         description: [
-          "A quiet exploration of the space between notes, where memory and emotion converge.",
-          "Inspired by the stillness of light and the fluid grace of movements,",
-          "each piece serves as a meditation on reflection and renewal.",
+          'A quiet exploration of the space between notes, where memory and emotion converge.',
+          'Inspired by the stillness of light and the fluid grace of movements,',
+          'each piece serves as a meditation on reflection and renewal.',
         ],
-        feelingInspiredText: "Echoes of Bach, long shadows and first light, a quiet dialogue between classical structure and modern emotion.",
+        feelingInspiredText:
+          'Echoes of Bach, long shadows and first light, a quiet dialogue between classical structure and modern emotion.',
         tracklist: [
           { no: 1, title: 'Echoes of Bach I — First Light', duration: '2:52' },
           { no: 2, title: 'Echoes of Bach II — Long Shadow', duration: '2:16', isTitle: true },
         ],
         linerNotes: {
-            p1: "This collection was born from early morning improvisations, finding melodies in the quiet moments just before sunrise. Each track is a dialogue between the structured logic of Bach and the free-form emotionality of modern cinematic music.",
-            quote: "\"I wanted to create a sound that felt both timeless and immediate, like discovering an old letter that speaks directly to your present heart.\"",
+          p1: 'This collection was born from early morning improvisations, finding melodies in the quiet moments just before sunrise. Each track is a dialogue between the structured logic of Bach and the free-form emotionality of modern cinematic music.',
+          quote:
+            '"I wanted to create a sound that felt both timeless and immediate, like discovering an old letter that speaks directly to your present heart."',
         },
       },
       KR: {
@@ -628,30 +673,33 @@ export const albumsData: { [key: string]: Album } = {
           '음표 사이의 공간, 기억과 감정이 만나는 곳을 조용히 탐험합니다.',
           '빛의 정적과 움직임의 유려한 우아함에서 영감을 받은 각 곡은 성찰과 재탄생에 대한 명상으로 기능합니다.',
         ],
-        feelingInspiredText: "바흐의 메아리, 긴 그림자와 첫 빛, 고전적 구조와 현대적 감성 사이의 조용한 대화.",
+        feelingInspiredText:
+          '바흐의 메아리, 긴 그림자와 첫 빛, 고전적 구조와 현대적 감성 사이의 조용한 대화.',
         tracklist: [
           { no: 1, title: '바흐의 메아리 I — 첫 빛', duration: '2:52' },
           { no: 2, title: '바흐의 메아리 II — 긴 그림자', duration: '2:16', isTitle: true },
         ],
         linerNotes: {
-            p1: "이 컬렉션은 이른 아침의 즉흥 연주에서 태어났으며, 해가 뜨기 직전의 고요한 순간에 멜로디를 찾았습니다. 각 트랙은 바흐의 구조화된 논리와 현대 영화 음악의 자유로운 감성 사이의 대화입니다.",
-            quote: "\"오래된 편지가 현재의 마음에 직접 말을 거는 것을 발견하는 것처럼, 시대를 초월하면서도 즉각적인 사운드를 만들고 싶었습니다.\"",
+          p1: '이 컬렉션은 이른 아침의 즉흥 연주에서 태어났으며, 해가 뜨기 직전의 고요한 순간에 멜로디를 찾았습니다. 각 트랙은 바흐의 구조화된 논리와 현대 영화 음악의 자유로운 감성 사이의 대화입니다.',
+          quote:
+            '"오래된 편지가 현재의 마음에 직접 말을 거는 것을 발견하는 것처럼, 시대를 초월하면서도 즉각적인 사운드를 만들고 싶었습니다."',
         },
       },
     },
   },
+
   'Chorégraphie-Series': {
     status: 'released',
     title: 'Chorégraphie: A Dancer’s Diary',
     slug: 'Chorégraphie-Series',
     coverUrl: 'https://www.auralis-music.com/images/albums/choregraphie-series.jpg',
-    catalogueNo: "ARTRE2025-033",
+    catalogueNo: 'ARTRE2025-033',
     seriesInfo: {
-       name: { EN: 'Chorégraphie Series', KR: '코레그라피 시리즈' },
-       subtitle: {
-         EN: 'Quiet Stage',
-         KR: '고요한 무대'
-       },
+      name: { EN: 'Chorégraphie Series', KR: '코레그라피 시리즈' },
+      subtitle: {
+        EN: 'Quiet Stage',
+        KR: '고요한 무대',
+      },
     },
     links: {
       spotify: null,
@@ -666,8 +714,8 @@ export const albumsData: { [key: string]: Album } = {
       shazam: null,
     },
     details: {
-      formatGenre: ["DIGITAL", "EP", "PIANO", "BALLET"],
-      displayGenre: { EN: "Ballet, Classical", KR: "발레, 클래식" },
+      formatGenre: ['DIGITAL', 'EP', 'PIANO', 'BALLET'],
+      displayGenre: { EN: 'Ballet, Classical', KR: '발레, 클래식' },
       releaseDate: '2025-11-24',
       duration: '6 min 11 sec',
       publisher: 'Auralis Music',
@@ -677,58 +725,68 @@ export const albumsData: { [key: string]: Album } = {
       upc: '123456789013',
     },
     credits: [
-        { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
-        { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
-        { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
-        { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
+      { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      {
+        role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' },
+        name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' },
+      },
+      { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
     ],
     content: {
       EN: {
         subtitle: 'Melodies the body remembers',
-        description: ["Chorégraphie: A Dancer’s Diary unfolds where music meets movement. Each piano piece traces the subtle choreography of emotion — the way a dancer’s body remembers what words cannot. Through gentle resonance and shifting light,Auralis captures the quiet pulse of motion that lingers long after the stage fades.",
+        description: [
+          'Chorégraphie: A Dancer’s Diary unfolds where music meets movement. Each piano piece traces the subtle choreography of emotion — the way a dancer’s body remembers what words cannot. Through gentle resonance and shifting light,Auralis captures the quiet pulse of motion that lingers long after the stage fades.',
         ],
-        feelingInspiredText: "The graceful arc of a dancer's movement, translating joy and introspection into sound, satin ribbons and soliloquies.",
+        feelingInspiredText:
+          "The graceful arc of a dancer's movement, translating joy and introspection into sound, satin ribbons and soliloquies.",
         tracklist: [
           { no: 1, title: 'Morning Stretch', duration: '1:23', isTitle: true },
-          { no: 2, title: "Journey of Practice", duration: '1:57', isTitle: false },
+          { no: 2, title: 'Journey of Practice', duration: '1:57', isTitle: false },
           { no: 3, title: 'Solitude in Motion', duration: '1:34', isTitle: false },
-          { no: 4, title: "Curtain of Memories", duration: '1:17', isTitle: false },
+          { no: 4, title: 'Curtain of Memories', duration: '1:17', isTitle: false },
         ],
         linerNotes: {
-            p1: "The piano and the body both tell stories without words. This album is an attempt to find the harmony between them, where each note is a step, and every melody is a leap of faith.",
-            quote: "\"I watched old ballet performances on silent, trying to hear the music the dancers' bodies were making. This album is what I heard.\"",
+          p1: "The piano and the body both tell stories without words. This album is an attempt to find the harmony between them, where each note is a step, and every melody is a leap of faith.",
+          quote:
+            "\"I watched old ballet performances on silent, trying to hear the music the dancers' bodies were making. This album is what I heard.\"",
         },
       },
       KR: {
         subtitle: '몸이 기억하는 선율',
-        description: ["「코레그라피: 춤으로 쓴 일기」는 음악과 움직임이 만나는 지점에서 시작됩니다. 피아노의 각 선율은 말로 남기지 못한 감정의 안무를 따라가며, 몸이 기억한 순간들을 고요하게 되살립니다. 오랄리스는 무대가 끝난 뒤에도 남아 있는 그 미세한 움직임의 숨결을 음악으로 기록했습니다.",
+        description: [
+          '「코레그라피: 춤으로 쓴 일기」는 음악과 움직임이 만나는 지점에서 시작됩니다. 피아노의 각 선율은 말로 남기지 못한 감정의 안무를 따라가며, 몸이 기억한 순간들을 고요하게 되살립니다. 오랄리스는 무대가 끝난 뒤에도 남아 있는 그 미세한 움직임의 숨결을 음악으로 기록했습니다.',
         ],
-        feelingInspiredText: "무용수의 우아한 몸짓, 기쁨과 성찰을 소리로 번역한 새틴 리본과 독백.",
+        feelingInspiredText:
+          '무용수의 우아한 몸짓, 기쁨과 성찰을 소리로 번역한 새틴 리본과 독백.',
         tracklist: [
-          { no: 1, title: '아침의 스트레칭', duration: '1:23', isTitle: false },
-          { no: 2, title: '연습의 여정', duration: '1:56', isTitle: true },
+          { no: 1, title: '아침의 스트레칭', duration: '1:23', isTitle: true },
+          { no: 2, title: '연습의 여정', duration: '1:56', isTitle: false },
           { no: 3, title: '움직임 속의 고독', duration: '1:34', isTitle: false },
-          { no: 4, title: '막이 내린 뒤의 기억', duration: '1:17', isTitle: true },
+          { no: 4, title: '막이 내린 뒤의 기억', duration: '1:17', isTitle: false },
         ],
         linerNotes: {
-            p1: "피아노와 몸은 모두 말없이 이야기를 전합니다. 이 앨범은 그들 사이의 조화를 찾으려는 시도이며, 각 음표는 한 걸음이고 모든 멜로디는 믿음의 도약입니다.",
-            quote: "\"무용수들의 몸이 만드는 음악을 듣기 위해 무음으로 오래된 발레 공연을 보았습니다. 이 앨범은 제가 들었던 것입니다.\"",
+          p1: '피아노와 몸은 모두 말없이 이야기를 전합니다. 이 앨범은 그들 사이의 조화를 찾으려는 시도이며, 각 음표는 한 걸음이고 모든 멜로디는 믿음의 도약입니다.',
+          quote:
+            '“무용수들의 몸이 만드는 음악을 듣기 위해 무음으로 오래된 발레 공연을 보았습니다. 이 앨범은 제가 들었던 것입니다.”',
         },
       },
     },
   },
+
   'serene-horizons-morning-dew': {
     status: 'upcoming',
     title: 'Serene Horizons: Morning Dew',
     slug: 'serene-horizons-morning-dew',
     coverUrl: 'https://www.auralis-music.com/images/albums/serene-horizons-morning-dew.jpg',
-    catalogueNo: "ARTRE2025-022",
+    catalogueNo: 'ARTRE2025-022',
     seriesInfo: {
-      name: { EN: "Serene Horizons Series", KR: "세린 호라이즌스 시리즈" },
-      subtitle: { EN: "Calm Waves", KR: "고요한 파도" },
+      name: { EN: 'Serene Horizons Series', KR: '세린 호라이즌스 시리즈' },
+      subtitle: { EN: 'Calm Waves', KR: '고요한 파도' },
     },
     links: {
       spotify: null,
@@ -743,8 +801,11 @@ export const albumsData: { [key: string]: Album } = {
       shazam: null,
     },
     details: {
-      formatGenre: ["DIGITAL", "ALBUM", "PIANO", "Meditation"],
-      displayGenre: { EN: "Neo-Classical, Relaxation, Meditation", KR: "네오 클래식, 힐링, 명상" },
+      formatGenre: ['DIGITAL', 'ALBUM', 'PIANO', 'Meditation'],
+      displayGenre: {
+        EN: 'Neo-Classical, Relaxation, Meditation',
+        KR: '네오 클래식, 힐링, 명상',
+      },
       releaseDate: '2025-12-20',
       duration: '18 min 07 sec',
       publisher: 'Auralis Music',
@@ -754,21 +815,28 @@ export const albumsData: { [key: string]: Album } = {
       upc: '123456789014',
     },
     credits: [
-        { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
-        { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' }, name: { EN: 'Auralis', KR: '오랄리스' } },
-        { role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
-        { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
-        { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
+      { role: { KR: '프로듀서 & 피아니스트', EN: 'Producer & Pianist' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      { role: { KR: '작곡가', EN: 'Composer' }, name: { EN: 'Soyoung Joung', KR: '정소영' } },
+      { role: { KR: '뮤직 테크니션', EN: 'Music Technician' }, name: { EN: 'Auralis', KR: '오랄리스' } },
+      {
+        role: { KR: '아트웍 & 디자인', EN: 'Artwork & Design' },
+        name: { EN: 'Auralis', KR: '오랄리스' },
+      },
+      {
+        role: { KR: '레이블 & 퍼블리셔', EN: 'Label & Publisher' },
+        name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' },
+      },
+      { role: { KR: '매니지먼트 & 유통', EN: 'Management & Distributor' }, name: { EN: 'ARTRE', KR: '아르트레' } },
+      { role: { KR: '제작', EN: 'Created by' }, name: { EN: 'Auralis Music', KR: '오랄리스 뮤직' } },
     ],
     content: {
       EN: {
         subtitle: 'Calm begins where the horizon meets the morning light',
         description: [
-            "Serene Horizons: Morning Dew gathers gentle piano melodies for quiet moments — music that rests between dawn and silence. Each piece traces the soft awakening of light across a still horizon, offering calm reflection and inner clarity. Auralis invites you to begin the day where time slows, and every note feels like a breath of morning air.",
+          'Serene Horizons: Morning Dew gathers gentle piano melodies for quiet moments — music that rests between dawn and silence. Each piece traces the soft awakening of light across a still horizon, offering calm reflection and inner clarity. Auralis invites you to begin the day where time slows, and every note feels like a breath of morning air.',
         ],
-        feelingInspiredText: "A simple, heartfelt melody for a quiet moment, like a first star appearing in a velvet sky.",
+        feelingInspiredText:
+          'A simple, heartfelt melody for a quiet moment, like a first star appearing in a velvet sky.',
         tracklist: [
           { no: 1, title: 'Peaceful Meadow', duration: '2:08', isTitle: false },
           { no: 2, title: 'Soft Light', duration: '2:54', isTitle: true },
@@ -780,16 +848,18 @@ export const albumsData: { [key: string]: Album } = {
           { no: 8, title: 'Dewdrop Dance', duration: '1:18', isTitle: true },
         ],
         linerNotes: {
-            p1: "A return to simplicity. This music was created to be a companion for the quiet hours, a gentle hum in the background of life's most peaceful moments.",
-            quote: "\"These aren't just for children; they're for the part of all of us that needs a little quiet, a little peace at the end of the day.\"",
+          p1: 'A return to simplicity. This music was created to be a companion for the quiet hours, a gentle hum in the background of life’s most peaceful moments.',
+          quote:
+            "\"These aren't just for children; they're for the part of all of us that needs a little quiet, a little peace at the end of the day.\"",
         },
       },
       KR: {
         subtitle: '수평선 위로 빛이 깨어날 때, 고요는 시작된다',
         description: [
-            "「세린 호라이즌스: 고요한 아침」은 새벽과 고요 사이, 마음을 쉬게 하는 피아노 선율들을 모았습니다. 각 곡은 빛이 천천히 수평선을 스치는 순간을 따라가며, 고요 속의 사색과 맑은 시작을 선사합니다. 오랄리스는 느리게 흘러가는 시간 속에서 아침의 숨결 같은 음악을 들려줍니다.",
+          '「세린 호라이즌스: 고요한 아침」은 새벽과 고요 사이, 마음을 쉬게 하는 피아노 선율들을 모았습니다. 각 곡은 빛이 천천히 수평선을 스치는 순간을 따라가며, 고요 속의 사색과 맑은 시작을 선사합니다. 오랄리스는 느리게 흘러가는 시간 속에서 아침의 숨결 같은 음악을 들려줍니다.',
         ],
-        feelingInspiredText: "벨벳 하늘에 첫 별이 나타나는 듯한, 고요한 순간을 위한 단순하고 진심 어린 멜로디.",
+        feelingInspiredText:
+          '벨벳 하늘에 첫 별이 나타나는 듯한, 고요한 순간을 위한 단순하고 진심 어린 멜로디.',
         tracklist: [
           { no: 1, title: '평화로운 초원 (Peaceful Meadow)', duration: '2:08', isTitle: false },
           { no: 2, title: '부드러운 빛 (Soft Light)', duration: '2:54', isTitle: true },
@@ -801,8 +871,9 @@ export const albumsData: { [key: string]: Album } = {
           { no: 8, title: '이슬방울의 춤 (Dewdrop Dance)', duration: '1:18', isTitle: true },
         ],
         linerNotes: {
-            p1: "단순함으로의 회귀. 이 음악은 조용한 시간을 위한 동반자, 삶의 가장 평화로운 순간의 배경에 있는 부드러운 흥얼거림이 되도록 만들어졌습니다.",
-            quote: "\"이것들은 단지 아이들만을 위한 것이 아닙니다; 하루의 끝에 약간의 조용함과 평화가 필요한 우리 모두의 일부를 위한 것입니다.\"",
+          p1: '단순함으로의 회귀. 이 음악은 조용한 시간을 위한 동반자, 삶의 가장 평화로운 순간의 배경에 있는 부드러운 흥얼거림이 되도록 만들어졌습니다.',
+          quote:
+            '“이것들은 단지 아이들만을 위한 것이 아닙니다; 하루의 끝에 약간의 조용함과 평화가 필요한 우리 모두의 일부를 위한 것입니다.”',
         },
       },
     },
