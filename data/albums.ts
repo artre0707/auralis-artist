@@ -80,10 +80,10 @@ export type Album = {
 };
 
 export const albumsData: { [key: string]: Album } = {
-  'lullabook-on-a-birthday-morning': {
+  'lullabook-on-a-pastel-morning': {
     status: 'upcoming',
-    title: 'Lullabook: On a Birthday Morning',
-    slug: 'lullabook-on-a-birthday-morning',
+    title: 'Lullabook: On a Pastel Morning',
+    slug: 'lullabook-on-a-pastel-morning',
     coverUrl: 'https://www.auralis-music.com/images/albums/lullabook-pastel-morning.jpg',
     catalogueNo: 'ARTRE2025-065',
     seriesInfo: {
@@ -106,7 +106,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'SINGLE', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
       displayGenre: { EN: 'Piano Solo, Classical Crossover, Lullaby', KR: '피아노 솔로, 클래식 크로스오버, 자장가' },
-      releaseDate: '2025-12-20',
+      releaseDate: '2025-12-30',
       duration: '1 min 08 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
@@ -176,7 +176,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'CLASSICAL', 'LULLABY', 'CROSSOVER'],
       displayGenre: { EN: 'Piano Solo, Lullaby, Classical Crossover', KR: '피아노 솔로, 자장가, 클래식 크로스오버' },
-      releaseDate: '2025-12-20',
+      releaseDate: '2025-12-10',
       duration: '4 min 23 sec',
       publisher: 'Auralis Music', label: 'Auralis Music', management: 'ARTRE', distributor: 'ARTRE', upc: null,
     },
@@ -235,7 +235,7 @@ export const albumsData: { [key: string]: Album } = {
   },
   // FIX: Changed typo 'f' to a comma to correctly separate objects.
   'resonance-through-the-wedding-march': {
-    status: 'upcoming',
+    status: 'released',
     title: 'Resonance: Through the Wedding March',
     slug: 'resonance-through-the-wedding-march',
     coverUrl: 'https://www.auralis-music.com/images/albums/resonance-through-the-wedding-march.jpg',
@@ -341,7 +341,7 @@ export const albumsData: { [key: string]: Album } = {
     details: {
       formatGenre: ['DIGITAL', 'EP', 'PIANO', 'AMBIENT'],
       displayGenre: { EN: 'Ambient, Piano, Instrumental', KR: '앰비언트, 피아노, 인스트루멘탈' },
-      releaseDate: '2025-12-20',
+      releaseDate: '2025-12-30',
       duration: '11 min 49 sec',
       publisher: 'Auralis Music',
       label: 'Auralis Music',
