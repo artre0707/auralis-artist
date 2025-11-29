@@ -1,3 +1,4 @@
+
 import type { Language } from '@/App';
 
 export type NewsItem = {
@@ -22,6 +23,69 @@ export type NewsItem = {
 };
 
 export const news: NewsItem[] = [
+  {
+    slug: 'auralis-1st-2nd-album-vibe-and-teaser',
+    date: '2025-11-21',
+    cover: 'https://picsum.photos/seed/auralis-vibe-1st-2nd/1200/675',
+    tags: ['Release'],
+    title: {
+      EN: 'Auralis 1st & 2nd Albums — VIBE & Teaser News',
+      KR: '오랄리스 1집 VIBE 공개 & 2집 티저 소식',
+    },
+    dek: {
+      EN: 'Auralis’s first album arrives on VIBE, and the ballet-inspired teaser for the second album is now live.',
+      KR: '오랄리스 1집 앨범의 VIBE 공개와 2집 발레 감성 티저 영상을 함께 전해드립니다.',
+    },
+    body: {
+      EN:
+        'Where piano lines meet ballet-inspired stories, new chapters open for Auralis.\n\n' +
+        '## 1. 1st album "After the First Suite" now on VIBE\n\n' +
+        'Auralis’s first series album **"After the First Suite"** is now available on NAVER VIBE.\n' +
+        'You can listen to the full album and explore Auralis’s artist page directly on the platform.\n\n' +
+        '- **Artist Channel**\n' +
+        'https://vibe.naver.com/artist/10220387\n\n' +
+        '- **1st Album — After the First Suite**\n' +
+        'https://vibe.naver.com/album/35746668\n\n' +
+        'Within its quiet movements, each piano line carries a gentle resonance that lingers beyond the final note.\n\n' +
+        '## 2. Teaser for the 2nd album now live\n\n' +
+        'The upcoming second album unfolds with a ballet-inspired mood, following the quiet rhythm of a dancer’s day.\n' +
+        'A new teaser film has been released across multiple platforms:\n\n' +
+        '- **VIBE Teaser Video**\n' +
+        'https://vibe.naver.com/video/415393\n\n' +
+        '- **FLO Teaser Video**\n' +
+        'FLO does not provide an external share link for teaser videos.\n' +
+        'You can watch it in the **FLO mobile app** by searching **"Auralis"**, then opening the **Video** tab.\n\n' +
+        '- **YouTube Teaser Video**\n' +
+        'https://www.youtube.com/watch?v=V46RBYDBtMM\n\n' +
+        'As the piano traces each quiet step, the full album will soon follow — carrying the soft glow of a ballet stage into sound.',
+      KR:
+        '피아노 선율이 발레의 이야기와 만나는 자리에서,\n오랄리스의 새로운 장이 열립니다.\n\n' +
+        '## 1. VIBE에서 만나는 1집 앨범 "After the First Suite"\n\n' +
+        '오랄리스의 첫 번째 시리즈 앨범 **「After the First Suite」**를\n' +
+        '이제 네이버 VIBE에서도 감상하실 수 있습니다.\n' +
+        '아티스트 채널과 앨범 페이지를 통해,\n' +
+        '조용히 번져가는 피아노의 여운을 온전히 느껴보세요.\n\n' +
+        '- **아티스트 채널**\n' +
+        'https://vibe.naver.com/artist/10220387\n\n' +
+        '- **1집 앨범 – After the First Suite**\n' +
+        'https://vibe.naver.com/album/35746668\n\n' +
+        '한 음, 한 구절이 남기는 잔향 속에서\n' +
+        '오랄리스만의 고요한 감성이 천천히 펼쳐집니다.\n\n' +
+        '## 2. 오랄리스 2집 앨범 티저 영상 공개\n\n' +
+        '두 번째 앨범은 무용수의 하루를 따라가는 듯한 흐름 속에서\n' +
+        '**발레 감성의 피아노 음악**을 그려갑니다.\n' +
+        '이번에 공개된 티저 영상은 아래 플랫폼에서 감상하실 수 있습니다.\n\n' +
+        '- **VIBE 티저 영상**\n' +
+        'https://vibe.naver.com/video/415393\n\n' +
+        '- **FLO 티저 영상**\n' +
+        'FLO는 티저 영상에 대한 외부 공유 링크를 제공하지 않습니다.\n' +
+        '**FLO 모바일 앱**에서 **「오랄리스(Auralis)」 검색 → **영상 탭**에서 시청하실 수 있습니다.\n\n' +
+        '- **YouTube 티저 영상**\n' +
+        'https://www.youtube.com/watch?v=V46RBYDBtMM\n\n' +
+        '고요하게 번지는 피아노의 결과 함께,\n' +
+        '조만간 찾아올 정식 공개도 기대해 주세요.',
+    },
+  },
   {
     slug: 'auralis-youtube-music-channel-available',
     date: '2025-11-14',

@@ -56,20 +56,40 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
   const { language } = useSiteContext();
   const albumContent = album.content[language];
   return (
-    <Link to={`/albums/${album.slug}`} className="group block text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)] rounded-2xl">
+    <Link
+      to={`/albums/${album.slug}`}
+      className="group block text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)] rounded-2xl"
+    >
       <div className="album-card rounded-2xl overflow-hidden bg-card border border-[#CBAE7A]/20 hover:border-[#CBAE7A]/40 shadow-[0_0_10px_rgba(203,174,122,0.08)] hover:shadow-[0_0_16px_rgba(203,174,122,0.15)] transition will-change-transform max-w-[260px] mx-auto">
-        <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105" loading="lazy" decoding="async" onError={(e) => {
-          e.currentTarget.src =
-            "data:image/svg+xml;utf8," +
-            encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>");
-        }} />
+        <img
+          src={album.coverUrl}
+          alt={`Cover for ${album.title}`}
+          className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => {
+            e.currentTarget.src =
+              "data:image/svg+xml;utf8," +
+              encodeURIComponent(
+                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>"
+              );
+          }}
+        />
       </div>
       <div className="mt-4">
         {album.details.formatGenre && (
           <AlbumBadges tags={album.details.formatGenre} className="justify-center mb-2" />
         )}
-        <h3 className="font-normal text-base sm:text-lg accent-text dark:text-[#E7CF9F] leading-relaxed transition-colors duration-200">{album.title}</h3>
-        <p className={`text-sm text-subtle mt-1 leading-relaxed ${language === 'KR' ? 'font-noto-kr' : ''}`}>{albumContent.subtitle}</p>
+        <h3 className="font-normal text-base sm:text-lg accent-text dark:text-[#E7CF9F] leading-relaxed transition-colors duration-200">
+          {album.title}
+        </h3>
+        <p
+          className={`text-sm text-subtle mt-1 leading-relaxed ${
+            language === 'KR' ? 'font-noto-kr' : ''
+          }`}
+        >
+          {albumContent.subtitle}
+        </p>
       </div>
     </Link>
   );
@@ -78,14 +98,26 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
 const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
   const { language } = useSiteContext();
   return (
-    <Link to={`/albums/${album.slug}`} className="group block text-center rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)]">
+    <Link
+      to={`/albums/${album.slug}`}
+      className="group block text-center rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)]"
+    >
       <div className="rounded-2xl overflow-hidden bg-card border border-[var(--border)] hover:border-[#CBAE7A]/50 transition max-w-[260px] mx-auto">
         <div className="relative">
-          <img src={album.coverUrl} alt={`Cover for ${album.title}`} className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105 grayscale-[18%]" loading="lazy" decoding="async" onError={(e) => {
-            e.currentTarget.src =
-              "data:image/svg+xml;utf8," +
-              encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>");
-          }} />
+          <img
+            src={album.coverUrl}
+            alt={`Cover for ${album.title}`}
+            className="w-full aspect-[4/5] object-cover rounded-xl transition duration-300 group-hover:scale-105 grayscale-[18%]"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              e.currentTarget.src =
+                "data:image/svg+xml;utf8," +
+                encodeURIComponent(
+                  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#777' font-size='22' text-anchor='middle' font-family='Inter, sans-serif'>image not found</text></svg>"
+                );
+            }}
+          />
           <span className="absolute left-2 top-2 rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase bg-[#CBAE7A]/90 text-black shadow">
             {language === 'KR' ? '발매 예정' : 'Coming Soon'}
           </span>
@@ -96,9 +128,13 @@ const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
           <AlbumBadges tags={album.details.formatGenre} className="justify-center mb-2" />
         )}
         <h3 className="text-base sm:text-lg font-medium">{album.title}</h3>
-        <p className="text-xs text-subtle mt-1">{formatReleaseDate(language, album.details?.releaseDate)}</p>
+        <p className="text-xs text-subtle mt-1">
+          {formatReleaseDate(language, album.details?.releaseDate)}
+        </p>
         {album.caption?.[language] && (
-            <p className="text-xs italic text-subtle mt-1.5 px-2">{album.caption[language]}</p>
+          <p className="text-xs italic text-subtle mt-1.5 px-2">
+            {album.caption[language]}
+          </p>
         )}
       </div>
     </Link>
@@ -108,12 +144,41 @@ const UpcomingCard: React.FC<{ album: Album }> = ({ album }) => {
 const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }) => {
   const { language } = useSiteContext();
 
-  const all = useMemo(() => Object.values(albumsData) as Album[], []);
+  // ✅ 원본 데이터 (albumsData → 배열)
+  const allRaw = useMemo(() => Object.values(albumsData) as Album[], []);
+
+  // ✅ 자동 상태 보정:
+  //    - status가 'released'가 아닌데
+  //    - releaseDate가 오늘보다 이전이면
+  //      ⇒ 화면 로직에서는 'released'로 취급
+  const all = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return allRaw.map((album) => {
+      const releaseDate = parseReleaseDate(album.details?.releaseDate);
+      if (
+        album.status !== 'released' &&
+        releaseDate &&
+        releaseDate.getTime() < today.getTime()
+      ) {
+        return {
+          ...album,
+          status: 'released' as const,
+        };
+      }
+      return album;
+    });
+  }, [allRaw]);
 
   const released = useMemo(() => {
-    let xs = all.filter(a => a.status === 'released');
+    let xs = all.filter((a) => a.status === 'released');
     if (filterGenre) {
-      xs = xs.filter(a => a.details.formatGenre?.some(g => g.toLowerCase() === filterGenre.toLowerCase()));
+      xs = xs.filter((a) =>
+        a.details.formatGenre?.some(
+          (g) => g.toLowerCase() === filterGenre.toLowerCase()
+        )
+      );
     }
     return xs.sort(
       (a, b) =>
@@ -127,7 +192,7 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
     today.setHours(0, 0, 0, 0); // Start of today
     const twentyDaysInMs = 20 * 24 * 60 * 60 * 1000;
 
-    let xs = all.filter(a => {
+    let xs = all.filter((a) => {
       if (a.status === 'released') return false;
       const releaseDate = parseReleaseDate(a.details?.releaseDate);
       if (!releaseDate) return false;
@@ -137,16 +202,22 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
     });
 
     if (filterGenre) {
-      xs = xs.filter(a => a.details.formatGenre?.some(g => g.toLowerCase() === filterGenre.toLowerCase()));
+      xs = xs.filter((a) =>
+        a.details.formatGenre?.some(
+          (g) => g.toLowerCase() === filterGenre.toLowerCase()
+        )
+      );
     }
     return xs.sort(
       (a, b) =>
-        (parseReleaseDate(a.details?.releaseDate)?.getTime() ?? Number.POSITIVE_INFINITY) -
-        (parseReleaseDate(b.details?.releaseDate)?.getTime() ?? Number.POSITIVE_INFINITY)
+        (parseReleaseDate(a.details?.releaseDate)?.getTime() ??
+          Number.POSITIVE_INFINITY) -
+        (parseReleaseDate(b.details?.releaseDate)?.getTime() ??
+          Number.POSITIVE_INFINITY)
     );
   }, [all, filterGenre]);
 
-  // 그룹핑
+  // 그룹핑 (시리즈별)
   const grouped = released.reduce((acc, album) => {
     const seriesName = album.seriesInfo?.name?.EN || 'Miscellaneous';
     (acc[seriesName] ??= []).push(album);
@@ -158,48 +229,86 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
 
   const MISC_META: SeriesMeta = {
     title: { EN: 'Miscellaneous', KR: '기타' },
-    subtitle: { EN: 'Unique collections and standalone pieces.', KR: '독특한 컬렉션 및 독립 작품.' },
+    subtitle: {
+      EN: 'Unique collections and standalone pieces.',
+      KR: '독특한 컬렉션 및 독립 작품.',
+    },
     accentColor: '#CBAE7A',
   };
 
   if (released.length === 0 && filterGenre) {
-    return <div className="py-10 md:py-16 text-center text-subtle">{language === 'KR' ? '선택한 장르에 해당하는 앨범이 없습니다.' : 'No albums found for the selected genre.'}</div>;
+    return (
+      <div className="py-10 md:py-16 text-center text-subtle">
+        {language === 'KR'
+          ? '선택한 장르에 해당하는 앨범이 없습니다.'
+          : 'No albums found for the selected genre.'}
+      </div>
+    );
   }
 
   return (
     <div>
-      {/* 시리즈별 */}
+      {/* 시리즈별 섹션 */}
       {seriesOrder.map((seriesKey) => {
         const albumsInSeries = grouped[seriesKey];
         if (!albumsInSeries || albumsInSeries.length === 0) return null;
         const meta = SERIES_META[seriesKey];
         return (
-          <section key={seriesKey} className={`py-10 md:py-16 ${meta.bgClass || ''} rounded-3xl my-4`}>
+          <section
+            key={seriesKey}
+            className={`py-10 md:py-16 ${meta.bgClass || ''} rounded-3xl my-4`}
+          >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <header className="mb-6 md:mb-8 border-t-4 pt-4" style={{ borderColor: meta.accentColor }}>
-                <h2 className="font-playfair text-2xl md:text-3xl auralis-heading">{meta.title[language]}</h2>
-                <p className={`mt-1 text-sm md:text-base text-subtle ${language === 'KR' ? 'font-noto-kr' : ''}`}>{meta.subtitle[language]}</p>
+              <header
+                className="mb-6 md:mb-8 border-t-4 pt-4"
+                style={{ borderColor: meta.accentColor }}
+              >
+                <h2 className="font-playfair text-2xl md:text-3xl auralis-heading">
+                  {meta.title[language]}
+                </h2>
+                <p
+                  className={`mt-1 text-sm md:text-base text-subtle ${
+                    language === 'KR' ? 'font-noto-kr' : ''
+                  }`}
+                >
+                  {meta.subtitle[language]}
+                </p>
               </header>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
-                {albumsInSeries.map((album) => (<AlbumCard key={album.slug} album={album} />))}
+                {albumsInSeries.map((album) => (
+                  <AlbumCard key={album.slug} album={album} />
+                ))}
               </div>
             </div>
           </section>
         );
       })}
 
-      {/* Misc */}
+      {/* Miscellaneous 섹션 */}
       {miscellaneousAlbums && miscellaneousAlbums.length > 0 && (
         <section className="py-10 md:py-16 rounded-3xl my-4">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <header className="mb-6 md:mb-8 border-t-4 pt-4" style={{ borderColor: MISC_META.accentColor }}>
-              <h2 className="font-playfair text-2xl md:text-3xl auralis-heading">{MISC_META.title[language]}</h2>
-              <p className={`mt-1 text-sm md:text-base text-subtle ${language === 'KR' ? 'font-noto-kr' : ''}`}>{MISC_META.subtitle[language]}</p>
+            <header
+              className="mb-6 md:mb-8 border-t-4 pt-4"
+              style={{ borderColor: MISC_META.accentColor }}
+            >
+              <h2 className="font-playfair text-2xl md:text-3xl auralis-heading">
+                {MISC_META.title[language]}
+              </h2>
+              <p
+                className={`mt-1 text-sm md:text-base text-subtle ${
+                  language === 'KR' ? 'font-noto-kr' : ''
+                }`}
+              >
+                {MISC_META.subtitle[language]}
+              </p>
             </header>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
-              {miscellaneousAlbums.map((album) => (<AlbumCard key={album.slug} album={album} />))}
+              {miscellaneousAlbums.map((album) => (
+                <AlbumCard key={album.slug} album={album} />
+              ))}
             </div>
           </div>
         </section>
@@ -210,17 +319,23 @@ const DiscographyBySeries: React.FC<{ filterGenre?: string }> = ({ filterGenre }
         <div className="h-px w-40 mx-auto bg-[#CBAE7A] opacity-90" />
       </div>
 
-      {/* 발매 예정 */}
+      {/* 발매 예정 섹션 */}
       {upcoming.length > 0 && (
         <section className="py-8 md:py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <header className="mb-6">
-              <h2 className="text-lg tracking-wide text-subtle">{language === 'KR' ? '발매 예정' : 'Coming Soon'}</h2>
+              <h2 className="text-lg tracking-wide text-subtle">
+                {language === 'KR' ? '발매 예정' : 'Coming Soon'}
+              </h2>
               <div className="mt-3 h-px w-24 bg-[#CBAE7A]/80" />
             </header>
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
-              {upcoming.map((a) => (<li key={a.slug}><UpcomingCard album={a} /></li>))}
+              {upcoming.map((a) => (
+                <li key={a.slug}>
+                  <UpcomingCard album={a} />
+                </li>
+              ))}
             </ul>
           </div>
         </section>
