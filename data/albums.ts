@@ -402,7 +402,7 @@ export const albumsData: { [key: string]: Album } = {
     },
   },
   'resonance-through-the-barcarolle': {
-    status: 'upcoming',
+    status: 'released',
     title: 'Resonance: Through the Barcarolle',
     slug: 'resonance-through-the-barcarolle',
     coverUrl: 'https://www.auralis-music.com/images/albums/resonance-along-the-barcarolle.jpg',
@@ -564,7 +564,7 @@ export const albumsData: { [key: string]: Album } = {
     },
   },
   'Chorégraphie-Series': {
-    status: 'upcoming',
+    status: 'released',
     title: 'Chorégraphie: A Dancer’s Diary',
     slug: 'Chorégraphie-Series',
     coverUrl: 'https://www.auralis-music.com/images/albums/choregraphie-series.jpg',

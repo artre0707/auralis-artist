@@ -9,34 +9,27 @@ import MediaSection from '../components/MediaSection';
 import ConnectSection from '../components/ConnectSection';
 import FeaturedMixedTrio from '../components/FeaturedMixedTrio';
 import AlbumStrip from '../components/AlbumStrip';
-import { albumsData, Album } from '@/data/albums';
+import { albumsData } from '@/data/albums';
 import { parseReleaseDate } from '@/utils/date';
 import SectionHeader from '@/components/SectionHeader';
 
 const collectionsHeaderCopy = {
-    EN: { title: "Explore the Collections", subtitle: "Where quiet emotions find their form in sound" },
-    KR: { title: "작품집 속을 거닐다", subtitle: "고요한 감정들이 소리로 피어나는 곳" },
+  EN: { title: "Explore the Collections", subtitle: "Where quiet emotions find their form in sound" },
+  KR: { title: "작품집 속을 거닐다", subtitle: "고요한 감정들이 소리로 피어나는 곳" },
 };
 
 const Home: React.FC = () => {
   const { language } = useSiteContext();
 
-  const newAndUpcoming = React.useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Start of today
-    const twentyDaysInMs = 20 * 24 * 60 * 60 * 1000;
-
+  // 하단 스트립: 발매 예정 앨범 전체를 날짜순으로 정렬해서 사용
+  const upcomingStrip = React.useMemo(() => {
     return Object.values(albumsData)
-      .filter(a => {
-        if (a.status === 'released') return false;
-        const releaseDate = parseReleaseDate(a.details.releaseDate);
-        if (!releaseDate) return false;
-        releaseDate.setHours(0, 0, 0, 0);
-        const timeDiff = releaseDate.getTime() - today.getTime();
-        return timeDiff >= 0 && timeDiff <= twentyDaysInMs;
-      })
-      .sort((a, b) => (parseReleaseDate(a.details.releaseDate)?.getTime() ?? Infinity) - (parseReleaseDate(b.details.releaseDate)?.getTime() ?? Infinity))
-      .slice(0, 6);
+      .filter(a => a.status === 'upcoming')
+      .sort(
+        (a, b) =>
+          (parseReleaseDate(a.details.releaseDate)?.getTime() ?? Infinity) -
+          (parseReleaseDate(b.details.releaseDate)?.getTime() ?? Infinity)
+      );
   }, []);
 
   // CTA Button logic from original DiscographySection
@@ -45,7 +38,8 @@ const Home: React.FC = () => {
     KR: { viewAll: '음악의 여정이 시작되는 곳 →' }
   };
   const currentContent = ctaContent[language];
-  const BUTTON_PILL = "auralis-btn group relative overflow-hidden z-0 rounded-full border px-5 py-2 text-sm font-medium transition " +
+  const BUTTON_PILL =
+    "auralis-btn group relative overflow-hidden z-0 rounded-full border px-5 py-2 text-sm font-medium transition " +
     "border-neutral-300/20 before:content-[''] before:absolute before:inset-0 before:rounded-full " +
     "before:transition-opacity before:duration-[600ms] before:ease-in-out " +
     "before:opacity-0 hover:before:opacity-100 " +
@@ -76,17 +70,23 @@ const Home: React.FC = () => {
       <style>{forceStyles}</style>
       <HeroSection />
       <NewsSection showTitle={false} />
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl mt-8 md:mt-12 lg:mt-16">
         <SectionHeader title={headerCopy.title} subtitle={headerCopy.subtitle} />
       </div>
 
+      {/* 상단 3개 (발매 1 + 발매예정 2) */}
       <div className="-mt-4">
         <FeaturedMixedTrio />
       </div>
-      
-      <AlbumStrip titleEN="New & Upcoming" titleKR="새 소식 & 발매 예정" items={newAndUpcoming} />
-      
+
+      {/* 하단 마퀴: 발매예정 전체 */}
+      <AlbumStrip
+        titleEN="New & Upcoming"
+        titleKR="새 소식 & 발매 예정"
+        items={upcomingStrip}
+      />
+
       <div className="text-center mt-12 mb-8">
         <ReactRouterDOM.Link to="/albums" className={BUTTON_PILL}>
           <span className="relative z-10 inline-flex items-center gap-1">
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
           </span>
         </ReactRouterDOM.Link>
       </div>
-      
+
       <MediaSection />
       <AboutSection />
       <ConnectSection />

@@ -1,80 +1,40 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Changed react-router-dom import to use a wildcard import to resolve module export errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { useSiteContext } from '@/contexts/SiteContext';
 import { albumsData, Album } from '@/data/albums';
 import { parseReleaseDate } from '@/utils/date';
 
-// --- Seeding and Randomization Utilities ---
+// --- 날짜 기반 헬퍼 ---
 
-// Simple string hash function for seed generation
-const simpleHash = (str: string): number => {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
-
-const getSeed = (): string => {
-  try {
-    const sessionSeed = sessionStorage.getItem('featured:seed');
-    if (sessionSeed) return sessionSeed;
-
-    const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const userAgent = navigator.userAgent || '';
-    const newSeed = `${date}-${simpleHash(userAgent)}`;
-    sessionStorage.setItem('featured:seed', newSeed);
-    return newSeed;
-  } catch {
-    // Fallback if sessionStorage is not available
-    return new Date().toISOString().split('T')[0];
-  }
-};
-
-// LCG (Linear Congruential Generator) seeded random function
-const createSeededRandom = (seedStr: string) => {
-  let seed = simpleHash(seedStr);
-  return () => {
-    seed = (seed * 1664525 + 1013904223) % 2**32;
-    return seed / 2**32;
-  };
-};
-
-// Fisher-Yates shuffle with a seeded RNG
-const seededShuffle = <T,>(array: T[], rng: () => number): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
-// --- Upcoming Album Date Filter Helper ---
 const UPCOMING_WINDOW_DAYS = 20;
+
+function getReleaseDate(album: Album): Date | null {
+  const d = parseReleaseDate(album.details.releaseDate);
+  if (!d) return null;
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
 
 function isWithinUpcomingWindow(album: Album): boolean {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const release = parseReleaseDate(album.details.releaseDate);
+  const release = getReleaseDate(album);
   if (!release) return false;
-  release.setHours(0, 0, 0, 0);
 
   const diffDays = (release.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
   return diffDays >= 0 && diffDays <= UPCOMING_WINDOW_DAYS;
 }
 
-// --- Album Card Component ---
+// --- 앨범 카드 ---
 
 const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
   const { language } = useSiteContext();
   const albumContent = album.content[language];
 
   return (
-    <Link
+    <ReactRouterDOM.Link
       to={`/albums/${album.slug}`}
       className="group block text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#CBAE7A]/50 rounded-2xl transition-all duration-300"
     >
@@ -112,61 +72,67 @@ const AlbumCard: React.FC<{ album: Album }> = ({ album }) => {
           {albumContent.subtitle}
         </p>
       </div>
-    </Link>
+    </ReactRouterDOM.Link>
   );
 };
 
-// --- Main Component ---
+// --- 메인 컴포넌트 ---
 
 const FeaturedMixedTrio: React.FC = () => {
-    const trio = useMemo(() => {
-        const seed = getSeed();
-        const rng = createSeededRandom(seed);
-        
-        const allAlbums = Object.values(albumsData);
-        const released = allAlbums.filter((a) => a.status === 'released');
-        const upcoming = allAlbums
-          .filter((a) => a.status === 'upcoming')
-          .filter(isWithinUpcomingWindow);
-        
-        const shuffledReleased = seededShuffle(released, rng);
-        const shuffledUpcoming = seededShuffle(upcoming, rng);
-        
-        let selected: Album[] = [];
-        
-        // 1. Pick up to 2 released albums
-        selected.push(...shuffledReleased.slice(0, 2));
+  const trio = useMemo(() => {
+    const all = Object.values(albumsData) as Album[];
 
-        // 2. Pick 1 upcoming album
-        if (shuffledUpcoming.length > 0) {
-            selected.push(shuffledUpcoming[0]);
-        }
-        
-        // 3. Ensure there are exactly 3 albums, filling from remaining pools
-        const remainingPool = [...shuffledReleased, ...shuffledUpcoming].filter(a => !selected.find(s => s.slug === a.slug));
-        
-        while (selected.length < 3 && remainingPool.length > 0) {
-            selected.push(remainingPool.shift()!);
-        }
-        
-        return selected.slice(0, 3);
-    }, []);
+    const released = all
+      .filter((a) => a.status === 'released')
+      .sort((a, b) => {
+        const da = getReleaseDate(a)?.getTime() ?? 0;
+        const db = getReleaseDate(b)?.getTime() ?? 0;
+        return db - da; // 최신 발매일 우선
+      });
 
-    if (trio.length === 0) {
-        return null;
+    const upcoming = all
+      .filter((a) => a.status === 'upcoming' && isWithinUpcomingWindow(a))
+      .sort((a, b) => {
+        const da = getReleaseDate(a)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+        const db = getReleaseDate(b)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+        return da - db; // 가장 임박한 발매일 우선
+      });
+
+    const selected: Album[] = [];
+
+    // ▶ 1. 발매된 앨범 2개
+    if (released.length > 0) selected.push(released[0]);
+    if (released.length > 1) selected.push(released[1]);
+
+    // ▶ 2. 발매 예정 앨범 1개 (있으면)
+    if (upcoming.length > 0) selected.push(upcoming[0]);
+
+    // ▶ 3. 부족하면 다른 앨범으로 채우기 (중복 없이)
+    if (selected.length < 3) {
+      const remaining = [...released, ...upcoming].filter(
+        (a) => !selected.some((s) => s.slug === a.slug)
+      );
+      while (selected.length < 3 && remaining.length > 0) {
+        selected.push(remaining.shift()!);
+      }
     }
 
-    return (
-        <section className="py-12 sm:py-14">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
-                    {trio.map(album => (
-                        <AlbumCard key={album.slug} album={album} />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+    return selected.slice(0, 3);
+  }, []);
+
+  if (trio.length === 0) return null;
+
+  return (
+    <section className="py-12 sm:py-14">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
+          {trio.map((album) => (
+            <AlbumCard key={album.slug} album={album} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default FeaturedMixedTrio;
